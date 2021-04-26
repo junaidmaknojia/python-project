@@ -11,9 +11,14 @@ const socket = io(endPoint);
 const GlobalChat = () => {
   const user = useSelector(state => state.session.user);
   const [ messages, setMessages ] = useState([{
-    name: "start", body: "start messeges"
+    name: "start", body: "start messages"
   }]);
   const [ newMessage, setNewMessage ] = useState('');
+  
+  const channel = {
+    id: 1,
+    messages: []
+  }
 
   socket.on("message", data => {
     console.log("inside socket.on", data)
@@ -25,7 +30,8 @@ const GlobalChat = () => {
       socket.emit("message", {
         name: user.username, // refacter to match our user
         body: newMessage,
-        room: "Global"
+        room: channel.id,
+        user_id: user.id
       });
       setNewMessage('')
     } else {
@@ -34,7 +40,8 @@ const GlobalChat = () => {
   }
 
   useEffect(() => {
-    socket.emit("join_room", {name: user.username, room: "Global"})
+    socket.emit("join_room", {name: user.username, room:channel.id})
+    // setMessages([...channel.messages])
   }, [])
 
   return (
