@@ -24,13 +24,18 @@ const GlobalChat = () => {
     if (newMessage) {
       socket.emit("message", {
         name: user.username, // refacter to match our user
-        body: newMessage
+        body: newMessage,
+        room: "Global"
       });
       setNewMessage('')
     } else {
       alert("your dumb");
     }
   }
+
+  useEffect(() => {
+    socket.emit("join_room", {name: user.username, room: "Global"})
+  }, [])
 
   return (
     <div>
