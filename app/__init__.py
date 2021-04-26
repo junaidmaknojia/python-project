@@ -4,7 +4,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 
 from .models import db, User
 from .api.user_routes import user_routes
@@ -32,7 +32,7 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 
 socketio = SocketIO(app, cors_allowed_origins='*')
-from .socketio import socket
+# from .socketio import socket_decorators
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
@@ -47,6 +47,29 @@ CORS(app)
 # Therefore, we need to make sure that in production any
 # request made over http is redirected to https.
 # Well.........
+
+@socketio.on("connect")
+def handle_connect():
+    print("client connected")
+
+@socketio.on("message")
+def handleMessage(data):
+    print(data)
+    room = data["room"]
+    send(data, room=room, broadcast=True)
+    return None
+
+@socketio.on("join_room")
+def on_join(data):
+  print(f'{data["name"]} has joined {data["room"]}')
+  room = data["room"]
+  join_room(room)
+
+@socketio.on("leave_room")
+def on_leave(data):
+  print(f'{data["name"]} has left the building')
+  room = data["room"]
+  leave_room(room)
 
 # @socketio.on("connect")
 # def handle_connect():
