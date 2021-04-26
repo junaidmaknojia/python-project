@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
+from flask_socketio import SocketIO, send
 
 from .models import db, User
 from .api.user_routes import user_routes
@@ -29,6 +30,7 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
+socketio = SocketIO(app, cors_allowed_origins='*')
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 db.init_app(app)
@@ -43,6 +45,15 @@ CORS(app)
 # request made over http is redirected to https.
 # Well.........
 
+@socketio.on("connect")
+def handle_connect():
+    print("client connected")
+
+@socketio.on("message")
+def handleMessage(data):
+    print(data)
+    send(data, broadcast=True)
+    return None
 
 @app.before_request
 def https_redirect():
@@ -72,3 +83,6 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_static_file('favicon.ico')
     return app.send_static_file('index.html')
+
+if __name__ == "__main__":
+    socketio.run(app)
