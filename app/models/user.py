@@ -16,8 +16,8 @@ class User(db.Model, UserMixin):
     picture_url = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
     updated_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
-    messages = db.relationship("Message", back_populates="users")
-    channels = db.relationship("Channel", secondary="channel_users", back_populates="users")
+    messages = db.relationship("Message")
+    channels = db.relationship("Channel", secondary="channel_users")
 
 
     @property
