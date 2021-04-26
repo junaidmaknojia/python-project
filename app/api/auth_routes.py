@@ -61,9 +61,13 @@ def sign_up():
     Creates a new user and logs them in
     """
     form = SignUpForm()
+    print("-------form.data", form.data)
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        print("------------inside if validate", form.data)
         user = User(
+            first_name=form.data['firstName'],
+            last_name=form.data['lastName'],
             username=form.data['username'],
             email=form.data['email'],
             password=form.data['password']

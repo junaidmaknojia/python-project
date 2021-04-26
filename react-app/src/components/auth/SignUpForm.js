@@ -6,6 +6,8 @@ import { signUp } from '../../store/session';
 const SignUpForm = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,8 +16,16 @@ const SignUpForm = () => {
   const onSignUp = async (e) => {
     e.preventDefault();
     if (password === repeatPassword) {
-      await dispatch(signUp(username, email, password));
+      await dispatch(signUp(firstName, lastName, username, email, password));
     }
+  };
+
+  const updateFirstName = (e) => {
+    setFirstName(e.target.value);
+  };
+
+  const updateLastName = (e) => {
+    setLastName(e.target.value);
   };
 
   const updateUsername = (e) => {
@@ -41,13 +51,34 @@ const SignUpForm = () => {
   return (
     <form onSubmit={onSignUp}>
       <div>
+        <label>First Name</label>
+        <input
+          type="text"
+          name="firstName"
+          onChange={updateFirstName}
+          value={firstName}
+          required
+          ></input>
+      </div>
+      <div>
+        <label>Last Name</label>
+        <input
+          type="text"
+          name="lastName"
+          onChange={updateLastName}
+          value={lastName}
+          required
+          ></input>
+      </div>
+      <div>
         <label>User Name</label>
         <input
           type="text"
           name="username"
           onChange={updateUsername}
           value={username}
-        ></input>
+          required
+          ></input>
       </div>
       <div>
         <label>Email</label>
@@ -56,7 +87,8 @@ const SignUpForm = () => {
           name="email"
           onChange={updateEmail}
           value={email}
-        ></input>
+          required
+          ></input>
       </div>
       <div>
         <label>Password</label>
@@ -65,7 +97,8 @@ const SignUpForm = () => {
           name="password"
           onChange={updatePassword}
           value={password}
-        ></input>
+          required
+          ></input>
       </div>
       <div>
         <label>Repeat Password</label>

@@ -11,9 +11,9 @@ class Channel(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
     updated_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
-    owner = db.relationship("User", back_populates="channels")
-    messages = db.relationship("Message", back_populates="channels")
-    users = db.relationship("User", secondary="channel_users", back_populates="channels")
+    owner = db.relationship("User")
+    messages = db.relationship("Message")
+    users = db.relationship("User", secondary="channel_users")
 
     def to_dict(self):
         return {
