@@ -19,5 +19,10 @@ class Message(db.Model):
             "id": self.id,
             "body": self.body,
             "channel_id": self.channel_id,
-            "user_id": self.user_id
+            "user_id": self.user_id,
+            "created_at": self.created_at,
+            "user": {
+                "username": self.user.username,
+                "picture_url": self.user.picture_url,
+            }
         }
