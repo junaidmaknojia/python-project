@@ -1,6 +1,7 @@
 import React, {useEffect, useState } from "react";
 import {useSelector} from "react-redux";
 import io from "socket.io-client";
+import MessageDisplay from '../MessageDisplay';
 
 // need user instance (info: url, name)
 
@@ -10,10 +11,13 @@ const socket = io(endPoint);
 
 const GlobalChat = () => {
   const user = useSelector(state => state.session.user);
-  const [ messages, setMessages ] = useState([{
-    name: "start", body: "start messeges"
-  }]);
+  const [ messages, setMessages ] = useState([]);
   const [ newMessage, setNewMessage ] = useState('');
+  
+  const channel = {
+    id: 1,
+    messages: []
+  }
 
   socket.on("message", data => {
     console.log("inside socket.on", data)
@@ -23,9 +27,15 @@ const GlobalChat = () => {
   const sendMessage = () => {
     if (newMessage) {
       socket.emit("message", {
-        name: user.username, // refacter to match our user
+        // name: user.username, // refacter to match our user
         body: newMessage,
-        room: "Global"
+        room: channel.id,
+        user_id: user.id,
+        created_at: new Date(),
+        user: {
+          username: user.username,
+          picture_url: user.picture_url
+        }
       });
       setNewMessage('')
     } else {
@@ -34,17 +44,15 @@ const GlobalChat = () => {
   }
 
   useEffect(() => {
-    socket.emit("join_room", {name: user.username, room: "Global"})
+    socket.emit("join_room", {user_id: user.id, room:channel.id})
+    // setMessages([...channel.messages])
   }, [])
 
   return (
     <div>
       {messages.length > 0 &&
-        messages.map(data => (
-          <div key={data.body + Math.random()}>
-            <h1>{data.name}</h1>
-            <p>{data.body}</p>
-          </div>
+        messages.map((data, i) => (
+          <MessageDisplay message={data} key={i} />
         ))}
       <input value={newMessage} name="message" onChange={e => setNewMessage(e.target.value)}/>
       <button onClick={sendMessage}>Send Message</button>

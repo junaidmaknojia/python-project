@@ -6,7 +6,7 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 
-from .models import db, User
+from .models import db, User, Message
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 
@@ -58,7 +58,10 @@ def handle_connect():
 def handleMessage(data):
     print(data)
     room = data["room"]
-    send(data, room=room, broadcast=True)
+    new_message = Message(body=data["body"], user_id=data["user_id"], channel_id=data["room"])
+    db.session.add(new_message)
+    db.session.commit()
+    send(data, room=data["room"], broadcast=True)
     return None
 
 
