@@ -19,5 +19,9 @@ class Channel(db.Model):
         return {
             "id": self.id,
             "title": self.title,
-            "type": self.type
+            "type": self.type,
+            "owner": self.user_id,
+            "created_at": self.title,
+            "updated_at": self.updated_at,
+            "users": list(map( lambda user: user.to_dict(), self.users))
         }

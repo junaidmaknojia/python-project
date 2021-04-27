@@ -1,5 +1,5 @@
-import React, {useEffect, useState } from "react";
-import {useSelector} from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import io from "socket.io-client";
 import MessageDisplay from '../MessageDisplay';
 import styles from './GlobalChat.module.css';
@@ -14,10 +14,14 @@ const GlobalChat = ({ pastMessages }) => {
   const user = useSelector(state => state.session.user);
   const [ messages, setMessages ] = useState([]);
   const [ newMessage, setNewMessage ] = useState('');
+<<<<<<< HEAD
+
+=======
   
   // TO-DO: add use state
+>>>>>>> main
   const channel = {
-    id: 1,
+    id: 2,
     messages: []
   }
 
@@ -49,6 +53,7 @@ const GlobalChat = ({ pastMessages }) => {
     console.log(pastMessages)
     setMessages([...pastMessages])
   }, [])
+
 
   return (
     <div>
