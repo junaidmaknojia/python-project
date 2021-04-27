@@ -1,16 +1,18 @@
 import React, {useEffect, useState} from "react";
 import GlobalChat from '../GlobalChat';
-import {getMessages} from '../../services/messages.js';
+import {getMessages} from '../../services/messages.js'
+import {useParams} from 'react-router-dom'
+import {useSelector} from 'react-redux'
 
 const ChannelDisplay = () => {
-    const channel_id = 1 // TO-DO: add use state
-    // TO-DO: use params, grab channel_id
+    const currentChannel = useSelector(state => state.channels.current)
+    // const channel_id = currentChannel.id
     const [ pastMessages, setPastMessages ] = useState(null);
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         (async () => {
-            const result = await getMessages(channel_id)
+            const result = await getMessages(currentChannel.id)
             if(result) setPastMessages(result);
             setLoaded(true);
             }
