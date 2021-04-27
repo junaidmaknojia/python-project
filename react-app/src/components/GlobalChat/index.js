@@ -1,5 +1,5 @@
-import React, {useEffect, useState } from "react";
-import {useSelector} from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import io from "socket.io-client";
 
 // need user instance (info: url, name)
@@ -14,7 +14,7 @@ const GlobalChat = () => {
     name: "start", body: "start messages"
   }]);
   const [ newMessage, setNewMessage ] = useState('');
-  
+
   const channel = {
     id: 1,
     messages: []
@@ -43,6 +43,7 @@ const GlobalChat = () => {
     socket.emit("join_room", {name: user.username, room:channel.id})
     // setMessages([...channel.messages])
   }, [])
+
 
   return (
     <div>

@@ -9,6 +9,7 @@ from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from .models import db, User, Message
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.channel_routes import channel_routes
 
 from .seeds import seed_commands
 
@@ -36,6 +37,7 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(channel_routes, url_prefix='/api/channel')
 db.init_app(app)
 Migrate(app, db)
 
