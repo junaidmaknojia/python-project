@@ -15,7 +15,7 @@ const GlobalChat = () => {
   const [ newMessage, setNewMessage ] = useState('');
 
   const channel = {
-    id: 1,
+    id: 2,
     messages: []
   }
 

@@ -7,7 +7,8 @@ channel_routes = Blueprint('channel', __name__)
 
 @channel_routes.route('')
 def get_channels():
-  user = User.query.filter(User.id == 1).one() #change to current_user
+  print(current_user.id, 'here!!!!!!!!!!!!!!!!!!!!!!')
+  user = User.query.filter(User.id == current_user.id).one()
   channel_collection = user.channels
   channels= { "channel": list(map(lambda ch: ch.to_dict(), channel_collection)) }
   return channels
@@ -17,7 +18,7 @@ def get_channels():
 def add_channel():
   data = request.json
   channel = Channel(**data)
-  user = User.query.filter(User.id == 1).one() #change to current_user
+  user = User.query.filter(User.id == current_user.id).one()
   channel.users.append(user)
   db.session.add(channel)
   db.session.commit()

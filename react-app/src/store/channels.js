@@ -16,16 +16,16 @@ const addChannel = (channel) => ({
 
 //thunks
 export const userChannels = () => async (dispatch) => {
-  const response = await fetch ('api/channel/', {
+  const response = await fetch ('/api/channel', {
     headers: { 'Content-type': 'application/json'}
   });
 
-  const channels = await response.json();
-  dispatch(getChannels(channels));
+  const { channel }  = await response.json();
+  dispatch(getChannels(channel));
 }
 
 export const makeChannel = (channel) => async (dispatch) => {
-  const response = await fetch ('api/channel/', {
+  const response = await fetch ('/api/channel', {
     method: 'POST',
     headers: { 'Content-type': 'application/json' },
     body: JSON.stringify(channel)
@@ -33,15 +33,16 @@ export const makeChannel = (channel) => async (dispatch) => {
 
   const data = await response.json();
   dispatch(addChannel(data));
+  return data;
 }
 
 // reducer
 
-const initialState = { channels: null, current: null };
+const initialState = {}
 
 // useSelector(state => state.channels.channels)
 
-export default function reducer(state = initialState, action) {
+export default function channelReducer(state = initialState, action) {
   switch (action.type) {
     case GET_CHANNELS:
       return { ...state, channels: action.payload };
