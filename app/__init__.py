@@ -9,6 +9,7 @@ from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from .models import db, User, Message
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.message_routes import message_routes
 
 from .seeds import seed_commands
 
@@ -36,6 +37,7 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(message_routes, url_prefix='/api/messages')
 db.init_app(app)
 Migrate(app, db)
 
@@ -48,29 +50,35 @@ CORS(app)
 # request made over http is redirected to https.
 # Well.........
 
+
 @socketio.on("connect")
 def handle_connect():
     print("client connected")
+
 
 @socketio.on("message")
 def handleMessage(data):
     print(data)
     room = data["room"]
-    new_message = Message(body=data["body"], user_id=data["user_id"], channel_id=data["room"])
+    new_message = Message(body=data["body"], 
+                          user_id=data["user_id"], 
+                          channel_id=data["room"])
     db.session.add(new_message)
     db.session.commit()
     send(data, room=data["room"], broadcast=True)
     return None
 
+
 @socketio.on("join_room")
 def on_join(data):
-    print(f'{data["name"]} has joined {data["room"]}')
+    print(f'{data["user_id"]} has joined {data["room"]}')
     room = data["room"]
     join_room(room)
 
+
 @socketio.on("leave_room")
 def on_leave(data):
-    print(f'{data["name"]} has left the building')
+    print(f'{data["user_id"]} has left the building')
     room = data["room"]
     leave_room(room)
 
@@ -83,6 +91,7 @@ def on_leave(data):
 #     print(data)
 #     send(data, broadcast=True)
 #     return None
+
 
 @app.before_request
 def https_redirect():
@@ -112,6 +121,7 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_static_file('favicon.ico')
     return app.send_static_file('index.html')
+
 
 if __name__ == "__main__":
     socketio.run(app)
