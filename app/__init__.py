@@ -48,9 +48,11 @@ CORS(app)
 # request made over http is redirected to https.
 # Well.........
 
+
 @socketio.on("connect")
 def handle_connect():
     print("client connected")
+
 
 @socketio.on("message")
 def handleMessage(data):
@@ -59,17 +61,19 @@ def handleMessage(data):
     send(data, room=room, broadcast=True)
     return None
 
+
 @socketio.on("join_room")
 def on_join(data):
-  print(f'{data["name"]} has joined {data["room"]}')
-  room = data["room"]
-  join_room(room)
+    print(f'{data["name"]} has joined {data["room"]}')
+    room = data["room"]
+    join_room(room)
+
 
 @socketio.on("leave_room")
 def on_leave(data):
-  print(f'{data["name"]} has left the building')
-  room = data["room"]
-  leave_room(room)
+    print(f'{data["name"]} has left the building')
+    room = data["room"]
+    leave_room(room)
 
 # @socketio.on("connect")
 # def handle_connect():
@@ -80,6 +84,7 @@ def on_leave(data):
 #     print(data)
 #     send(data, broadcast=True)
 #     return None
+
 
 @app.before_request
 def https_redirect():
@@ -109,6 +114,7 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_static_file('favicon.ico')
     return app.send_static_file('index.html')
+
 
 if __name__ == "__main__":
     socketio.run(app)
