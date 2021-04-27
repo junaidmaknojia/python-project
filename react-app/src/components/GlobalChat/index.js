@@ -28,10 +28,15 @@ const GlobalChat = () => {
   const sendMessage = () => {
     if (newMessage) {
       socket.emit("message", {
-        name: user.username, // refacter to match our user
+        // name: user.username, // refacter to match our user
         body: newMessage,
         room: channel.id,
-        user_id: user.id
+        user_id: user.id,
+        created_at: new Date(),
+        user: {
+          username: user.username,
+          picture_url: user.picture_url
+        }
       });
       setNewMessage('')
     } else {
