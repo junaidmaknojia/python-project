@@ -3,12 +3,12 @@ const GET_CHANNELS = "channels/GET_CHANNELS";
 const ADD_CHANNEL = "channels/ADD_CHANNEL";
 
 
-const getChannels = (channels) => ({
+export const getChannels = (channels) => ({
   type: GET_CHANNELS,
   payload: channels
 })
 
-const addChannel = (channel) => ({
+export const addChannel = (channel) => ({
   type: ADD_CHANNEL,
   payload: channel
 })
@@ -20,8 +20,10 @@ export const userChannels = () => async (dispatch) => {
     headers: { 'Content-type': 'application/json'}
   });
 
-  const { channel }  = await response.json();
+  const channel   = await response.json();
+  console.log(channel);
   dispatch(getChannels(channel));
+  return channel
 }
 
 export const makeChannel = (channel) => async (dispatch) => {
@@ -34,6 +36,15 @@ export const makeChannel = (channel) => async (dispatch) => {
   const data = await response.json();
   dispatch(addChannel(data));
   return data;
+}
+
+export const currentChannel = () => async (dispatch) => {
+  const response = await fetch('/api/channel/current', { 
+    headers: { 'Content-type': 'application/json' }
+  });
+  const channel = response.json();
+  dispatch(addChannel(channel));
+  return channel
 }
 
 // reducer

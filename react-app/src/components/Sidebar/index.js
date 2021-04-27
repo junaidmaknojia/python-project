@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import io from "socket.io-client";
-import { makeChannel, userChannels } from '../../store/channels';
+import { makeChannel, userChannels, addChannel } from '../../store/channels';
 import "./Sidebar.css";
 
 const endPoint = "http://localhost:5000";
@@ -16,27 +16,15 @@ export default function Sidebar(){
     const [newChannel, setNewChannel] = useState();
     const user = useSelector(state => state.session.user);
     const myChannels = useSelector(state => state.channels.channels);
-    const currChannel = myChannels ? myChannels.find(channel => channel.id === channelId) : {};
+    const currChannel = useSelector(state => state.channels.current);
 
-    useEffect(() => {
-        dispatch(userChannels())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(addChannel(currChannel));
+    // }, [dispatch])
 
-    // function createChannel(e){
-    //     // show modal or page to create a channel
-    //     return (
-    //         <div>
-    //             <form onSubmit={submitNewChannel}>
-    //                 <input
-    //                     placeholder="Channel Name"
-    //                     value={newChannel}
-    //                     onChange={e => setNewChannel(e.target.value)}
-    //                     type="text"
-    //                 />
-    //             </form>
-    //         </div>
-    //     )
-    // }
+    // useEffect(() => {
+    //     dispatch(userChannels())
+    // }, [dispatch])
 
     async function submitNewChannel(e){
         e.preventDefault();
@@ -52,7 +40,8 @@ export default function Sidebar(){
         if(currChannel.id !== clickedChannelId){
             socket.emit("leave_room", {name: user.username, room: currChannel.title})
             socket.emit("join_room", {name: user.username, room: clickedChannelId.title})
-            history.push(`/channels/${clickedChannelId}`);
+            const nextChannel = myChannels.channel.find(channel => channel.id === clickedChannelId)
+            dispatch(addChannel(nextChannel))
         }
     }
 
@@ -74,7 +63,7 @@ export default function Sidebar(){
                 </form>
                 </div>
                 {myChannels && (
-                    myChannels.map(channel => (
+                    myChannels.channel.map(channel => (
                         <div key={channel.id}
                             id={channel.id}
                             className="channel__title"
