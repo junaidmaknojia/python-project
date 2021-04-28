@@ -42,7 +42,7 @@ const PageWrapper = () => {
 
     return (
         <div>
-            {loaded && <SideBar />}
+            {/* {loaded && <SideBar />} */}
             {loaded && <ChannelDisplay currentChannel={currentChannel}/>}
         </div>
     )
