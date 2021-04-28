@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import io from "socket.io-client";
 import { makeChannel, userChannels, addChannel } from '../../store/channels';
@@ -40,8 +40,6 @@ export default function Sidebar(){
         if(currChannel.id !== clickedChannelId){
             socket.emit("leave_room", {name: user.username, room: currChannel.title})
             socket.emit("join_room", {name: user.username, room: clickedChannelId.title})
-            const nextChannel = myChannels.channel.find(channel => channel.id === clickedChannelId)
-            dispatch(addChannel(nextChannel))
         }
     }
 
@@ -68,7 +66,9 @@ export default function Sidebar(){
                             id={channel.id}
                             className="channel__title"
                             onClick={channelClick}>
+                            <NavLink to={`/channels/${channel.id}`}>
                             {channel.title}
+                            </NavLink>
                         </div>
                     ))
                 )}
