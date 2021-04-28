@@ -48,7 +48,6 @@ export default function Sidebar(){
         if(currChannel.id !== clickedChannelId){
             socket.emit("leave_room", {name: user.username, room: currChannel.title})
             socket.emit("join_room", {name: user.username, room: clickedChannelId.title})
-            // history.push(`/channels/${clickedChannelId}`);
         }
     }
 
@@ -64,9 +63,13 @@ export default function Sidebar(){
                 {myChannels && (
                     myChannels.map(channel => (
                         <div key={channel.id}
-                        id={channel.id}
-                        className="channel__title"
-                        ><NavLink to={`/channels/${channel.id}`}>{channel.title}</NavLink></div>
+                            id={channel.id}
+                            className="channel__title"
+                            onClick={channelClick}>
+                            <NavLink to={`/channels/${channel.id}`}>
+                            {channel.title}
+                            </NavLink>
+                        </div>
                     ))
                 )}
             </div>

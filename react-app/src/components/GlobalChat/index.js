@@ -42,7 +42,7 @@ const GlobalChat = ({ pastMessages }) => {
   useEffect(() => {
     socket.emit("join_room", {user_id: user.id, room:channel_id})
     setMessages([...pastMessages])
-  }, [])
+  }, [pastMessages])
 
 
   return (

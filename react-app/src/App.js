@@ -46,7 +46,6 @@ function App() {
           <User />
         </ProtectedRoute>
         <ProtectedRoute path="/channels/:id" exact={true}>
-          <h1>My Home Page</h1>
           <PageWrapper />
         </ProtectedRoute>
         <ProtectedRoute path="/channels" exact={true}>
