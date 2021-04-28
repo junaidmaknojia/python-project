@@ -8,11 +8,8 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UsersList from "./components/UsersList";
 import User from "./components/User";
 import GlobalChat from "./components/GlobalChat";
-<<<<<<< HEAD
 import SideBar from "./components/Sidebar";
-=======
 import ChannelDisplay from "./components/ChannelDisplay"
->>>>>>> main
 // import { authenticate } from "./services/auth";
 import { authenticate } from "./store/session";
 

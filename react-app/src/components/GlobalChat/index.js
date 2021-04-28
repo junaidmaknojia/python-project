@@ -14,12 +14,8 @@ const GlobalChat = ({ pastMessages }) => {
   const user = useSelector(state => state.session.user);
   const [ messages, setMessages ] = useState([]);
   const [ newMessage, setNewMessage ] = useState('');
-<<<<<<< HEAD
 
-=======
-  
   // TO-DO: add use state
->>>>>>> main
   const channel = {
     id: 2,
     messages: []
