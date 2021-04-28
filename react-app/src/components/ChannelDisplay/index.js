@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import GlobalChat from '../GlobalChat';
+import ChatHeader from '../ChatHeader';
 import {getMessages} from '../../services/messages.js'
 import {useParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
@@ -19,6 +20,7 @@ const ChannelDisplay = ({currentChannel}) => {
 
     return (
         <div className="channel-display_wrapper">
+            <ChatHeader />
             {!loaded && (<h1>Loading...</h1>)}
             {loaded && pastMessages && (<GlobalChat pastMessages={pastMessages.message} />)}
         </div>
