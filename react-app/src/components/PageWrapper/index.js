@@ -9,8 +9,13 @@ const PageWrapper = () => {
     const currentChannel = useSelector(state => state.channels.current)
     const allChannels = useSelector(state => state.channels.current)
     const [loaded, setLoaded] = useState(false);
+    const [channelId, setChannelId] = useState()
     const dispatch = useDispatch()
-    const channelId = useParams().id;
+    const params = useParams().id;
+
+    useEffect(() => {
+        setChannelId(params)
+    })
 
     useEffect(() => {
         (async () => {
@@ -25,7 +30,7 @@ const PageWrapper = () => {
             dispatch(addChannel(thisChannel))
 
         })();
-    }, [dispatch])
+    }, [dispatch, channelId])
 
     useEffect (() => {
         if (currentChannel && allChannels) setLoaded(true);
