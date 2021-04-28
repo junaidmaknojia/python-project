@@ -4,9 +4,11 @@ import {getMessages} from '../../services/messages.js'
 import {useParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 
-const ChannelDisplay = ({currentChannel}) => {
+const ChannelDisplay = () => {
+    const currentChannel = useSelector(state => state.channels.current)
     const [ pastMessages, setPastMessages ] = useState(null);
     const [loaded, setLoaded] = useState(false);
+
 
     useEffect(() => {
         (async () => {
@@ -15,7 +17,7 @@ const ChannelDisplay = ({currentChannel}) => {
             setLoaded(true);
             }
         )();
-    }, [])
+    }, [currentChannel])
 
     return (
         <div className="channel-display_wrapper">

@@ -9,8 +9,8 @@ const PageWrapper = () => {
     const currentChannel = useSelector(state => state.channels.current)
     const allChannels = useSelector(state => state.channels.current)
     const [loaded, setLoaded] = useState(false);
-    const [channelId, setChannelId] = useState()
     const dispatch = useDispatch()
+    const [channelId, setChannelId] = useState()
     const params = useParams().id;
 
     useEffect(() => {
@@ -20,23 +20,24 @@ const PageWrapper = () => {
     useEffect(() => {
         (async () => {
             const channels= await dispatch(userChannels())
-            const myChannels = Object.values(channels.channel)
+            if (channels) {
 
-            let thisChannel;
-            myChannels.forEach(el => {
-                if(el.id === Number(channelId)) thisChannel = el
-            })
+                const myChannels = Object.values(channels.channel)
 
-            dispatch(addChannel(thisChannel))
+                let thisChannel;
+                myChannels.forEach(el => {
+                    if(el.id === Number(channelId)) thisChannel = el
+                })
+
+                dispatch(addChannel(thisChannel))
+            }
 
         })();
     }, [dispatch, channelId])
 
     useEffect (() => {
         if (currentChannel && allChannels) setLoaded(true);
-        return () => {
-            setLoaded(false)
-        }
+
     }, [currentChannel, allChannels])
 
     return (
