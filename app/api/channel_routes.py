@@ -24,4 +24,3 @@ def add_channel():
   db.session.add(channel)
   db.session.commit()
   return channel.to_dict()
-

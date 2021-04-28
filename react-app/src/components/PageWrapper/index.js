@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import {useParams} from "react-router-dom";
 import SideBar from '../Sidebar'
@@ -6,25 +6,36 @@ import ChannelDisplay from '../ChannelDisplay'
 import {addChannel, getChannels, userChannels} from '../../store/channels'
 
 const PageWrapper = () => {
+    const currentChannel = useSelector(state => state.channels.current)
+    const [loaded, setLoaded] = useState(false);
+    const dispatch = useDispatch()
     const channelId = useParams().id;
     console.log(channelId)
-    let myChannels
-    const dispatch = useDispatch()
+    let channels
     useEffect(() => {
         (async () => {
-            myChannels = await dispatch(userChannels())
-            console.log(myChannels, 'Aaa')
-            console.log(typeof channelId)
-            const currentChannel = myChannels.find(channel => channel.id === Number(channelId))
-            dispatch(addChannel(currentChannel))
+            channels= await dispatch(userChannels())
+            const myChannels = Object.values(channels.channel)
+
+            let thisChannel;
+            myChannels.forEach(el => {
+                if(el.id === Number(channelId)) thisChannel = el
+            })
+
+            dispatch(addChannel(thisChannel))
+
         })();
     }, [dispatch])
 
+    useEffect (() => {
+        if (currentChannel) setLoaded(true);
+    }, [currentChannel])
+
+    console.log(currentChannel, 'before props')
     return (
         <div>
-            <h1>yay!</h1>
-            <SideBar />
-            {/* <ChannelDisplay /> */}
+            {loaded && (<SideBar />)}
+            {loaded && (<ChannelDisplay currentChannel={currentChannel}/>)}
         </div>
     )
 }

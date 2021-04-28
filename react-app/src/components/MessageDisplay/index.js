@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import styles from './MessageDisplay.module.CSS'; 
+import styles from './MessageDisplay.module.CSS';
 
 const MessageDisplay = ({message}) => {
-
+    console.log(typeof(message.created_at), 'in display')
 
     return (
         <div className="message_wrapper">

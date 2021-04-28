@@ -7,14 +7,11 @@ import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UsersList from "./components/UsersList";
 import User from "./components/User";
-import GlobalChat from "./components/GlobalChat";
-import SideBar from "./components/Sidebar";
-import ChannelDisplay from "./components/ChannelDisplay"
 import PageWrapper from "./components/PageWrapper";
 // import { authenticate } from "./services/auth";
 import { authenticate } from "./store/session";
 
-import {userChannels} from "./store/channels"
+
 
 function App() {
   // const [authenticated, setAuthenticated] = useState(false);
