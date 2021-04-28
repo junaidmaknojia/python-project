@@ -7,10 +7,8 @@ channel_routes = Blueprint('channel', __name__)
 
 @channel_routes.route('')
 def get_channels():
-  print(current_user.id, 'here!!!!!!!!!!!!!!!!!!!!!!')
   user = User.query.filter(User.id == current_user.id).one()
   channel_collection = user.channels
-  print(user.channels)
   channels = { "channel": list(map(lambda ch: ch.to_dict(), channel_collection)) }
   return channels
 
