@@ -22,3 +22,17 @@ def add_channel():
   db.session.add(channel)
   db.session.commit()
   return channel.to_dict()
+
+
+@channel_routes.route("/join", methods=["POST"])
+def join_channel():
+  pass
+
+@channel_routes.route("/dm", methods=[POST])
+def create_DM():
+  pass
+
+
+@channel_routes.route("/all")
+def get_all_channels():
+  pass
