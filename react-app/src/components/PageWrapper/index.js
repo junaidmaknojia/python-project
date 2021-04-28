@@ -29,6 +29,9 @@ const PageWrapper = () => {
 
     useEffect (() => {
         if (currentChannel && allChannels) setLoaded(true);
+        return () => {
+            setLoaded(false)
+        }
     }, [currentChannel, allChannels])
 
     return (
