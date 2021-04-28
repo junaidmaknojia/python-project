@@ -62,8 +62,8 @@ def handle_connect():
 def handleMessage(data):
     print(data)
     room = data["room"]
-    new_message = Message(body=data["body"], 
-                          user_id=data["user_id"], 
+    new_message = Message(body=data["body"],
+                          user_id=data["user_id"],
                           channel_id=data["room"])
     db.session.add(new_message)
     db.session.commit()

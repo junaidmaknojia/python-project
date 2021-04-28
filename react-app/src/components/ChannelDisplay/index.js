@@ -4,9 +4,7 @@ import {getMessages} from '../../services/messages.js'
 import {useParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 
-const ChannelDisplay = () => {
-    const currentChannel = useSelector(state => state.channels.current)
-    // const channel_id = currentChannel.id
+const ChannelDisplay = ({currentChannel}) => {
     const [ pastMessages, setPastMessages ] = useState(null);
     const [loaded, setLoaded] = useState(false);
 

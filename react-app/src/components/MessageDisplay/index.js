@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import styles from './MessageDisplay.module.CSS'; 
+import styles from './MessageDisplay.module.CSS';
 
 const MessageDisplay = ({message}) => {
-
+    const date = new Date(message.created_at)
 
     return (
         <div className="message_wrapper">
@@ -15,7 +15,7 @@ const MessageDisplay = ({message}) => {
                         {message.user.username}
                     </span>
                     <span className="message_timestamp">
-                        {message.created_at.getTime()}
+                        {date.getTime()}
                     </span>
                     <div className="message_body">
                         <pre className="message_body__text">{message.body}</pre>

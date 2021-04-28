@@ -16,9 +16,8 @@ const GlobalChat = ({ pastMessages }) => {
   const channel_id = currentChannel.id
   const [ messages, setMessages ] = useState([]);
   const [ newMessage, setNewMessage ] = useState('');
-  
+
   socket.on("message", data => {
-    console.log("inside socket.on", data)
     setMessages([data, ...messages]);
   });
 
@@ -42,7 +41,6 @@ const GlobalChat = ({ pastMessages }) => {
 
   useEffect(() => {
     socket.emit("join_room", {user_id: user.id, room:channel_id})
-    console.log(pastMessages)
     setMessages([...pastMessages])
   }, [])
 

@@ -27,7 +27,7 @@ const LoginForm = () => {
   };
 
   if (user) {
-    return <Redirect to="/channels/1" />;
+    return <Redirect to="/channels/2" />;
   }
 
   return (
