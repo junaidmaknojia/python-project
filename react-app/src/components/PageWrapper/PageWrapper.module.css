@@ -1,0 +1,32 @@
+.main {
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  display: grid;
+  grid-template-areas:
+    "navbar navbar"
+    "sidebar msgboard";
+  grid-template-rows: 38px 1fr;
+  grid-template-columns: 260px 1fr;
+}
+
+.navbar {
+  grid-area: navbar;
+  height: 100%;
+  width: 100%;
+  background-color: #350d36;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  height: 100%;
+  width: 100%;
+  background-color: #350d36;
+}
+
+.msgboard {
+  grid-area: msgboard;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+}
