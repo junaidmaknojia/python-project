@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    picture_url = db.Column(db.String(255), nullable=True)
+    picture_url = db.Column(db.String(255), nullable=False, default='https://i.imgur.com/tdi3NGa.jpg')
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
     updated_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
     my_channels = db.relationship("Channel", back_populates="owner")
@@ -39,5 +39,6 @@ class User(db.Model, UserMixin):
         "first_name": self.first_name,
         "last_name": self.last_name,
         "username": self.username,
-        "email": self.email
+        "email": self.email,
+        "picture_url": self.picture_url
       }

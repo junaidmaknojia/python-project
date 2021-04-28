@@ -1,0 +1,52 @@
+.componentWrapper {
+    height: 64px;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    padding-left:20px;
+    border-bottom: 1px solid black;
+}
+
+.usersContainer {
+    display: flex;
+    align-items: center;
+    font-size:13px;
+    line-height:24px;
+    margin-left:24px;
+    white-space: nowrap;
+}
+
+.usersDisplay {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.headerAvatar {
+    height:30px;
+    width:auto;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.usersAMT {
+    margin-left: 10px;
+}
+
+.addUserButton {
+    height: 30px;
+    width:auto;
+    margin: 2px;
+    margin-left: 5px;
+    border: none;
+    background:none;
+    cursor: pointer;
+}
+
+.addUserIcon{
+    height:100%;
+    width:auto;
+}
