@@ -1,0 +1,31 @@
+.main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leftSide {
+  min-width: 128px;
+  height: 26px;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  justify-content: flex-end;
+  background-color: inherit;
+}
+
+.logoWrapper {
+  height: 26px;
+  width: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  height: 20px;
+  width: 20px;
+  background-color: inherit;
+}
