@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from './MessageDisplay.module.CSS';
+import styles from './MessageDisplay.module.css';
 
 const MessageDisplay = ({message}) => {
     const date = new Date(message.created_at)
@@ -8,7 +8,7 @@ const MessageDisplay = ({message}) => {
         <div className={styles.message_wrapper}>
             <div className={styles.message_container}>
                 <div className={styles.author_image}>
-                    {message.user && <img src={message.user.picture_url} />}
+                    {message.user && <img className={styles.author_avatar} src={message.user.picture_url} />}
                 </div>
                 <div className={styles.text_container}>
                     <span className={styles.author_name}>

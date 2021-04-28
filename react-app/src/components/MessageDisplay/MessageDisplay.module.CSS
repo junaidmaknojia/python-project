@@ -1,0 +1,49 @@
+.message_wrapper{
+    padding: 8px 20px;
+}
+.message_wrapper:hover {
+    background-color: rgba(240, 240, 240, 240);
+}
+
+.message_container {
+    display: flex;
+    flex-direction: row;
+}
+
+.author_image {
+    margin: 8px;
+}
+
+.author_avatar {
+    height: 36px;
+    width: 36px;
+}
+
+.author_name {
+    font-weight: 900;
+    font-size: 15px;
+    color: rgba(29,28,29, 1);
+    padding-right: 5px;
+}
+
+.text_container {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 8px;
+    padding-left: 16px;
+    margin: -12px -8px -16px -16px;
+}
+
+
+.message_timestamp {
+    font-size: 12px;
+    color: rgba(97, 96, 97, 1);
+    font-weight: 400;
+}
+
+.message_body {
+    font-size: 15px;
+}
+.message_body_text {
+    word-wrap: break-word;
+}
