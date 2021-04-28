@@ -15,7 +15,7 @@ const MessageDisplay = ({message}) => {
                         {message.user.username}
                     </span>
                     <span className="message_timestamp">
-                        {message.created_at}
+                        {message.created_at.getTime()}
                     </span>
                     <div className="message_body">
                         <pre className="message_body__text">{message.body}</pre>

@@ -12,14 +12,10 @@ const socket = io(endPoint);
 
 const GlobalChat = ({ pastMessages }) => {
   const user = useSelector(state => state.session.user);
+  const currentChannel = useSelector(state => state.channels.current)
+  const channel_id = currentChannel.id
   const [ messages, setMessages ] = useState([]);
   const [ newMessage, setNewMessage ] = useState('');
-
-  // TO-DO: add use state
-  const channel = {
-    id: 2,
-    messages: []
-  }
 
   socket.on("message", data => {
     console.log("inside socket.on", data)
@@ -30,7 +26,7 @@ const GlobalChat = ({ pastMessages }) => {
     if (newMessage) {
       socket.emit("message", {
         body: newMessage,
-        room: channel.id,
+        room: channel_id,
         user_id: user.id,
         created_at: new Date(),
         user: {
@@ -45,7 +41,7 @@ const GlobalChat = ({ pastMessages }) => {
   }
 
   useEffect(() => {
-    socket.emit("join_room", {user_id: user.id, room:channel.id})
+    socket.emit("join_room", {user_id: user.id, room:channel_id})
     console.log(pastMessages)
     setMessages([...pastMessages])
   }, [])

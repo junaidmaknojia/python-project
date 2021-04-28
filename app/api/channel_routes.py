@@ -10,7 +10,8 @@ def get_channels():
   print(current_user.id, 'here!!!!!!!!!!!!!!!!!!!!!!')
   user = User.query.filter(User.id == current_user.id).one()
   channel_collection = user.channels
-  channels= { "channel": list(map(lambda ch: ch.to_dict(), channel_collection)) }
+  print(user.channels)
+  channels = { "channel": list(map(lambda ch: ch.to_dict(), channel_collection)) }
   return channels
 
 
@@ -23,3 +24,4 @@ def add_channel():
   db.session.add(channel)
   db.session.commit()
   return channel.to_dict()
+

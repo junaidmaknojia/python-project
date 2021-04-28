@@ -10,8 +10,11 @@ import User from "./components/User";
 import GlobalChat from "./components/GlobalChat";
 import SideBar from "./components/Sidebar";
 import ChannelDisplay from "./components/ChannelDisplay"
+import PageWrapper from "./components/PageWrapper";
 // import { authenticate } from "./services/auth";
 import { authenticate } from "./store/session";
+
+import {userChannels} from "./store/channels"
 
 function App() {
   // const [authenticated, setAuthenticated] = useState(false);
@@ -45,12 +48,11 @@ function App() {
         <ProtectedRoute path="/users/:userId" exact={true} >
           <User />
         </ProtectedRoute>
-        <ProtectedRoute path="/" exact={true}>
+        <ProtectedRoute path="/channels/:id" exact={true}>
           <h1>My Home Page</h1>
-          <ChannelDisplay />
+          <PageWrapper />
         </ProtectedRoute>
         <ProtectedRoute path="/channels" exact={true}>
-          <SideBar />
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>
