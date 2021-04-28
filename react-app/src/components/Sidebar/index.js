@@ -59,15 +59,7 @@ export default function Sidebar(){
             <div className="channels" onClick={channelClick}>
                 <p>Channels</p>
                 <div>
-                <form onSubmit={submitNewChannel}>
-                    <input
-                        placeholder="Channel Name"
-                        value={newChannel}
-                        onChange={e => setNewChannel(e.target.value)}
-                        type="text"
-                    />
-                    <button type="submit">+</button>
-                </form>
+                    <NavLink to="/form">+</NavLink>
                 </div>
                 {myChannels && (
                     myChannels.map(channel => (
@@ -81,15 +73,7 @@ export default function Sidebar(){
             <div className="directMessages">
                 <p>Direct Messages</p>
                 <div>
-                    <form onSubmit={submitNewChannel}>
-                        <input
-                            placeholder="Add User"
-                            // value={newDM}
-                            // onChange={e => setNewDM(e.target.value)}
-                            type="text"
-                        />
-                        <button type="submit">+</button>
-                    </form>
+                    <NavLink to="/form">+</NavLink>
                 </div>
                 {myDMs && (
                     myDMs.map(dm => (

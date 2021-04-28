@@ -48,27 +48,27 @@ export const currentChannel = () => async (dispatch) => {
 }
 
 
-export const joinChannel = (package) => async (dispatch) => {
-	// package = {channelId: tempId, user_id: user.id}
+export const joinChannel = (payload) => async (dispatch) => {
+	// payload = {channelId: tempId, user_id: user.id}
 	const response = await fetch("/api/channel/join", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(package),
+		body: JSON.stringify(payload),
 	});
 
 	const joinedChannel = await response.json();
 }
 
-export const createDM = (package) => async (dispatch) => {
-	// package = {otherUserId: tempId, user_id: user.id}
+export const createDM = (payload) => async (dispatch) => {
+	// payload = {otherUserId: tempId, user_id: user.id}
 	const response = await fetch("/api/channel/dm", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(package),
+		body: JSON.stringify(payload),
 	});
 
 	const newDM = await response.json();

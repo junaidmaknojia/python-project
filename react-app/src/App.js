@@ -51,6 +51,8 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path="/channels" exact={true}>
         </ProtectedRoute>
+        <ProtectedRoute path="/form" exact={true}>
+        </ProtectedRoute>
       </Switch>
     </BrowserRouter>
   );
