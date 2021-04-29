@@ -39,14 +39,14 @@ const PageWrapper = () => {
 
     useEffect (() => {
         if (currentChannel && allChannels) setLoaded(true);
-
+        console.log(loaded, "herehhrehrhejfkdlsjflkdsjlfj")
     }, [currentChannel, allChannels])
 
     return (
         <div className={main}>
-            {loaded && <div className={navbar}><Header /></div>}
-            {loaded && <div className={sidebar}><SideBar /></div>}
-            {loaded && <div className={msgboard}><ChannelDisplay currentChannel={currentChannel}/></div>}
+            {currentChannel && <div className={navbar}><Header /></div>}
+            {currentChannel && <div className={sidebar}><SideBar /></div>}
+            {currentChannel && <div className={msgboard}><ChannelDisplay currentChannel={currentChannel}/></div>}
         </div>
     )
 }

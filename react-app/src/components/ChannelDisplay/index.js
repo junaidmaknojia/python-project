@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux'
 
 const ChannelDisplay = () => {
     const currentChannel = useSelector(state => state.channels.current)
+    console.log(currentChannel, "current in GLOBAL????????????????")
     const [ pastMessages, setPastMessages ] = useState(null);
     const [loaded, setLoaded] = useState(false);
 
@@ -18,11 +19,12 @@ const ChannelDisplay = () => {
             setLoaded(true);
             }
         )();
+        console.log(loaded, "inside GLOBAL!!!!!!!!!!!!!!!!!!")
     }, [currentChannel])
 
     return (
         <div className="channel-display_wrapper">
-            <ChatHeader />
+            {loaded && <ChatHeader />}
             {!loaded && (<h1>Loading...</h1>)}
             {loaded && pastMessages && (<GlobalChat pastMessages={pastMessages.message} />)}
         </div>

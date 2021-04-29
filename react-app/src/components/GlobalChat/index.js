@@ -8,7 +8,7 @@ import styles from './GlobalChat.module.css';
 
 const endPoint = "http://localhost:5000";
 
-const socket = io(endPoint);
+export const socket = io(endPoint);
 
 const GlobalChat = ({ pastMessages }) => {
   const user = useSelector(state => state.session.user);

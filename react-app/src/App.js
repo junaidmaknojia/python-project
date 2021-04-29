@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UsersList from "./components/UsersList";
 import User from "./components/User";
 import PageWrapper from "./components/PageWrapper";
+import FormWrapper from "./components/FormWrapper";
 // import { authenticate } from "./services/auth";
 import { authenticate } from "./store/session";
 
@@ -31,12 +32,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
       <Switch>
         <Route path="/login" exact={true}>
+          <NavBar />
           <LoginForm />
         </Route>
         <Route path="/sign-up" exact={true}>
+          <NavBar />
           <SignUpForm />
         </Route>
         <ProtectedRoute path="/users" exact={true} >
@@ -48,7 +50,8 @@ function App() {
         <ProtectedRoute path="/channels/:id" exact={true}>
           <PageWrapper />
         </ProtectedRoute>
-        <ProtectedRoute path="/channels" exact={true}>
+        <ProtectedRoute path="/form/:id/:ty" exact={true}>
+          <FormWrapper />
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>
