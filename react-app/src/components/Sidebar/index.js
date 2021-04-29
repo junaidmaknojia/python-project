@@ -74,9 +74,11 @@ export default function Sidebar(){
                 {myDMs && (
                     myDMs.map(dm => (
                         <div key={dm.id}
+                            // id={dm.id}
+                            // className="dm__title"
+                            // onClick={channelClick}
                             id={dm.id}
                             className="dm__title"
-                            onClick={channelClick}
                         ><NavLink to={`/channels/${dm.id}`}>{dm.title}</NavLink></div>
                     ))
                 )}

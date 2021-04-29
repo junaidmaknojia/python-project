@@ -43,6 +43,8 @@
 
 .message_body {
     font-size: 15px;
+    overflow: hidden;
+
 }
 .message_body_text {
     word-wrap: break-word;

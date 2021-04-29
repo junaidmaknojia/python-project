@@ -5,3 +5,31 @@
     overflow:hidden;
     overflow-y: scroll;
 }
+
+.sendMessageBar{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border: solid gray 1px;
+    font-weight: 400;
+    margin: 15px;
+}
+
+.writeTextBox {
+    align-self: stretch;
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    border: none;
+    max-height: 400px;
+    resize: none;
+}
+
+.sendMessageButton {
+    display: flex;
+    border: none;
+    height: 32px;
+    width: 32px;
+    align-self: flex-end;
+    margin: 4px;
+}
