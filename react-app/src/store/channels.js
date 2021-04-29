@@ -55,7 +55,6 @@ export const listChannels = async () => {
 	})
 
 	const allChannels = await response.json();
-	console.log(allChannels, "from listChannels hsrere")
 	return allChannels;
 }
 

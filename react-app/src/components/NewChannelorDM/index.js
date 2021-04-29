@@ -8,20 +8,29 @@ import { socket } from "../GlobalChat";
 export default function NewChannelorDM() {
     const history = useHistory();
     const type = useParams().ty;
+    const myChannelsObject = useSelector(state => state.channels.channels);
     const user = useSelector(state => state.session.user);
     const [newChannelName, setNewChannelName] = useState("");
-    const [selectedUser, setSelectedUser] = useState({});
+    const [allUsers, setAllUsers] = useState([]);
+    const [allChannels, setAllChannels] = useState([]);
     const [ loaded, setLoaded ] = useState(false);
     const dispatch = useDispatch();
-    let allChannels;
-    let allUsers;
+    let display;
 
     useEffect(() => {
         (async () => {
-            allChannels = await listChannels();
-            allUsers = await listUsers();
+            const channelList = await listChannels();
+            setAllChannels(channelList.channel)
+            let userList = await listUsers();
+            userList = userList.users;
+            const myDMs = myChannelsObject.channel.filter(ch => ch.type === "dm");
+            let existingDMUsers = myDMs.filter(dm => dm.users.length == 2).map(dm => dm.users);
+            existingDMUsers = [...existingDMUsers];
+            let existingDMUsers2 = existingDMUsers.filter(us => us.id !== user.id);
+            userList = userList.filter(user => existingDMUsers2.includes(user));
+            console.log(userList);
+            setAllUsers(userList);
             if (allChannels && allUsers) setLoaded(true)
-
         })()
     }, []);
 
@@ -37,15 +46,16 @@ export default function NewChannelorDM() {
     async function handleJoin(e, type, tempId){
         if(type === "ch"){
             await dispatch(joinChannel({channelId: tempId, user_id: user.id}));
+            //Need to redirect to that channel
         } else {
             await dispatch(createDM({otherUserId: tempId, user_id: user.id}));
+            //Need to redirect to that chat
         }
     }
 
-    let display;
     if(type === "ch"){
-        display = [
-
+        display = (
+            <>
                 <h2>All Channels</h2>,
                 <form onSubmit={submitNewChannel}>
                     <h3>Create new channel</h3>
@@ -57,40 +67,36 @@ export default function NewChannelorDM() {
                         required
                     />
                     <button type="submit">Create</button>
-                </form>,
+                </form>
                 <div>
-                    {allChannels && (
-                        allChannels.map(channel => (
-                            <div id={channel.id}>
-                                <p>{channel.title}</p>
-                                <button onClick={e => handleJoin(e, "ch", channel.id)}>Join</button>
-                            </div>
-                        ))
-                    )}
+                    {allChannels?.map(channel => (
+                        <div id={channel.id}>
+                            <p>{channel.title}</p>
+                            <button onClick={e => handleJoin(e, "ch", channel.id)}>Join</button>
+                        </div>
+                    ))}
                 </div>
-
-        ];
+            </>
+        );
     }else {
-        display = [
-
-                <h2>All Users</h2>,
+        display = (
+            <>
+                <h2>All Users</h2>
                 <div>
-                    {allUsers && (
-                        allUsers.map(user => (
-                            <div id={user.id}>
-                                <p>{user.title}</p>
-                                <button onClick={e => handleJoin(e, "dm", user.id)}>Start DM</button>
-                            </div>
-                        ))
-                    )}
+                    {allUsers?.map(user => (
+                        <div id={user.id}>
+                            <p>{user.username}</p>
+                            <button onClick={e => handleJoin(e, "dm", user.id)}>Start DM</button>
+                        </div>
+                    ))}
                 </div>
-
-        ];
+            </>
+        );
     }
 
     return (
-        <div>
+        <>
             {loaded && display}
-        </div>
+        </>
     );
 }
