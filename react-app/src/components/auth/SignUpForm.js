@@ -10,13 +10,14 @@ const SignUpForm = () => {
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [profilePicture, setProfilePicture] = useState(null);
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
 
   const onSignUp = async (e) => {
     e.preventDefault();
     if (password === repeatPassword) {
-      await dispatch(signUp(firstName, lastName, username, email, password));
+      await dispatch(signUp(firstName, lastName, username, email, password, profilePicture));
     }
   };
 
@@ -36,6 +37,11 @@ const SignUpForm = () => {
     setEmail(e.target.value);
   };
 
+  const updateFile = (e) => {
+    const file = e.target.files[0];
+    if(file) setProfilePicture(file);
+  }
+
   const updatePassword = (e) => {
     setPassword(e.target.value);
   };
@@ -44,9 +50,9 @@ const SignUpForm = () => {
     setRepeatPassword(e.target.value);
   };
 
-  if (user) {
-    return <Redirect to="/channels/1" />;
-  }
+  // if (user) {
+  //   return <Redirect to="/channels/1" />;
+  // }
 
   return (
     <form onSubmit={onSignUp}>
@@ -89,6 +95,14 @@ const SignUpForm = () => {
           value={email}
           required
           ></input>
+      </div>
+      <div>
+        <label>Profile Picture</label>
+        <input
+          type='file'
+          onChange={updateFile}
+          name='profile_picture'
+          />
       </div>
       <div>
         <label>Password</label>
