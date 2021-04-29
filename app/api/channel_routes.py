@@ -60,3 +60,11 @@ def get_all_channels():
     allChannels = {"channel": list(
         map(lambda ch: ch.to_dict(), channelList))}
     return allChannels
+
+
+@channel_routes.route("/allDMs")
+def get_all_dms():
+    dms_list = Channel.query.filter(Channel.type == "dm").all()
+    allDMs = {"dms": list(
+        map(lambda ch: ch.to_dict(), dms_list))}
+    return allDMs

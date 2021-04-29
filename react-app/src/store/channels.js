@@ -58,6 +58,14 @@ export const listChannels = async () => {
 	return allChannels;
 }
 
+export const listDMs = async () => {
+	const response = await fetch('/api/channel/allDMs', {
+		headers: { "Content-type": "application/json" }
+	})
+
+	const allDMs = await response.json();
+	return allDMs.dms;
+}
 
 export const joinChannel = (payload) => async (dispatch) => {
 	// payload = {channelId: tempId, user_id: user.id}
@@ -72,6 +80,17 @@ export const joinChannel = (payload) => async (dispatch) => {
 	const joinedChannel = await response.json();
 }
 
+export const leaveChannel = (payload) => async (dispatch) => {
+	// payload = {channelId: channel.id, user_id: user.id}
+	const response = await fetch("/api/channelusers/leave", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(payload),
+	});
+}
+
 export const createDM = (payload) => async (dispatch) => {
 	// payload = {otherUserId: tempId, user_id: user.id}
 	const response = await fetch("/api/channel/dm", {
@@ -84,6 +103,7 @@ export const createDM = (payload) => async (dispatch) => {
 
 	const newDM = await response.json();
 }
+
 
 // reducer
 

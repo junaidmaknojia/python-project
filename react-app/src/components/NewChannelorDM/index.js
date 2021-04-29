@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {useHistory, useParams} from "react-router-dom";
-import { listChannels, makeChannel, joinChannel, createDM } from "../../store/channels";
+import { listChannels, listDMs, makeChannel, joinChannel, leaveChannel, createDM } from "../../store/channels";
 import { listUsers } from "../../store/session";
 import { socket } from "../GlobalChat";
 
 export default function NewChannelorDM() {
     const history = useHistory();
     const type = useParams().ty;
-    const myChannelsObject = useSelector(state => state.channels.channels);
     const user = useSelector(state => state.session.user);
+    const myChannels = useSelector(state => state.channels.channels);
     const [newChannelName, setNewChannelName] = useState("");
     const [allUsers, setAllUsers] = useState([]);
     const [allChannels, setAllChannels] = useState([]);
@@ -23,13 +23,15 @@ export default function NewChannelorDM() {
             setAllChannels(channelList.channel)
             let userList = await listUsers();
             userList = userList.users;
-            const myDMs = myChannelsObject.channel.filter(ch => ch.type === "dm");
-            let existingDMUsers = myDMs.filter(dm => dm.users.length == 2).map(dm => dm.users);
-            existingDMUsers = [...existingDMUsers];
-            let existingDMUsers2 = existingDMUsers.filter(us => us.id !== user.id);
-            userList = userList.filter(user => existingDMUsers2.includes(user));
-            console.log(userList);
-            setAllUsers(userList);
+            const allDMs = await listDMs();
+            let myUsers = allDMs.filter(dm => dm.users.length === 2).map(dm => dm.users);
+            myUsers = myUsers.flat().filter(us => us.id !== user.id);
+            let hermes = [];
+            userList.forEach(user => {
+                if(!myUsers.find(us => us.username === user.username)) hermes.push(user);
+            });
+            let hermes2 = hermes.filter(us => us.id !== user.id);
+            setAllUsers(hermes2);
             if (allChannels && allUsers) setLoaded(true)
         })()
     }, []);
@@ -53,6 +55,18 @@ export default function NewChannelorDM() {
         }
     }
 
+    function userInChannel(id){
+        const foundChannel = myChannels.channel.find(ch => ch.id === id);
+        return foundChannel ? true : false;
+    }
+
+    async function handleLeave(e, channel){
+
+        if(window.confirm(`Are you sure you want to leave ${channel.title}?`)){
+            await dispatch(leaveChannel({channelId: channel.id, user_id: user.id}));
+        }
+    }
+
     if(type === "ch"){
         display = (
             <>
@@ -72,7 +86,15 @@ export default function NewChannelorDM() {
                     {allChannels?.map(channel => (
                         <div id={channel.id}>
                             <p>{channel.title}</p>
-                            <button onClick={e => handleJoin(e, "ch", channel.id)}>Join</button>
+                            {/* {userInChannel(channel.id) && (
+                                <button onClick={e => handleJoin(e, "ch", channel.id)}>Join</button>
+                                )}
+                                {!(userInChannel(channel.id)) && (
+                                    // <button onClick={e => handleLeave(e, channel)}>Leave</button>
+                                    <p>I'm in here</p>
+                                )} */}
+                            <button disabled={!userInChannel(channel.id)} onClick={e => handleLeave(e, channel)}>Leave</button>
+                            <button disabled={userInChannel(channel.id)} onClick={e => handleJoin(e, "ch", channel.id)}>Join</button>
                         </div>
                     ))}
                 </div>
@@ -82,6 +104,7 @@ export default function NewChannelorDM() {
         display = (
             <>
                 <h2>All Users</h2>
+                <p>(Ones you don't have DMs with already)</p>
                 <div>
                     {allUsers?.map(user => (
                         <div id={user.id}>
