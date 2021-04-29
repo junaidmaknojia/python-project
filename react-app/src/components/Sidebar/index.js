@@ -9,13 +9,21 @@ const endPoint = "http://localhost:5000";
 const socket = io(endPoint);
 
 export default function Sidebar(){
+
     const history = useHistory();
-    const channelId = useParams();
+    const channelId = useParams().id;
     const dispatch = useDispatch();
 
     const [newChannel, setNewChannel] = useState();
     const user = useSelector(state => state.session.user);
-    const myChannels = useSelector(state => state.channels.channels);
+    const myComms = useSelector(state => state.channels.channels)
+    const myChannels = myComms.channel.filter(ch => ch.type === "ch");
+    const myDMs = myComms.channel.filter(ch => ch.type === "dm");
+    myDMs.forEach(dm => {
+        const nameArray = dm.title.split(",");
+        const splitpoint = nameArray.indexOf(user.username);
+        dm.title = nameArray.slice(splitpoint).concat(nameArray.slice(splitpoint, nameArray.length)).join(", ");
+    });
     const currChannel = useSelector(state => state.channels.current);
 
     // useEffect(() => {
@@ -43,25 +51,21 @@ export default function Sidebar(){
         }
     }
 
+    const changeForm = () => {
+
+    }
+
     return (
         <div className="sideBar">
             <div className="sectionTitles">
             </div>
-            <div className="channels">
+            <div className="channels" onClick={channelClick}>
                 <p>Channels</p>
                 <div>
-                <form onSubmit={submitNewChannel}>
-                    <input
-                        placeholder="Channel Name"
-                        value={newChannel}
-                        onChange={e => setNewChannel(e.target.value)}
-                        type="text"
-                    />
-                    <button type="submit">+</button>
-                </form>
+                    <NavLink to={`/form/${channelId}/ch`}>+</NavLink>
                 </div>
                 {myChannels && (
-                    myChannels.channel.map(channel => (
+                    myChannels.map(channel => (
                         <div key={channel.id}
                             id={channel.id}
                             className="channel__title"
@@ -74,7 +78,18 @@ export default function Sidebar(){
                 )}
             </div>
             <div className="directMessages">
-
+                <p>Direct Messages</p>
+                <div onClick={changeForm}>
+                    <NavLink to={`/form/${channelId}/dm`}>+</NavLink>
+                </div>
+                {myDMs && (
+                    myDMs.map(dm => (
+                        <div key={dm.id}
+                        id={dm.id}
+                        className="dm__title"
+                        ><NavLink to={`/channels/${dm.id}`}>{dm.title}</NavLink></div>
+                    ))
+                )}
             </div>
         </div>
     )
