@@ -29,6 +29,17 @@ export const authenticate = () => async (dispatch) => {
 
 }
 
+// get all users
+export const listUsers = async() => {
+    const response = await fetch('/api/users', {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    const allUsers = await response.json();
+    return allUsers;
+}
+
 export const login = (email, password) => async (dispatch) => {
     const response = await fetch('/api/auth/login', {
         method: 'POST',

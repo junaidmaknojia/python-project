@@ -8,7 +8,7 @@ import styles from './GlobalChat.module.css';
 
 const endPoint = "https://sn4ck.herokuapp.com/";
 
-const socket = io(endPoint);
+export const socket = io(endPoint);
 
 const GlobalChat = ({ pastMessages }) => {
   const user = useSelector(state => state.session.user);
@@ -53,8 +53,10 @@ const GlobalChat = ({ pastMessages }) => {
           <MessageDisplay message={data} key={i} />
           ))}
       </div>
-      <input value={newMessage} name="message" onChange={e => setNewMessage(e.target.value)}/>
-      <button onClick={sendMessage}>Send Message</button>
+      <div contenteditable="true"  className={styles.sendMessageBar}>
+        <textarea placeholder={`Message ${currentChannel.title}`} value={newMessage} className={styles.writeTextBox} name="message" onChange={e => setNewMessage(e.target.value)}/>
+      <button className={styles.sendMessageButton} onClick={sendMessage}>=></button>
+      </div>
     </div>
   )
 }
