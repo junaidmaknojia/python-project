@@ -8,7 +8,8 @@
 
 .leftSide {
   min-width: 128px;
-  width: 100% ;
+  /* width: 100% ; */
+  flex: 1 1 0%;
   height: 26px;
   padding-left: 16px;
   padding-right: 16px;
@@ -35,6 +36,7 @@
 .center {
   max-width: 500px;
   min-width: 0px;
+  flex: 1 2 0%;
   height: 24px;
   background-color: inherit;
 }
@@ -48,20 +50,26 @@
   justify-content: flex-start;
   border-style: none;
   border: solid 1px rgb(188,171,188);
+  color: rgb(188,171,188);
   border-radius: 5px;
   padding-left: 8px;
 }
 
+.searchButton:hover {
+  border: solid 1px rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+}
 .span {
   font-family: 'Open Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: rgb(188,171,188);
+  color: inherit;
 }
 
 .rightSide {
   min-width: 128px;
-  width: 100%;
+  /* width: 100%; */
+  flex: 1 1 0%;
   height: 26px;
   background-color: inherit;
   display: flex;
@@ -81,4 +89,13 @@
   width: 28px;
   border-radius: 5px;
   object-fit: cover;
+}
+
+.modalButton {
+  background-color: inherit;
+  border-style: none;
+  height: inherit;
+  width: inherit;
+  padding: 0;
+  margin: 0;
 }

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import {useParams} from "react-router-dom";
+import ProfileModal from "../ProfileModal";
 import {
   main,
   leftSide,
@@ -11,9 +12,17 @@ import {
   span,
   rightSide,
   userPic,
-  img } from "./Header.module.css";
+  img,
+  modalButton } from "./Header.module.css";
 
 const Header = () => {
+  const [ show, setShow ] = useState(false)
+  const currentUser = useSelector(state => state.session.user)
+
+  const showModal = () => {
+    setShow(true)
+  }
+
   return (
     <div className={main}>
       <div className={leftSide}>
@@ -27,8 +36,12 @@ const Header = () => {
         </button>
       </div>
       <div className={rightSide}>
-        <div className={userPic}></div>
-        <img className={img} src={require("../../assets/big.jpg")}/>
+        <div className={userPic}>
+          <button className={modalButton} onClick={showModal}>
+            <img className={img} src={currentUser.picture_url}/>
+          </button>
+        </div>
+        <ProfileModal show={show} setShow={setShow} />
       </div>
     </div>
   )

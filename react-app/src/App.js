@@ -32,12 +32,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
       <Switch>
         <Route path="/login" exact={true}>
+          <NavBar />
           <LoginForm />
         </Route>
         <Route path="/sign-up" exact={true}>
+          <NavBar />
           <SignUpForm />
         </Route>
         <ProtectedRoute path="/users" exact={true} >
