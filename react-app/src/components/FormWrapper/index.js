@@ -3,11 +3,11 @@ import {useSelector, useDispatch} from 'react-redux'
 import {useParams} from "react-router-dom";
 import SideBar from '../Sidebar'
 import Header from '../Header'
-import ChannelDisplay from '../ChannelDisplay'
+import NewChannelorDM from '../NewChannelorDM'
 import {addChannel, userChannels} from '../../store/channels'
-import { main, sidebar, navbar, msgboard } from './PageWrapper.module.css'
+import { main, sidebar, navbar, msgboard } from '../PageWrapper/PageWrapper.module.css'
 
-const PageWrapper = () => {
+const FormWrapper = () => {
     const currentChannel = useSelector(state => state.channels.current)
     const allChannels = useSelector(state => state.channels.current)
     const [loaded, setLoaded] = useState(false);
@@ -39,16 +39,16 @@ const PageWrapper = () => {
 
     useEffect (() => {
         if (currentChannel && allChannels) setLoaded(true);
-        console.log(loaded, "herehhrehrhejfkdlsjflkdsjlfj")
+
     }, [currentChannel, allChannels])
 
     return (
         <div className={main}>
-            {currentChannel && <div className={navbar}><Header /></div>}
-            {currentChannel && <div className={sidebar}><SideBar /></div>}
-            {currentChannel && <div className={msgboard}><ChannelDisplay currentChannel={currentChannel}/></div>}
+            {loaded && <div className={navbar}><Header /></div>}
+            {loaded && <div className={sidebar}><SideBar /></div>}
+            {loaded && <div className={msgboard}><NewChannelorDM type={"ch"} currentChannel={currentChannel}/></div>}
         </div>
     )
 }
 
-export default PageWrapper;
+export default FormWrapper;
