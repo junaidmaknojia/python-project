@@ -38,16 +38,30 @@ def join_channel():
 
 @channel_routes.route("/dm", methods=["POST"])
 def create_DM():
+    # data = request.json
+    # otherUserId = data["otherUserId"]
+    # user_id = data["user_id"]
+    # otherUser = User.query.filter(User.id == otherUserId).one()
+    # currUser = User.query.filter(User.id == user_id).one()
+    # title = f"{currUser.username},{otherUser.username}"
+    # package = {"type": "dm", "title": title, "user_id": user_id}
+    # newDM = Channel(**package)
+    # newDM.users.append(otherUser)
+    # newDM.users.append(currUser)
+    # db.session.add(newDM)
+    # db.session.commit()
+
     data = request.json
-    otherUserId = data["otherUserId"]
-    user_id = data["user_id"]
-    otherUser = User.query.filter(User.id == otherUserId).one()
-    currUser = User.query.filter(User.id == user_id).one()
-    title = f"{currUser.username},{otherUser.username}"
-    package = {"type": "dm", "title": title, "user_id": user_id}
+    currUser = current_user.to_dict()
+    otherUsers = data["otherUsers"]
+    otherUsers.append(currUser)
+    usersList = list([user["username"] for user in otherUsers])
+    title = ",".join(usersList)
+    package = {"type": "dm", "title": title, "user_id": currUser["id"]}
     newDM = Channel(**package)
-    newDM.users.append(otherUser)
-    newDM.users.append(currUser)
+    for user in otherUsers:
+        found_user = User.query.filter(User.id == user["id"]).one()
+        newDM.users.append(found_user)
     db.session.add(newDM)
     db.session.commit()
     return newDM.to_dict()

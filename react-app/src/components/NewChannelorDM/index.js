@@ -13,6 +13,7 @@ export default function NewChannelorDM() {
     const [newChannelName, setNewChannelName] = useState("");
     const [allUsers, setAllUsers] = useState([]);
     const [allChannels, setAllChannels] = useState([]);
+    const [addedUsers, setAddedUsers] = useState([]);
     const [ loaded, setLoaded ] = useState(false);
     const dispatch = useDispatch();
     let display;
@@ -50,8 +51,16 @@ export default function NewChannelorDM() {
             await dispatch(joinChannel({channelId: tempId, user_id: user.id}));
             //Need to redirect to that channel
         } else {
-            await dispatch(createDM({otherUserId: tempId, user_id: user.id}));
+            await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
             //Need to redirect to that chat
+        }
+    }
+
+    function addUserToList(user){
+        if(!addedUsers.includes(user)){
+            addedUsers.push(user);
+            setAddedUsers(addedUsers);
+            console.log(addedUsers);
         }
     }
 
@@ -70,7 +79,7 @@ export default function NewChannelorDM() {
     if(type === "ch"){
         display = (
             <>
-                <h2>All Channels</h2>,
+                <h2>All Channels</h2>
                 <form onSubmit={submitNewChannel}>
                     <h3>Create new channel</h3>
                     <input
@@ -86,13 +95,6 @@ export default function NewChannelorDM() {
                     {allChannels?.map(channel => (
                         <div id={channel.id}>
                             <p>{channel.title}</p>
-                            {/* {userInChannel(channel.id) && (
-                                <button onClick={e => handleJoin(e, "ch", channel.id)}>Join</button>
-                                )}
-                                {!(userInChannel(channel.id)) && (
-                                    // <button onClick={e => handleLeave(e, channel)}>Leave</button>
-                                    <p>I'm in here</p>
-                                )} */}
                             <button disabled={!userInChannel(channel.id)} onClick={e => handleLeave(e, channel)}>Leave</button>
                             <button disabled={userInChannel(channel.id)} onClick={e => handleJoin(e, "ch", channel.id)}>Join</button>
                         </div>
@@ -106,10 +108,20 @@ export default function NewChannelorDM() {
                 <h2>All Users</h2>
                 <p>(Ones you don't have DMs with already)</p>
                 <div>
+                    {/* {addedUsers.length > 0 && (addedUsers.map(user => (
+                        <div>{user.username}</div>
+                    )))} */}
+                    {addedUsers.map(user => (
+                        <div>{user.username}</div>
+                    ))}
+                    {/* {addedUsers.length > 0 && (<button onClick={e => handleJoin(e, "dm", user.id)}>Create Chat</button>)} */}
+                    <button onClick={e => handleJoin(e, "dm", user.id)}>Create Chat</button>
+                </div>
+                <div>
                     {allUsers?.map(user => (
                         <div id={user.id}>
                             <p>{user.username}</p>
-                            <button onClick={e => handleJoin(e, "dm", user.id)}>Start DM</button>
+                            <button onClick={e => addUserToList(user)}>Add</button>
                         </div>
                     ))}
                 </div>

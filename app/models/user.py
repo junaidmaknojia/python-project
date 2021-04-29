@@ -13,32 +13,35 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    picture_url = db.Column(db.String(255), nullable=False, default='https://i.imgur.com/tdi3NGa.jpg')
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
-    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
+    picture_url = db.Column(db.String(255), nullable=False,
+                            default='https://i.imgur.com/tdi3NGa.jpg')
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(), nullable=False)
+    updated_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(), nullable=False)
     my_channels = db.relationship("Channel", back_populates="owner")
     messages = db.relationship("Message", back_populates="user")
     # back_populates references the variable user in message.py, not the "User"
-    channels = db.relationship("Channel", secondary="channel_users", back_populates="users")
-
+    channels = db.relationship(
+        "Channel", secondary="channel_users", back_populates="users")
 
     @property
     def password(self):
-      return self.hashed_password
+        return self.hashed_password
 
     @password.setter
     def password(self, password):
-      self.hashed_password = generate_password_hash(password)
+        self.hashed_password = generate_password_hash(password)
 
     def check_password(self, password):
-      return check_password_hash(self.password, password)
+        return check_password_hash(self.password, password)
 
     def to_dict(self):
-      return {
-        "id": self.id,
-        "first_name": self.first_name,
-        "last_name": self.last_name,
-        "username": self.username,
-        "email": self.email,
-        "picture_url": self.picture_url
-      }
+        return {
+            "id": self.id,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "username": self.username,
+            "email": self.email,
+            "picture_url": self.picture_url
+        }
