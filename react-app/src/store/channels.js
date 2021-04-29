@@ -21,7 +21,6 @@ export const userChannels = () => async (dispatch) => {
 	});
 
 	const channel = await response.json();
-	console.log(channel);
 	dispatch(getChannels(channel));
 	return channel
 }
@@ -92,7 +91,7 @@ export const leaveChannel = (payload) => async (dispatch) => {
 }
 
 export const createDM = (payload) => async (dispatch) => {
-	// payload = {otherUserId: tempId, user_id: user.id}
+	// payload = {otherUsers: addedUsers, user_id: user.id}
 	const response = await fetch("/api/channel/dm", {
 		method: "POST",
 		headers: {
