@@ -6,7 +6,7 @@ import styles from './GlobalChat.module.css';
 
 // need user instance (info: url, name)
 
-const endPoint = "http://localhost:5000";
+const endPoint = "https://sn4ck.herokuapp.com/";
 
 export const socket = io(endPoint);
 

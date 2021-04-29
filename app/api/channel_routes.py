@@ -9,8 +9,7 @@ channel_routes = Blueprint('channel', __name__)
 def get_channels():
     user = User.query.filter(User.id == current_user.id).one()
     channel_collection = user.channels
-    channels = {"channel": list(
-        map(lambda ch: ch.to_dict(), channel_collection))}
+    channels = { "channel": list(map(lambda ch: ch.to_dict(), channel_collection)) }
     return channels
 
 
@@ -23,6 +22,7 @@ def add_channel():
     db.session.add(channel)
     db.session.commit()
     return channel.to_dict()
+
 
 
 @channel_routes.route("/join", methods=["POST"])

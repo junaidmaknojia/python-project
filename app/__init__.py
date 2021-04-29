@@ -34,7 +34,15 @@ app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
 
-socketio = SocketIO(app, cors_allowed_origins='*')
+if os.environ.get("FLASK_ENV") == "production":
+    origins = [
+        "https://sn4ck.herokuapp.com",
+        "https://sn4ck.herokuapp.com",
+    ]
+else:
+    origins = '*'
+
+socketio = SocketIO(app, cors_allowed_origins=origins)
 # from .socketio import socket_decorators
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
