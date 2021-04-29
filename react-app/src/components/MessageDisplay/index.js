@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from './MessageDisplay.module.CSS';
+import styles from './MessageDisplay.module.css';
 
 const MessageDisplay = ({message}) => {
     const date = new Date(message.created_at)
