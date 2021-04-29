@@ -4,6 +4,8 @@ import styles from './MessageDisplay.module.css';
 const MessageDisplay = ({message}) => {
     const date = new Date(message.created_at)
 
+    // <span>{newEmoji?newEmoji.emoji:''}</span>
+
     return (
         <div className={styles.message_wrapper}>
             <div className={styles.message_container}>
@@ -18,7 +20,8 @@ const MessageDisplay = ({message}) => {
                         {date.getTime()}
                     </span>
                     <div className={styles.message_body}>
-                        <pre className={styles.message_body__text}>{message.body}</pre>
+                        <pre className={styles.message_body__text}><p>{message.body}</p></pre>
+
                     </div>
                 </div>
             </div>
