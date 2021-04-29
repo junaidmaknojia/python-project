@@ -3,6 +3,7 @@ from app.models import User, Channel, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
+from app.S3 import upload_file_to_s3, allowed_file, get_unique_filename
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -60,15 +61,31 @@ def sign_up():
     Creates a new user and logs them in
     """
     form = SignUpForm()
+    print(form.data, 'request data')
+    print(request.cookies)
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        url = None
+        if request.files["image"]:
+            print("In if statement")
+            image = request.files["image"]
+            if not allowed_file(image.filename):
+                print('File type not permitted')
+            
+            image.filename = get_unique_filename(image.filename)
+
+            upload = upload_file_to_s3(image)
+            if upload["url"]:
+                url = upload["url"]
+
         glbl = Channel.query.filter(Channel.type == 'g').first()
         user = User(
             first_name=form.data['firstName'],
             last_name=form.data['lastName'],
             username=form.data['username'],
             email=form.data['email'],
-            password=form.data['password']
+            password=form.data['password'],
+            picture_url=url
         )
         glbl.users.append(user)
         db.session.add(user)
