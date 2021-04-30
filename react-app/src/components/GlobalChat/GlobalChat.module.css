@@ -1,9 +1,19 @@
+.mainWrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+}
+
 .messageWrapper {
     display:flex;
     flex-direction:column-reverse;
-    height:500px;
+    min-height: 0px;
+    /* height:250px; */
     overflow:hidden;
     overflow-y: scroll;
+    flex: 1;
 }
 
 .sendMessageBar{
@@ -13,6 +23,7 @@
     border: solid gray 1px;
     font-weight: 400;
     margin: 15px;
+    height: 150px;
 }
 
 .writeTextBox {
@@ -21,15 +32,32 @@
     flex: 1;
     min-width: 0;
     border: none;
-    max-height: 400px;
     resize: none;
+}
+.textEditorDiv {
+    display: flex;
+    flex-direction: column-reverse;
+}
+.wrapperClass {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.editorClassName {
+
+}
+.toolbarClass {
 }
 
 .sendMessageButton {
-    display: flex;
+    justify-content: flex-start;
     border: none;
     height: 32px;
     width: 32px;
-    align-self: flex-end;
     margin: 4px;
+    background-color: #007A5A;
+}
+
+.sendMessageButton:disabled {
+    background-color: white;
 }

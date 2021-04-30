@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
+import DOMPurify from 'dompurify';
 import styles from './MessageDisplay.module.css';
 
 const MessageDisplay = ({message}) => {
     const date = new Date(message.created_at)
+    const createMarkup = (html) => {
+        return {
+            __html: DOMPurify.sanitize(html)
+        }
+    }
 
     return (
         <div className={styles.message_wrapper}>
@@ -14,11 +20,20 @@ const MessageDisplay = ({message}) => {
                     <span className={styles.author_name}>
                         {message.user.username}
                     </span>
-                    <span className={styles.message_timestamp}>
+                    <span className={styles.message_timestamp}
+                    >
                         {date.getTime()}
                     </span>
-                    <div className={styles.message_body}>
-                        <pre className={styles.message_body__text}>{message.body}</pre>
+                    {/* <div className={styles.message_body}>
+                        <pre className={styles.message_body__text}
+                        ><p>{message.body}</p></pre>
+                        </div> */}
+                    <div>
+                    <pre
+                    dangerouslySetInnerHTML={createMarkup(message.body)}
+                    >
+                    </pre>
+
                     </div>
                 </div>
             </div>
