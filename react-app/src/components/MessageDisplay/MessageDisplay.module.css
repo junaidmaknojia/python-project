@@ -5,6 +5,10 @@
     background-color: rgba(248, 249, 248, 240);
 }
 
+.message_wrapper:hover .menuWrapper {
+    visibility: visible;
+}
+
 .message_container {
     display: flex;
     flex-direction: row;
@@ -50,4 +54,13 @@
 }
 .message_body_text {
     word-wrap: break-word;
+}
+
+.menuWrapper {
+    width: auto;
+    height: auto;
+    position: relative;
+    left: 95%;
+    top: -20px;
+    visibility: hidden;
 }

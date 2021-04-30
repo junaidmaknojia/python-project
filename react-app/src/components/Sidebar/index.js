@@ -14,15 +14,13 @@ export default function Sidebar(){
     const channelId = useParams().id;
     const dispatch = useDispatch();
 
-    const [newChannel, setNewChannel] = useState();
     const user = useSelector(state => state.session.user);
     const myComms = useSelector(state => state.channels.channels)
     const myChannels = myComms.channel.filter(ch => ch.type === "ch");
     const myDMs = myComms.channel.filter(ch => ch.type === "dm");
     myDMs.forEach(dm => {
         const nameArray = dm.title.split(",");
-        const splitpoint = nameArray.indexOf(user.username);
-        dm.title = nameArray.slice(splitpoint).concat(nameArray.slice(splitpoint, nameArray.length)).join(", ");
+        dm.title = nameArray.filter(name => name !== user.username).join(", ");
     });
     const currChannel = useSelector(state => state.channels.current);
 
@@ -33,15 +31,6 @@ export default function Sidebar(){
     // useEffect(() => {
     //     dispatch(userChannels())
     // }, [dispatch])
-
-    async function submitNewChannel(e){
-        e.preventDefault();
-        const submitChannel = {title: newChannel, type: "ch", user_id: user.id};
-        const freshChannel = await dispatch(makeChannel(submitChannel));
-        // socket.emit("leave_room", {name: user.username, room: currChannel.title}) #this needs to be commented in when we have routes working
-        socket.emit("join_room", {name: user.username, room: freshChannel.title})
-        history.push(`/channels/${freshChannel.id}`)
-    }
 
     async function channelClick(e){
         const clickedChannelId = e.target.id;
@@ -71,7 +60,7 @@ export default function Sidebar(){
                             className="channel__title"
                             onClick={channelClick}>
                             <NavLink to={`/channels/${channel.id}`}>
-                            {channel.title}
+                                {channel.title}
                             </NavLink>
                         </div>
                     ))
@@ -85,8 +74,11 @@ export default function Sidebar(){
                 {myDMs && (
                     myDMs.map(dm => (
                         <div key={dm.id}
-                        id={dm.id}
-                        className="dm__title"
+                            // id={dm.id}
+                            // className="dm__title"
+                            // onClick={channelClick}
+                            id={dm.id}
+                            className="dm__title"
                         ><NavLink to={`/channels/${dm.id}`}>{dm.title}</NavLink></div>
                     ))
                 )}

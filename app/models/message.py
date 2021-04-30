@@ -13,6 +13,7 @@ class Message(db.Model):
     updated_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
     channel = db.relationship("Channel", back_populates="messages")
     user = db.relationship("User", back_populates="messages")
+    reactions = db.relationship("Reaction", back_populates="message")
 
     def to_dict(self):
         return {
@@ -24,5 +25,6 @@ class Message(db.Model):
             "user": {
                 "username": self.user.username,
                 "picture_url": self.user.picture_url,
-            }
+            },
+            "reactions": [reaction.to_dict() for reaction in self.reactions]
         }
