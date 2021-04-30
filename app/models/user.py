@@ -13,14 +13,22 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    picture_url = db.Column(db.String(255), nullable=False, default='https://i.imgur.com/tdi3NGa.jpg')
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
-    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
+    picture_url = db.Column(db.String(255), nullable=False,
+                            default='https://i.imgur.com/tdi3NGa.jpg')
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(), nullable=False)
+    updated_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(), nullable=False)
     my_channels = db.relationship("Channel", back_populates="owner")
     messages = db.relationship("Message", back_populates="user")
     # back_populates references the variable user in message.py, not the "User"
+<<<<<<< HEAD
     channels = db.relationship("Channel", secondary="channel_users", back_populates="users")
     reactions = db.relationship("Reaction", back_populates="user")
+=======
+    channels = db.relationship(
+        "Channel", secondary="channel_users", back_populates="users")
+>>>>>>> main
 
     @property
     def password(self):

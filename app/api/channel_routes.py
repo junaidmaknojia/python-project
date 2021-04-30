@@ -9,7 +9,7 @@ channel_routes = Blueprint('channel', __name__)
 def get_channels():
     user = User.query.filter(User.id == current_user.id).one()
     channel_collection = user.channels
-    channels = { "channel": list(map(lambda ch: ch.to_dict(), channel_collection)) }
+    channels = {"channel": list(map(lambda ch: ch.to_dict(), channel_collection))}
     return channels
 
 
@@ -22,7 +22,6 @@ def add_channel():
     db.session.add(channel)
     db.session.commit()
     return channel.to_dict()
-
 
 
 @channel_routes.route("/join", methods=["POST"])
@@ -39,16 +38,30 @@ def join_channel():
 
 @channel_routes.route("/dm", methods=["POST"])
 def create_DM():
+    # data = request.json
+    # otherUserId = data["otherUserId"]
+    # user_id = data["user_id"]
+    # otherUser = User.query.filter(User.id == otherUserId).one()
+    # currUser = User.query.filter(User.id == user_id).one()
+    # title = f"{currUser.username},{otherUser.username}"
+    # package = {"type": "dm", "title": title, "user_id": user_id}
+    # newDM = Channel(**package)
+    # newDM.users.append(otherUser)
+    # newDM.users.append(currUser)
+    # db.session.add(newDM)
+    # db.session.commit()
+
     data = request.json
-    otherUserId = data["otherUserId"]
-    user_id = data["user_id"]
-    otherUser = User.query.filter(User.id == otherUserId).one()
-    currUser = User.query.filter(User.id == user_id).one()
-    title = f"{currUser.username},{otherUser.username}"
-    package = {"type": "dm", "title": title, "user_id": user_id}
+    currUser = current_user.to_dict()
+    otherUsers = data["otherUsers"]
+    otherUsers.append(currUser)
+    usersList = list([user["username"] for user in otherUsers])
+    title = ",".join(usersList)
+    package = {"type": "dm", "title": title, "user_id": currUser["id"]}
     newDM = Channel(**package)
-    newDM.users.append(otherUser)
-    newDM.users.append(currUser)
+    for user in otherUsers:
+        found_user = User.query.filter(User.id == user["id"]).one()
+        newDM.users.append(found_user)
     db.session.add(newDM)
     db.session.commit()
     return newDM.to_dict()
@@ -60,3 +73,11 @@ def get_all_channels():
     allChannels = {"channel": list(
         map(lambda ch: ch.to_dict(), channelList))}
     return allChannels
+
+
+@channel_routes.route("/allDMs")
+def get_all_dms():
+    dms_list = Channel.query.filter(Channel.type == "dm").all()
+    allDMs = {"dms": list(
+        map(lambda ch: ch.to_dict(), dms_list))}
+    return allDMs

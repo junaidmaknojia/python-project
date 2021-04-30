@@ -12,3 +12,13 @@ def add_user_to_channel(channel_id, user_id):
     channel.users.append(user)
     db.session.commit()
     return channel.to_dict()
+
+
+@channel_users_routes.route('/leave', methods=['POST'])
+def leave_channel():
+    data = request.json
+    user = User.query.filter(User.id == data["user_id"]).one()
+    channel = Channel.query.filter(Channel.id == data["channelId"]).one()
+    channel.users.remove(user)
+    db.session.commit()
+    return channel.to_dict()
