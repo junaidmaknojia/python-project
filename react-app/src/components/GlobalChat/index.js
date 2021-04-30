@@ -53,7 +53,8 @@ const GlobalChat = ({ pastMessages }) => {
   }
 
   useEffect(()=> {
-    setNewMessage(newMessage + emoji)
+
+    if (emoji) setNewMessage(newMessage + emoji)
   }, [emoji])
 
   return (

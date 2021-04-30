@@ -12,6 +12,7 @@ from .api.auth_routes import auth_routes
 from .api.channel_routes import channel_routes
 from .api.message_routes import message_routes
 from .api.channel_users_routes import channel_users_routes
+from .api.reaction_routes import reaction_routes
 
 from .seeds import seed_commands
 
@@ -50,6 +51,7 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(channel_routes, url_prefix='/api/channel')
 app.register_blueprint(message_routes, url_prefix='/api/messages')
 app.register_blueprint(channel_users_routes, url_prefix='/api/channelusers')
+app.register_blueprint(reaction_routes, url_prefix='/api/reaction')
 db.init_app(app)
 Migrate(app, db)
 
