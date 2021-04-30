@@ -7,3 +7,17 @@
 .channels {
     width: inherit;
 }
+
+.directMessages__title {
+    display: flex;
+    flex-flow: row;
+}
+
+.channels__title {
+    display: flex;
+    flex-flow: row;
+}
+
+.navLink {
+    text-decoration: none;
+}
