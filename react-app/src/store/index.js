@@ -2,11 +2,13 @@ import {createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from 'redux-thunk';
 import session from './session'
 import channels from './channels'
+import emoji from './emoji';
 
 
 const rootReducer = combineReducers({
     session,
-    channels
+    channels,
+    emoji
 });
 
 let enhancer;

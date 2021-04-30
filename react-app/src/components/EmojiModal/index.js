@@ -1,20 +1,18 @@
 import React, {useEffect, useState} from "react";
 import Picker from "emoji-picker-react";
 import { overlay, main } from "./EmojiModal.module.css";
+import { setEmoji } from '../../store/emoji';
+import { useDispatch } from 'react-redux';
 
 const EmojiModal = ({ show, setShow }) => {
-  const [ emoji, setEmoji ] = useState(null)
-
+  const dispatch = useDispatch()
   const hideModal = () => {
     setShow(false)
   }
 
-  useEffect(() => {
-    console.log(typeof(emoji?.emoji), "emoji in modal!!!!!!!!!!")
-  }, [emoji])
 
   const onEmojiClick = (event, emojiObject) => {
-    setEmoji(emojiObject)
+    dispatch(setEmoji(emojiObject.emoji))
   }
 
   if (!show) return null;

@@ -15,6 +15,7 @@ export const socket = io(endPoint);
 const GlobalChat = ({ pastMessages }) => {
   const user = useSelector(state => state.session.user);
   const currentChannel = useSelector(state => state.channels.current)
+  const emoji = useSelector(state => state.emoji.emoji)
   const [ show, setShow ] = useState(false);
   const channel_id = currentChannel.id
   const [ messages, setMessages ] = useState([]);
@@ -51,6 +52,9 @@ const GlobalChat = ({ pastMessages }) => {
     setShow(true);
   }
 
+  useEffect(()=> {
+    setNewMessage(newMessage + emoji)
+  }, [emoji])
 
   return (
     <div className={styles.main}>
