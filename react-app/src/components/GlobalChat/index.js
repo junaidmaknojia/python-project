@@ -85,9 +85,9 @@ const GlobalChat = ({ pastMessages }) => {
           <MessageDisplay message={data} key={i} />
           ))}
       </div>
+      <div className={styles.flexrow}>
       <div className={styles.flexWrapper}>
         <div className={styles.textEditorDiv}>
-            <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'} onClick={sendMessage}>{"=>"}</button>
             <Editor editorState={editorState}
             onEditorStateChange={handleEditorChange}
             wrapperClassName={styles.wrapperClass}
@@ -97,6 +97,16 @@ const GlobalChat = ({ pastMessages }) => {
             placeholder={`   Message ${currentChannel.title}`}
             onChange={e => setNewMessage(convertedContent)}
             />
+        </div>
+      </div>
+        <div className={styles.fakeInputDiv}>
+          <div className={styles.emptyDiv}>
+  
+          </div>
+          <div className={styles.buttonCenter}>
+            <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'} 
+            onClick={sendMessage}>{"=>"}</button>
+          </div>
         </div>
       </div>
     </div>
