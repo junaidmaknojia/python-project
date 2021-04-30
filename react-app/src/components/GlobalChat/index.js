@@ -64,7 +64,7 @@ const GlobalChat = ({ pastMessages }) => {
         <textarea placeholder={`Message ${currentChannel.title}`} value={newMessage} className={styles.writeTextBox} name="message" onChange={e => setNewMessage(e.target.value)}/>
         <EmojiModal show={show} setShow={setShow}/>
       <button className={"emoji"} onClick={showModal}>emoji</button>
-      <button className={styles.sendMessageButton} onClick={sendMessage}>=></button>
+      <button className={styles.sendMessageButton} onClick={sendMessage}>{'=>'}</button>
       </div>
     </div>
   )

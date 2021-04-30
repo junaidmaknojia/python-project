@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {useHistory, useParams} from "react-router-dom";
-import { listChannels, listDMs, makeChannel, joinChannel, leaveChannel, createDM } from "../../store/channels";
+import { applyMiddleware } from "redux";
+import { listChannels, listDMs, makeChannel, joinChannel, leaveChannel, createDM, userChannels } from "../../store/channels";
 import { listUsers } from "../../store/session";
 import { socket } from "../GlobalChat";
 
@@ -46,21 +47,20 @@ export default function NewChannelorDM() {
         history.push(`/channels/${freshChannel.id}`);
     }
 
-    async function handleJoin(e, type, tempId){
-        if(type === "ch"){
-            await dispatch(joinChannel({channelId: tempId, user_id: user.id}));
-            //Need to redirect to that channel
-        } else {
-            await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
-            //Need to redirect to that chat
-        }
+    async function joinDm(){
+        await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
+        //Need to redirect to that chat
+    }
+
+    const joinCh = async(e, channel) => {
+        await dispatch(joinChannel({channelId: channel.id, user_id: user.id}));
     }
 
     function addUserToList(user){
         if(!addedUsers.includes(user)){
             addedUsers.push(user);
             setAddedUsers(addedUsers);
-            console.log(addedUsers);
+
         }
     }
 
@@ -73,7 +73,20 @@ export default function NewChannelorDM() {
 
         if(window.confirm(`Are you sure you want to leave ${channel.title}?`)){
             await dispatch(leaveChannel({channelId: channel.id, user_id: user.id}));
+            e.target.innerText = "Join";
         }
+    }
+
+    const handleClick = (e, channel) => {
+        switch (e.target.innerText) {
+            case "Leave":
+                handleLeave(e, channel);
+
+            case "Join":
+                joinCh(e, channel);
+                e.target.innerText = "Leave";
+        }
+
     }
 
     if(type === "ch"){
@@ -92,13 +105,16 @@ export default function NewChannelorDM() {
                     <button type="submit">Create</button>
                 </form>
                 <div>
-                    {allChannels?.map(channel => (
+                    {allChannels?.map((channel, i) => {
+
+
+                        return (
                         <div id={channel.id}>
                             <p>{channel.title}</p>
-                            <button disabled={!userInChannel(channel.id)} onClick={e => handleLeave(e, channel)}>Leave</button>
-                            <button disabled={userInChannel(channel.id)} onClick={e => handleJoin(e, "ch", channel.id)}>Join</button>
+                            <button  key={i} onClick={e=>handleClick(e, channel)}>{userInChannel(channel.id)?"Leave":"Join"}</button>
                         </div>
-                    ))}
+                        )
+                    })}
                 </div>
             </>
         );
@@ -115,7 +131,7 @@ export default function NewChannelorDM() {
                         <div>{user.username}</div>
                     ))}
                     {/* {addedUsers.length > 0 && (<button onClick={e => handleJoin(e, "dm", user.id)}>Create Chat</button>)} */}
-                    <button onClick={e => handleJoin(e, "dm", user.id)}>Create Chat</button>
+                    <button onClick={joinDm}>Create Chat</button>
                 </div>
                 <div>
                     {allUsers?.map(user => (
