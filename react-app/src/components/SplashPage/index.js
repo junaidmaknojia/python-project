@@ -9,7 +9,6 @@ const SplashPage = () => {
         <div className={styles.splashWrapper}>
             <div className={styles.splashContainer}>
                 <section>
-
                 <div className={styles.splashHeader}>
                     <span className={styles.splashLogo}>
                         <img className={styles.splashLogoImg} src={logo} />
@@ -29,12 +28,30 @@ const SplashPage = () => {
                 </div>
                 </section>
 
-                {/* <div className={styles.contentContainer}>
-                    <h1>"Sn4ck makes it "
-                        <span className={styles.hightlightText}>downright delicious</span>
-                        " to work together"
+                <div className={styles.contentContainer}>
+                    <h1 className={styles.contentText}>Sn4ck makes it 
+                        <span className={styles.highlightText}> downright delicious </span>
+                        to work together
                     </h1>
-                </div> */}
+                </div>
+                <div className={styles.midButtonContainer}>
+                    <button className={styles.demoButton}>TRY FOR FREE</button>
+                </div>
+                <div className={styles.exampleChat}>
+                    <div className={styles.exampleTopBar}>
+                        <div className={styles.exampleTopBarButtons}>
+                            <div className={styles.exampleRedButton}></div>
+                            <div className={styles.exampleYellowButton}></div>
+                            <div className={styles.exampleGreenButton}></div>
+                        </div>
+                        <div className={styles.exampleChatContainer}>
+                            <div className={styles.exampleSideBar} />
+                            <div className={styles.exampleChatWindow}>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )
