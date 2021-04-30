@@ -16,6 +16,7 @@ const MessageDisplay = ({message}) => {
         hours = hours ? hours: 12
         minutes = minutes < 10 ? '0' + minutes: minutes;
         return `${hours}:${minutes} ${ampm}`
+    }
 
     const [ show, setShow ] = useState(false);
 
@@ -47,7 +48,7 @@ const MessageDisplay = ({message}) => {
                     </span>
 
                     <span className={styles.message_timestamp}>
-
+                        {formattedTime()}
                     </span>
 
                     <div className={styles.message_body}>
