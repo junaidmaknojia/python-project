@@ -45,13 +45,15 @@ export default function Sidebar(){
     }
 
     return (
-        <div className="sideBar">
+        <div className="sideBar" style={{marginLeft: 5}}>
             <div className="sectionTitles">
             </div>
             <div className="channels" onClick={channelClick}>
-                <p>Channels</p>
-                <div>
-                    <NavLink to={`/form/${channelId}/ch`}>+</NavLink>
+                <div className="channels__title">
+                    <p>Channels</p>
+                    <p>
+                        <NavLink className="navLink" to={`/form/${channelId}/ch`}>+</NavLink>
+                    </p>
                 </div>
                 {myChannels && (
                     myChannels.map(channel => (
@@ -59,7 +61,7 @@ export default function Sidebar(){
                             id={channel.id}
                             className="channel__title"
                             onClick={channelClick}>
-                            <NavLink to={`/channels/${channel.id}`}>
+                            <NavLink className="navLink" to={`/channels/${channel.id}`}>
                                 {channel.title}
                             </NavLink>
                         </div>
@@ -67,9 +69,11 @@ export default function Sidebar(){
                 )}
             </div>
             <div className="directMessages">
-                <p>Direct Messages</p>
-                <div onClick={changeForm}>
-                    <NavLink to={`/form/${channelId}/dm`}>+</NavLink>
+                <div className="directMessages__title">
+                    <p>Direct Messages</p>
+                    <p onClick={changeForm}>
+                        <NavLink className="navLink" to={`/form/${channelId}/dm`}>+</NavLink>
+                    </p>
                 </div>
                 {myDMs && (
                     myDMs.map(dm => (
@@ -79,7 +83,7 @@ export default function Sidebar(){
                             // onClick={channelClick}
                             id={dm.id}
                             className="dm__title"
-                        ><NavLink to={`/channels/${dm.id}`}>{dm.title}</NavLink></div>
+                        ><NavLink className="navLink" to={`/channels/${dm.id}`}>{dm.title}</NavLink></div>
                     ))
                 )}
             </div>

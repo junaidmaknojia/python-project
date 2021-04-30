@@ -102,6 +102,7 @@ export const createDM = (payload) => async (dispatch) => {
 	});
 
 	const newDM = await response.json();
+	dispatch(addChannel(newDM.dm))
 	return newDM.dm;
 }
 
