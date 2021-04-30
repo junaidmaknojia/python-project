@@ -25,5 +25,6 @@ class Message(db.Model):
             "user": {
                 "username": self.user.username,
                 "picture_url": self.user.picture_url,
-            }
+            },
+            "reactions": [reaction.to_dict() for reaction in self.reactions]
         }
