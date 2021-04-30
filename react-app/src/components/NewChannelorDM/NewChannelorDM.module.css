@@ -1,0 +1,6 @@
+.mainScroller {
+  height: 500px;
+  width: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+}
