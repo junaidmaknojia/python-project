@@ -123,6 +123,7 @@ export default function NewChannelorDM() {
         await dispatch(joinChannel({channelId: channel.id, user_id: user.id}));
         await dispatch(userChannels());
     }
+
     function userInChannel(id){
         const foundChannel = myChannels.channel.find(ch => ch.id === id);
         return foundChannel ? true : false;
