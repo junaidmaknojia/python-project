@@ -89,15 +89,18 @@ export default function NewChannelorDM() {
         }
     }
 
+
     async function joinDm(){
         const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
         history.push(`/channels/${currChannel.id}`);
+
     }
 
     const joinCh = async(e, channel) => {
         await dispatch(joinChannel({channelId: channel.id, user_id: user.id}));
         await dispatch(userChannels());
     }
+
 
     function userInChannel(id){
         const foundChannel = myChannels.channel.find(ch => ch.id === id);
@@ -159,12 +162,13 @@ export default function NewChannelorDM() {
             <div className={mainScroller}>
                 <h2>All Users</h2>
                 <div>
+
                     <div>
                         {addedUsers?.map(user => (
                             <div>{user.username}<i class="far fa-times-circle" onClick={e => removeUserFromList(user)}></i></div>
                         ))}
                     </div>
-                    <button onClick={joinDm}>Create Chat</button>
+                   <button onClick={joinDm}>Create Chat</button>
 
                 </div>
                 <div>

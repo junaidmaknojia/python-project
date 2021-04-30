@@ -1,19 +1,16 @@
 .mainWrapper {
     display: flex;
     flex-direction: column;
-    flex: 1;
-    min-height: 0;
     height: 100%;
 }
 
 .messageWrapper {
     display:flex;
     flex-direction:column-reverse;
-    min-height: 0px;
     /* height:250px; */
-    overflow:hidden;
+    overflow: hidden;
     overflow-y: scroll;
-    flex: 1;
+    height: 500px;
 }
 
 .sendMessageBar{
@@ -35,30 +32,85 @@
     resize: none;
 }
 .textEditorDiv {
+    background-color: #FFFFFF;
     display: flex;
-    flex-direction: column-reverse;
+    width: 90%;
+    min-height: 150px;
+    flex-direction: column;
 }
+
+
+
 .wrapperClass {
     display: flex;
     flex-direction: column-reverse;
+    background-color: #FFF;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    border-radius: 4px 0px 0px 4px;
 }
 
-/* .editorClassName {
 
+.editorClassName {
+    background-color: #FFF;
 }
 .toolbarClass {
-} */
+    background-color: whitesmoke;
+    margin-bottom: 0;
+}
 
 .sendMessageButton {
     justify-content: flex-start;
     border: none;
     height: 32px;
     width: 32px;
-    margin: 4px;
     background-color: #007A5A;
+    border-radius: 4px 4px 4px 4px;
+    margin-right: 10px;
 }
 
 
 .sendMessageButton:disabled {
     background-color: white;
+    margin-right: 10px;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.flexWrapper {
+    width: 90%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.flexrow {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.fakeInputDiv {
+    display: flex;
+    height: 96px;
+    flex-direction: column;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-radius: 0px 4px 4px 0px;
+}
+
+.emptyDiv {
+    background-color: #FFF;
+    height: 50px;
+    border-top-right-radius: 4px;
+}
+
+.buttonCenter {
+    display: flex;
+    height: 46px;
+    background-color: whitesmoke;
+    justify-content: center;
+    align-items: center;
+    border-bottom-right-radius: 4px;
 }
