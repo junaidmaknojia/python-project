@@ -78,6 +78,18 @@ const GlobalChat = ({ pastMessages }) => {
 
   return (
     <div className={styles.mainWrapper}>
+        <div className={styles.textEditorDiv}>
+          <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'} onClick={sendMessage}>{"=>"}</button>
+          <Editor editorState={editorState}
+          onEditorStateChange={handleEditorChange}
+          wrapperClassName={styles.wrapperClass}
+          editorClassName={styles.editorClass}
+          toolbarClassName={styles.toolbarClass}l
+          value={newMessage}
+          placeholder={`   Message ${currentChannel.title}`}
+          onChange={e => setNewMessage(convertedContent)}
+          />
+      </div>
       <div className={styles.messageWrapper}>
       {messages.length > 0 &&
         messages.map((data, i) => (
@@ -87,18 +99,8 @@ const GlobalChat = ({ pastMessages }) => {
         {/*<EmojiModal show={show} setShow={setShow}/>
       <button className={"emoji"} onClick={showModal}>emoji</button>*/}
 
-      <div className={styles.textEditorDiv}>
-        <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'} onClick={sendMessage}>{"=>"}</button>
-        <Editor editorState={editorState}
-        onEditorStateChange={handleEditorChange}
-        wrapperClassName={styles.wrapperClass}
-        editorClassName={styles.editorClass}
-        toolbarClassName={styles.toolbarClass}l
-        value={newMessage}
-        placeholder={`   Message ${currentChannel.title}`}
-        onChange={e => setNewMessage(convertedContent)}
-        />
-      </div>
+
+
     </div>
   )
 }
