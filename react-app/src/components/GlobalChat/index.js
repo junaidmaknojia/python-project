@@ -3,6 +3,10 @@ import { useSelector } from "react-redux";
 import io from "socket.io-client";
 import MessageDisplay from '../MessageDisplay';
 import EmojiModal from '../EmojiModal';
+import { EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg'
+import { convertToHTML } from 'draft-convert';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from './GlobalChat.module.css';
 
 // need user instance (info: url, name)
@@ -20,6 +24,19 @@ const GlobalChat = ({ pastMessages }) => {
   const channel_id = currentChannel.id
   const [ messages, setMessages ] = useState([]);
   const [ newMessage, setNewMessage ] = useState('');
+  const [editorState, setEditorState] = useState(
+    () => EditorState.createEmpty(),
+  )
+  const [convertedContent, setConvertedContent] = useState(null);
+  const handleEditorChange = (state) => {
+    console.log(newMessage)
+    setEditorState(state);
+    convertContentToHTML();
+  }
+  const convertContentToHTML = () => {
+    let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+    setConvertedContent(currentContentAsHTML);
+  }
 
   socket.on("message", data => {
     setMessages([data, ...messages]);
@@ -37,6 +54,8 @@ const GlobalChat = ({ pastMessages }) => {
           picture_url: user.picture_url
         }
       });
+      setEditorState(() => EditorState.createEmpty())
+      console.log(EditorState)
       setNewMessage('')
     } else {
       alert("your dumb");
@@ -58,18 +77,28 @@ const GlobalChat = ({ pastMessages }) => {
   }, [emoji])
 
   return (
-    <div className={styles.main}>
+    <div className={styles.mainWrapper}>
       <div className={styles.messageWrapper}>
       {messages.length > 0 &&
         messages.map((data, i) => (
           <MessageDisplay message={data} key={i} />
           ))}
       </div>
-      <div className={styles.sendMessageBar}>
-        <textarea placeholder={`Message ${currentChannel.title}`} value={newMessage} className={styles.writeTextBox} name="message" onChange={e => setNewMessage(e.target.value)}/>
-        <EmojiModal show={show} setShow={setShow}/>
-      <button className={"emoji"} onClick={showModal}>emoji</button>
-      <button className={styles.sendMessageButton} onClick={sendMessage}>{'=>'}</button>
+        {/*<EmojiModal show={show} setShow={setShow}/>
+      <button className={"emoji"} onClick={showModal}>emoji</button>*/}
+
+      <div className={styles.textEditorDiv}>
+        <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'} onClick={sendMessage}>=></button>
+        <Editor editorState={editorState}
+        onEditorStateChange={handleEditorChange}
+        wrapperClassName={styles.wrapperClass}
+        editorClassName={styles.editorClass}
+        toolbarClassName={styles.toolbarClass}l
+        value={newMessage}
+        placeholder={`   Message ${currentChannel.title}`}
+        onChange={e => setNewMessage(convertedContent)}
+        />
+      </div>
       </div>
     </div>
   )

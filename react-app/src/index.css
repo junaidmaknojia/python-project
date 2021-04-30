@@ -17,3 +17,14 @@ body {
   padding: 0;
   margin: 0;
 }
+
+.rdw-editor-wrapper .rdw-text-align-wrapper, 
+.rdw-editor-wrapper .rdw-fontsize-wrapper, 
+.rdw-editor-wrapper .rdw-option-disabled,
+.rdw-editor-wrapper .rdw-fontfamily-wrapper,
+.rdw-editor-wrapper .rdw-colorpicker-wrapper,
+.rdw-editor-wrapper .rdw-embedded-wrapper,
+.rdw-editor-wrapper .rdw-remove-wrapper,
+.rdw-editor-wrapper .rdw-block-wrapper    {
+    display: none;
+}
