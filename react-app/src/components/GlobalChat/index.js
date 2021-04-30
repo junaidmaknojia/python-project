@@ -38,7 +38,6 @@ const GlobalChat = ({ pastMessages }) => {
   });
 
   const sendMessage = () => {
-    console.log('sending the message')
     if (newMessage) {
       socket.emit("message", {
         body: newMessage,
@@ -50,7 +49,7 @@ const GlobalChat = ({ pastMessages }) => {
           picture_url: user.picture_url
         }
       });
-      setConvertedContent('')
+      setEditorState()
       setNewMessage('')
     } else {
       alert("your dumb");
