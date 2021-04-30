@@ -99,28 +99,25 @@ export default function NewChannelorDM() {
         if(!addedUsers.includes(clickedUser)){
             setAddedUsers([...addedUsers, clickedUser]);
         }
-        }
+    }
 
     async function joinDm(){
         const foundDM = await dmExists();
-            if(foundDM){
-                console.log("existing group");
-                // Redirect to that dm group
-                history.push(`/channels/${foundDM.id}`);
-            } else {
-                console.log("new dm group");
-                const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
-                history.push(`/channels/${newDM.id}`);
-            }        
+        if(foundDM){
+            console.log("existing group");
+            // Redirect to that dm group
+            history.push(`/channels/${foundDM.id}`);
+        } else {
+            console.log("new dm group");
+            const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
+            history.push(`/channels/${newDM.id}`);
+        }
     }
 
     const joinCh = async(e, channel) => {
         await dispatch(joinChannel({channelId: channel.id, user_id: user.id}));
         await dispatch(userChannels());
     }
-
-
-
 
     function userInChannel(id){
         const foundChannel = myChannels.channel.find(ch => ch.id === id);
@@ -188,7 +185,7 @@ export default function NewChannelorDM() {
                     {addedUsers?.map(user => (
                         <div>{user.username}</div>
                     ))}
-                   
+
                     <button onClick={joinDm}>Create Chat</button>
 
                 </div>
