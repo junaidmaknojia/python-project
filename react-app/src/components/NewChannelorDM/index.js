@@ -78,7 +78,7 @@ export default function NewChannelorDM() {
 
     async function dmExists(){
         const allDMs = await listDMs();
-        const sortedAddedUsers = addedUsers.sort((obj1, obj2) => obj1.id - obj2.id);
+        const sortedAddedUsers = [...addedUsers].sort((obj1, obj2) => obj1.id - obj2.id);
         sortedAddedUsers.unshift(user); // adding session user to match the DMs
         const hermes = allDMs.find(dm => {
             if(dm.users.length === (sortedAddedUsers.length)){
@@ -93,6 +93,11 @@ export default function NewChannelorDM() {
             return false;
         });
         return hermes;
+    }
+
+    function removeUserFromList(clickedUser){
+        const updatedUsersList = [...addedUsers].filter(user => user.id !== clickedUser.id);
+        setAddedUsers(updatedUsersList);
     }
 
     function addUserToList(clickedUser){
@@ -178,13 +183,11 @@ export default function NewChannelorDM() {
             <div className={mainScroller}>
                 <h2>All Users</h2>
                 <div>
-                    {/* {addedUsers?.length > 0 && (addedUsers?.map(user => (
-                        <div>{user.username}</div>
-                    )))} */}
-                    {addedUsers?.map(user => (
-                        <div>{user.username}</div>
-                    ))}
-
+                    <div>
+                        {addedUsers?.map(user => (
+                            <div>{user.username}<i class="far fa-times-circle" onClick={e => removeUserFromList(user)}></i></div>
+                        ))}
+                    </div>
                     <button onClick={joinDm}>Create Chat</button>
 
                 </div>
