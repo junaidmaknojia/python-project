@@ -2,7 +2,7 @@
     padding: 8px 20px;
 }
 .message_wrapper:hover {
-    background-color: rgba(240, 240, 240, 240);
+    background-color: rgba(248, 249, 248, 240);
 }
 
 .message_container {
@@ -11,12 +11,13 @@
 }
 
 .author_image {
-    margin: 8px;
+    margin-right:12px;
 }
 
 .author_avatar {
     height: 36px;
     width: 36px;
+    object-fit: cover;
 }
 
 .author_name {
@@ -36,6 +37,7 @@
 
 
 .message_timestamp {
+    margin-left: 5px;
     font-size: 12px;
     color: rgba(97, 96, 97, 1);
     font-weight: 400;
