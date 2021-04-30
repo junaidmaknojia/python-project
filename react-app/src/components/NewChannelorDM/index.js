@@ -2,9 +2,18 @@ import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {useHistory, useParams} from "react-router-dom";
 import { applyMiddleware } from "redux";
-import { listChannels, listDMs, makeChannel, joinChannel, leaveChannel, createDM, userChannels } from "../../store/channels";
 import { listUsers } from "../../store/session";
 import { socket } from "../GlobalChat";
+import {
+    listChannels,
+    listDMs,
+    makeChannel,
+    joinChannel,
+    leaveChannel,
+    createDM,
+    userChannels } from "../../store/channels";
+import { mainScroller } from "./NewChannelorDM.module.css";
+
 
 export default function NewChannelorDM() {
     const history = useHistory();
@@ -54,6 +63,7 @@ export default function NewChannelorDM() {
 
     const joinCh = async(e, channel) => {
         await dispatch(joinChannel({channelId: channel.id, user_id: user.id}));
+        await dispatch(userChannels());
     }
 
     function addUserToList(user){
@@ -73,6 +83,7 @@ export default function NewChannelorDM() {
 
         if(window.confirm(`Are you sure you want to leave ${channel.title}?`)){
             await dispatch(leaveChannel({channelId: channel.id, user_id: user.id}));
+            await dispatch(userChannels())
             e.target.innerText = "Join";
         }
     }
@@ -91,7 +102,7 @@ export default function NewChannelorDM() {
 
     if(type === "ch"){
         display = (
-            <>
+            <div>
                 <h2>All Channels</h2>
                 <form onSubmit={submitNewChannel}>
                     <h3>Create new channel</h3>
@@ -104,7 +115,7 @@ export default function NewChannelorDM() {
                     />
                     <button type="submit">Create</button>
                 </form>
-                <div>
+                <div className={mainScroller}>
                     {allChannels?.map((channel, i) => {
 
 
@@ -116,11 +127,11 @@ export default function NewChannelorDM() {
                         )
                     })}
                 </div>
-            </>
+            </div>
         );
     }else {
         display = (
-            <>
+            <div className={mainScroller}>
                 <h2>All Users</h2>
                 <p>(Ones you don't have DMs with already)</p>
                 <div>
@@ -141,7 +152,7 @@ export default function NewChannelorDM() {
                         </div>
                     ))}
                 </div>
-            </>
+            </div>
         );
     }
 
