@@ -88,7 +88,7 @@ const GlobalChat = ({ pastMessages }) => {
       <button className={"emoji"} onClick={showModal}>emoji</button>*/}
 
       <div className={styles.textEditorDiv}>
-        <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'} onClick={sendMessage}>=></button>
+        <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'} onClick={sendMessage}>{"=>"}</button>
         <Editor editorState={editorState}
         onEditorStateChange={handleEditorChange}
         wrapperClassName={styles.wrapperClass}
@@ -98,7 +98,6 @@ const GlobalChat = ({ pastMessages }) => {
         placeholder={`   Message ${currentChannel.title}`}
         onChange={e => setNewMessage(convertedContent)}
         />
-      </div>
       </div>
     </div>
   )
