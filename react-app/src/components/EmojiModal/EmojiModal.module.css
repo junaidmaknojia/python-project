@@ -1,0 +1,16 @@
+.overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  z-index: 101;
+}
+
+.main {
+  position: absolute;
+  bottom: 340px;
+  right: 16px;
+  background-color: transparent;
+}

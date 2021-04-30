@@ -43,11 +43,11 @@
     flex-direction: column-reverse;
 }
 
-.editorClassName {
+/* .editorClassName {
 
 }
 .toolbarClass {
-}
+} */
 
 .sendMessageButton {
     justify-content: flex-start;
@@ -57,6 +57,7 @@
     margin: 4px;
     background-color: #007A5A;
 }
+
 
 .sendMessageButton:disabled {
     background-color: white;

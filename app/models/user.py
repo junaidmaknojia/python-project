@@ -22,8 +22,8 @@ class User(db.Model, UserMixin):
     my_channels = db.relationship("Channel", back_populates="owner")
     messages = db.relationship("Message", back_populates="user")
     # back_populates references the variable user in message.py, not the "User"
-    channels = db.relationship(
-        "Channel", secondary="channel_users", back_populates="users")
+    channels = db.relationship("Channel", secondary="channel_users", back_populates="users")
+    reactions = db.relationship("Reaction", back_populates="user")
 
     @property
     def password(self):
