@@ -25,6 +25,7 @@ const GlobalChat = ({ pastMessages }) => {
   )
   const [convertedContent, setConvertedContent] = useState(null);
   const handleEditorChange = (state) => {
+    console.log(newMessage)
     setEditorState(state);
     convertContentToHTML();
   }
@@ -49,6 +50,8 @@ const GlobalChat = ({ pastMessages }) => {
           picture_url: user.picture_url
         }
       });
+      setEditorState(() => EditorState.createEmpty())
+      console.log(EditorState)
       setNewMessage('')
     } else {
       alert("your dumb");
@@ -72,9 +75,8 @@ const GlobalChat = ({ pastMessages }) => {
       <div className={styles.sendMessageBar}>
         {/* <textarea placeholder={`Message ${currentChannel.title}`} value={newMessage} className={styles.writeTextBox} 
         name="message" onChange={e => setNewMessage(e.target.value)}/> */}
-        {console.log(editorState)}
       <div className={styles.textEditorDiv}>
-        <button className={styles.sendMessageButton}  onClick={sendMessage}>=></button>
+        <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'} onClick={sendMessage}>=></button>
         <Editor editorState={editorState}
         onEditorStateChange={handleEditorChange}
         wrapperClassName={styles.wrapperClass}

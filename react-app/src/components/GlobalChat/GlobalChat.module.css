@@ -55,5 +55,9 @@
     height: 32px;
     width: 32px;
     margin: 4px;
+    background-color: #007A5A;
 }
 
+.sendMessageButton:disabled {
+    background-color: white;
+}
