@@ -98,6 +98,8 @@ export default function NewChannelorDM() {
     function addUserToList(clickedUser){
         if(!addedUsers.includes(clickedUser)){
             setAddedUsers([...addedUsers, clickedUser]);
+        }
+        }
 
     async function joinDm(){
         const foundDM = await dmExists();
@@ -119,8 +121,6 @@ export default function NewChannelorDM() {
 
 
 
-        }
-    }
 
     function userInChannel(id){
         const foundChannel = myChannels.channel.find(ch => ch.id === id);
