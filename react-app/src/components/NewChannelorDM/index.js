@@ -24,14 +24,15 @@ export default function NewChannelorDM() {
             setAllChannels(channelList.channel)
             let userList = await listUsers();
             userList = userList.users;
-            const allDMs = await listDMs();
-            let myUsers = allDMs.filter(dm => dm.users.length === 2).map(dm => dm.users);
-            myUsers = myUsers.flat().filter(us => us.id !== user.id);
-            let hermes = [];
-            userList.forEach(user => {
-                if(!myUsers.find(us => us.username === user.username)) hermes.push(user);
-            });
-            let hermes2 = hermes.filter(us => us.id !== user.id);
+            // const allDMs = await listDMs();
+            // let myUsers = allDMs.filter(dm => dm.users.length === 2).map(dm => dm.users);
+            // myUsers = myUsers.flat().filter(us => us.id !== user.id);
+            // let hermes = [];
+            // userList.forEach(user => {
+            //     if(!myUsers.find(us => us.username === user.username)) hermes.push(user);
+            // });
+            // let hermes2 = hermes.filter(us => us.id !== user.id);
+            let hermes2 = userList.filter(us => us.id !== user.id);
             setAllUsers(hermes2);
             if (allChannels && allUsers) setLoaded(true)
         })()
@@ -49,18 +50,43 @@ export default function NewChannelorDM() {
     async function handleJoin(e, type, tempId){
         if(type === "ch"){
             await dispatch(joinChannel({channelId: tempId, user_id: user.id}));
-            //Need to redirect to that channel
         } else {
-            await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
-            //Need to redirect to that chat
+            const foundDM = await dmExists();
+            if(foundDM){
+                console.log("existing group");
+                // Redirect to that dm group
+                history.push(`/channels/${foundDM.id}`);
+            } else {
+                console.log("new dm group");
+                const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
+                history.push(`/channels/${newDM.id}`);
+            }
         }
     }
 
-    function addUserToList(user){
-        if(!addedUsers.includes(user)){
-            addedUsers.push(user);
+    async function dmExists(){
+        const allDMs = await listDMs();
+        const sortedAddedUsers = addedUsers.sort((obj1, obj2) => obj1.id - obj2.id);
+        sortedAddedUsers.unshift(user);
+        const hermes = allDMs.find(dm => {
+            if(dm.users.length === (sortedAddedUsers.length)){
+                console.log("same length", dm.users);
+                for (let i = 0; i < dm.users.length; i++) {
+                    if(dm.users[i].id !== sortedAddedUsers[i].id){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        });
+        return hermes;
+    }
+
+    function addUserToList(clickedUser){
+        if(!addedUsers.includes(clickedUser)){
+            addedUsers.push(clickedUser);
             setAddedUsers(addedUsers);
-            console.log(addedUsers);
         }
     }
 
@@ -76,62 +102,112 @@ export default function NewChannelorDM() {
         }
     }
 
-    if(type === "ch"){
-        display = (
-            <>
-                <h2>All Channels</h2>
-                <form onSubmit={submitNewChannel}>
-                    <h3>Create new channel</h3>
-                    <input
-                        placeholder="Channel name"
-                        value={newChannelName}
-                        onChange={e => setNewChannelName(e.target.value)}
-                        type="text"
-                        required
-                    />
-                    <button type="submit">Create</button>
-                </form>
-                <div>
-                    {allChannels?.map(channel => (
-                        <div id={channel.id}>
-                            <p>{channel.title}</p>
-                            <button disabled={!userInChannel(channel.id)} onClick={e => handleLeave(e, channel)}>Leave</button>
-                            <button disabled={userInChannel(channel.id)} onClick={e => handleJoin(e, "ch", channel.id)}>Join</button>
-                        </div>
-                    ))}
-                </div>
-            </>
-        );
-    }else {
-        display = (
-            <>
-                <h2>All Users</h2>
-                <p>(Ones you don't have DMs with already)</p>
-                <div>
-                    {/* {addedUsers.length > 0 && (addedUsers.map(user => (
-                        <div>{user.username}</div>
-                    )))} */}
-                    {addedUsers.map(user => (
-                        <div>{user.username}</div>
-                    ))}
-                    {/* {addedUsers.length > 0 && (<button onClick={e => handleJoin(e, "dm", user.id)}>Create Chat</button>)} */}
-                    <button onClick={e => handleJoin(e, "dm", user.id)}>Create Chat</button>
-                </div>
-                <div>
-                    {allUsers?.map(user => (
-                        <div id={user.id}>
-                            <p>{user.username}</p>
-                            <button onClick={e => addUserToList(user)}>Add</button>
-                        </div>
-                    ))}
-                </div>
-            </>
-        );
-    }
+    // if(type === "ch"){
+    //     display = (
+    //         <>
+    //             <h2>All Channels</h2>
+    //             <form onSubmit={submitNewChannel}>
+    //                 <h3>Create new channel</h3>
+    //                 <input
+    //                     placeholder="Channel name"
+    //                     value={newChannelName}
+    //                     onChange={e => setNewChannelName(e.target.value)}
+    //                     type="text"
+    //                     required
+    //                 />
+    //                 <button type="submit">Create</button>
+    //             </form>
+    //             <div>
+    //                 {allChannels?.map(channel => (
+    //                     <div id={channel.id}>
+    //                         <p>{channel.title}</p>
+    //                         <button disabled={!userInChannel(channel.id)} onClick={e => handleLeave(e, channel)}>Leave</button>
+    //                         <button disabled={userInChannel(channel.id)} onClick={e => handleJoin(e, "ch", channel.id)}>Join</button>
+    //                     </div>
+    //                 ))}
+    //             </div>
+    //         </>
+    //     );
+    // }else {
+    //     display = (
+    //         <>
+    //             <h2>All Users</h2>
+    //             <div>
+    //                 {/* {addedUsers.length > 0 && (addedUsers.map(user => (
+    //                     <div>{user.username}</div>
+    //                 )))} */}
+    //                 {addedUsers.map(user => (
+    //                     <div>{user.username}</div>
+    //                 ))}
+    //                 {/* {addedUsers.length > 0 && (<button onClick={e => handleJoin(e, "dm", user.id)}>Create Chat</button>)} */}
+    //                 <button onClick={e => handleJoin(e, "dm", user.id)}>Create Chat</button>
+    //             </div>
+    //             <div>
+    //                 {allUsers?.map(user => (
+    //                     <div id={user.id}>
+    //                         <p>{user.username}</p>
+    //                         <button onClick={e => addUserToList(user)}>Add</button>
+    //                     </div>
+    //                 ))}
+    //             </div>
+    //         </>
+    //     );
+    // }
 
     return (
         <>
-            {loaded && display}
+            {loaded && (
+                <>
+                    {(type === "ch") && (
+                        <>
+                            <h2>All Channels</h2>
+                            <form onSubmit={submitNewChannel}>
+                                <h3>Create new channel</h3>
+                                <input
+                                    placeholder="Channel name"
+                                    value={newChannelName}
+                                    onChange={e => setNewChannelName(e.target.value)}
+                                    type="text"
+                                    required
+                                />
+                                <button type="submit">Create</button>
+                            </form>
+                            <div>
+                                {allChannels?.map(channel => (
+                                    <div id={channel.id}>
+                                        <p>{channel.title}</p>
+                                        <button disabled={!userInChannel(channel.id)} onClick={e => handleLeave(e, channel)}>Leave</button>
+                                        <button disabled={userInChannel(channel.id)} onClick={e => handleJoin(e, "ch", channel.id)}>Join</button>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                    {(type === "dm") && (
+                        <>
+                            <h2>All Users</h2>
+                            <div>
+                                {/* {addedUsers.length > 0 && (addedUsers.map(user => (
+                                    <div>{user.username}</div>
+                                )))} */}
+                                {addedUsers?.map(user => (
+                                    <div>{user.username}</div>
+                                ))}
+                                {/* {addedUsers.length > 0 && (<button onClick={e => handleJoin(e, "dm", user.id)}>Create Chat</button>)} */}
+                                <button onClick={e => handleJoin(e, "dm", user.id)}>Create Chat</button>
+                            </div>
+                            <div>
+                                {allUsers?.map(user => (
+                                    <div id={user.id}>
+                                        <p>{user.username}</p>
+                                        <button onClick={e => addUserToList(user)}>Add</button>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </>
+            )}
         </>
     );
 }
