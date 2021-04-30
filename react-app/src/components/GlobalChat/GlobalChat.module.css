@@ -43,11 +43,11 @@
     flex-direction: column-reverse;
 }
 
-.editorClassName {
+/* .editorClassName {
 
 }
 .toolbarClass {
-}
+} */
 
 .sendMessageButton {
     justify-content: flex-start;
