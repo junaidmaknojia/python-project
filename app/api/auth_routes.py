@@ -79,6 +79,7 @@ def sign_up():
                 url = upload["url"]
 
         glbl = Channel.query.filter(Channel.title == 'Global Chatroom').first()
+
         user = User(
             first_name=form.data['firstName'],
             last_name=form.data['lastName'],

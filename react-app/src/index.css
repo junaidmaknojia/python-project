@@ -25,7 +25,8 @@ body {
 .rdw-editor-wrapper .rdw-colorpicker-wrapper,
 .rdw-editor-wrapper .rdw-embedded-wrapper,
 .rdw-editor-wrapper .rdw-remove-wrapper,
-.rdw-editor-wrapper .rdw-block-wrapper,
-.rdw-editor-wrapper .rdw-emoji-wrapper  {
+.rdw-editor-wrapper .rdw-block-wrapper
+/* .rdw-editor-wrapper .rdw-emoji-wrapper   */
+{
     display: none;
 }

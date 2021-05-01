@@ -52,7 +52,8 @@ const GlobalChat = ({ pastMessages }) => {
         user: {
           username: user.username,
           picture_url: user.picture_url
-        }
+        },
+        reactions: [],
       });
       setEditorState(() => EditorState.createEmpty())
       console.log(EditorState)
@@ -73,9 +74,9 @@ const GlobalChat = ({ pastMessages }) => {
 
   useEffect(()=> {
 
-    if (emoji) setNewMessage(newMessage + emoji)
+    if (emoji) setConvertedContent(convertedContent + emoji)
   }, [emoji])
-
+  // <button className={"emoji"} onClick={showModal}>emoji</button>
   return (
     <div className={styles.mainWrapper}>
       <div className={styles.messageWrapper}>
@@ -84,20 +85,29 @@ const GlobalChat = ({ pastMessages }) => {
           <MessageDisplay message={data} key={i} />
           ))}
       </div>
-        {/*<EmojiModal show={show} setShow={setShow}/>
-      <button className={"emoji"} onClick={showModal}>emoji</button>*/}
-
-      <div className={styles.textEditorDiv}>
-        <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'} onClick={sendMessage}>{"=>"}</button>
-        <Editor editorState={editorState}
-        onEditorStateChange={handleEditorChange}
-        wrapperClassName={styles.wrapperClass}
-        editorClassName={styles.editorClass}
-        toolbarClassName={styles.toolbarClass}l
-        value={newMessage}
-        placeholder={`   Message ${currentChannel.title}`}
-        onChange={e => setNewMessage(convertedContent)}
-        />
+      <div className={styles.flexrow}>
+      <div className={styles.flexWrapper}>
+        <div className={styles.textEditorDiv}>
+            <Editor editorState={editorState}
+            onEditorStateChange={handleEditorChange}
+            wrapperClassName={styles.wrapperClass}
+            editorClassName={styles.editorClass}
+            toolbarClassName={styles.toolbarClass}
+            value={emoji}
+            placeholder={`   Message ${currentChannel.title}`}
+            onChange={e => setNewMessage(convertedContent)}
+            />
+        </div>
+      </div>
+        <div className={styles.fakeInputDiv}>
+          <div className={styles.emptyDiv}>
+  
+          </div>
+          <div className={styles.buttonCenter}>
+            <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'} 
+            onClick={sendMessage}>{"=>"}</button>
+          </div>
+        </div>
       </div>
     </div>
   )

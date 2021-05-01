@@ -20,6 +20,7 @@ export default function NewChannelorDM() {
     const type = useParams().ty;
     const user = useSelector(state => state.session.user);
     const myChannels = useSelector(state => state.channels.channels);
+    const currChannel = useSelector(state => state.channels.current);
     const [newChannelName, setNewChannelName] = useState("");
     const [allUsers, setAllUsers] = useState([]);
     const [allChannels, setAllChannels] = useState([]);
@@ -58,41 +59,28 @@ export default function NewChannelorDM() {
         history.push(`/channels/${freshChannel.id}`);
     }
 
+    // async function dmExists(){
+    //     const allDMs = await listDMs();
+    //     const sortedAddedUsers = [...addedUsers].sort((obj1, obj2) => obj1.id - obj2.id);
+    //     sortedAddedUsers.unshift(user); // adding session user to match the DMs
+    //     const hermes = allDMs.find(dm => {
+    //         if(dm.users.length === (sortedAddedUsers.length)){
+    //             console.log("same length", dm.users);
+    //             for (let i = 0; i < dm.users.length; i++) {
+    //                 if(dm.users[i].id !== sortedAddedUsers[i].id){
+    //                     return false;
+    //                 }
+    //             }
+    //             return true;
+    //         }
+    //         return false;
+    //     });
+    //     return hermes;
+    // }
 
-//     async function handleJoin(e, type, tempId){
-//         if(type === "ch"){
-//             await dispatch(joinChannel({channelId: tempId, user_id: user.id}));
-//         } else {
-//             const foundDM = await dmExists();
-//             if(foundDM){
-//                 console.log("existing group");
-//                 // Redirect to that dm group
-//                 history.push(`/channels/${foundDM.id}`);
-//             } else {
-//                 console.log("new dm group");
-//                 const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
-//                 history.push(`/channels/${newDM.id}`);
-//             }
-//         }
-//     }
-
-    async function dmExists(){
-        const allDMs = await listDMs();
-        const sortedAddedUsers = addedUsers.sort((obj1, obj2) => obj1.id - obj2.id);
-        sortedAddedUsers.unshift(user); // adding session user to match the DMs
-        const hermes = allDMs.find(dm => {
-            if(dm.users.length === (sortedAddedUsers.length)){
-                console.log("same length", dm.users);
-                for (let i = 0; i < dm.users.length; i++) {
-                    if(dm.users[i].id !== sortedAddedUsers[i].id){
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
-        });
-        return hermes;
+    function removeUserFromList(clickedUser){
+        const updatedUsersList = [...addedUsers].filter(user => user.id !== clickedUser.id);
+        setAddedUsers(updatedUsersList);
     }
 
     function addUserToList(clickedUser){
@@ -101,23 +89,18 @@ export default function NewChannelorDM() {
         }
     }
 
+
     async function joinDm(){
-        const foundDM = await dmExists();
-        if(foundDM){
-            console.log("existing group");
-            // Redirect to that dm group
-            history.push(`/channels/${foundDM.id}`);
-        } else {
-            console.log("new dm group");
-            const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
-            history.push(`/channels/${newDM.id}`);
-        }
+        const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
+        history.push(`/channels/${currChannel.id}`);
+
     }
 
     const joinCh = async(e, channel) => {
         await dispatch(joinChannel({channelId: channel.id, user_id: user.id}));
         await dispatch(userChannels());
     }
+
 
     function userInChannel(id){
         const foundChannel = myChannels.channel.find(ch => ch.id === id);
@@ -179,14 +162,13 @@ export default function NewChannelorDM() {
             <div className={mainScroller}>
                 <h2>All Users</h2>
                 <div>
-                    {/* {addedUsers?.length > 0 && (addedUsers?.map(user => (
-                        <div>{user.username}</div>
-                    )))} */}
-                    {addedUsers?.map(user => (
-                        <div>{user.username}</div>
-                    ))}
 
-                    <button onClick={joinDm}>Create Chat</button>
+                    <div>
+                        {addedUsers?.map(user => (
+                            <div>{user.username}<i class="far fa-times-circle" onClick={e => removeUserFromList(user)}></i></div>
+                        ))}
+                    </div>
+                   <button onClick={joinDm}>Create Chat</button>
 
                 </div>
                 <div>
