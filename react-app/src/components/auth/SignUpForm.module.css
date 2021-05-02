@@ -1,0 +1,143 @@
+.pageWrapper {
+    display:flex;
+    justify-content:center;
+    margin:25px;
+}
+
+.signupForm {
+    width:66%;
+    min-width:500px;
+}
+
+.header {
+    font-size: 2rem;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+}
+
+.logoContainer {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family: 'Open Sans', sans-serif;
+    color:black;
+    font-size:23px;
+    font-weight: 700;
+    margin-left:-35px;
+}
+
+.logoImg {
+    height: 35px;
+    width:auto;
+}
+
+.inputContainer {
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    width: 100%;
+    padding:5px;
+}
+
+.inputLabel {
+    font-family: 'Open Sans', sans-serif;
+    font-weight:600;
+    font-size:19px;
+}
+
+.signupInput {
+    width: 70%;
+    height:1.45rem;
+    min-width:500px;
+    text-align:center;
+    border-radius: 4px;
+}
+
+.signupInput:focus {
+    outline-color:#5D9EE7;
+    outline-width:2px;
+    outline-offset:2px;
+    box-shadow:0 0 6px 4px rgba(93, 158, 231, 0.5)
+}
+
+.signupFileInput {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.signupFileLabel {
+    font-size: .875rem;
+    cursor:pointer;
+    border-radius:4px;
+    text-align:center;
+    font-weight:750;
+    text-decoration: none;
+    padding:.75rem 1rem;
+    background-color:#881111;
+    color:#fff;
+    box-sizing: border-box;
+    border:1px solid black;
+}
+
+.signupFileLabelComplete {
+    font-size: .875rem;
+    cursor:pointer;
+    border-radius:4px;
+    text-align:center;
+    font-weight:750;
+    text-decoration: none;
+    padding:.75rem 1rem;
+    background-color:#1b9c17;
+    color:#fff;
+    box-sizing: border-box;
+    border:1px solid black;
+}
+
+.picturePreview {
+    height:100px;
+    width:100px;
+    object-fit:cover;
+}
+
+.submitButton {
+    margin-top: 35px;
+    background:none;
+    font-size: .875rem;
+    cursor:pointer;
+    border-radius:4px;
+    text-align:center;
+    font-weight:750;
+    text-decoration: none;
+    padding:.75rem 1rem;
+    color:black;
+    fill:#fff;
+    box-shadow:inset 0 0 0 1px #fff;
+}
+
+.submitButton:hover {
+    color:#fff;
+    background-color:#791984;
+}
+
+.loginContainer {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.alreadyHaveAnAccount {
+    color: rgba(var(--sk_foreground_max_solid,97,96,97),1)
+}
+
+.loginLink {
+    cursor: pointer;
+    color:rgba(55, 62, 155, 0.9)
+}
+
+.loginLink:hover {
+    text-decoration:underline;
+}
