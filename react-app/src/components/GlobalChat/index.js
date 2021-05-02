@@ -21,6 +21,7 @@ const GlobalChat = ({ pastMessages }) => {
   const user = useSelector(state => state.session.user);
   const currentChannel = useSelector(state => state.channels.current)
   const emoji = useSelector(state => state.emoji.emoji)
+
   const channel_id = currentChannel.id
   const [ messages, setMessages ] = useState([]);
   const [ newMessage, setNewMessage ] = useState('');
@@ -93,12 +94,12 @@ const GlobalChat = ({ pastMessages }) => {
         </div>
       </div>
         <div className={styles.fakeInputDiv}>
-        <div className={styles.emptyDiv}>
-        </div>
-        <div className={styles.buttonCenter}>
-        <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'}
-        onClick={sendMessage}><i class="fas fa-paper-plane"></i></button>
-      </div>
+          <div className={styles.emptyDiv}>
+          </div>
+          <div className={styles.buttonCenter}>
+            <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'}
+            onClick={sendMessage}><i class="fas fa-paper-plane"></i></button>
+          </div>
 
         </div>
       </div>

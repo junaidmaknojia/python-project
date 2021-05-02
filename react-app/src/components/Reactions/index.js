@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { main, emojiWrapper } from "./Reactions.module.css";
+
 import { socket } from '../GlobalChat';
 
 const Reactions = ({message, emojis, setEmojis}) => {

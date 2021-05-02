@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import EmojiModal from "../EmojiModal";
 import Reactions from "../Reactions";
 import DOMPurify from 'dompurify';
 import styles from './MessageDisplay.module.css';
+import { socket } from "../GlobalChat";
 
 const MessageDisplay = ({message}) => {
     const [ emojis, setEmojis ] = useState([])
