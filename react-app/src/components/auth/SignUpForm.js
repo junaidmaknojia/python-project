@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { signUp } from '../../store/session';
+import styles from './SignUpForm.module.css';
+import logo from '../../assets/logo_white.jpg';
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector(state => state.session.user);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -20,6 +23,10 @@ const SignUpForm = () => {
       await dispatch(signUp(firstName, lastName, username, email, password, profilePicture));
     }
   };
+
+  const loginRedirect = () => {
+    history.push('/login');
+  }
 
   const updateFirstName = (e) => {
     setFirstName(e.target.value);
@@ -57,10 +64,20 @@ const SignUpForm = () => {
 
 
   return (
-    <form onSubmit={onSignUp}>
-      <div>
-        <label>First Name</label>
+    <div className={styles.pageWrapper}>
+    <form onSubmit={onSignUp} className={styles.signupForm}>
+      <span className={styles.logoContainer}>
+        <img className={styles.logoImg} src={logo} />
+        sn4ck
+      </span>
+      <div className={styles.inputContainer}>
+        <h4 className={styles.header}>Create an Account</h4>
+      </div>
+      <div className={styles.inputContainer}>
+        <label className={styles.inputLabel}>First Name</label>
         <input
+          className={styles.signupInput}
+          autocomplete="off"
           type="text"
           name="firstName"
           onChange={updateFirstName}
@@ -68,9 +85,10 @@ const SignUpForm = () => {
           required
           ></input>
       </div>
-      <div>
-        <label>Last Name</label>
+      <div className={styles.inputContainer}>
+        <label className={styles.inputLabel}>Last Name</label>
         <input
+          className={styles.signupInput}
           type="text"
           name="lastName"
           onChange={updateLastName}
@@ -78,9 +96,10 @@ const SignUpForm = () => {
           required
           ></input>
       </div>
-      <div>
-        <label>User Name</label>
+      <div className={styles.inputContainer}>
+        <label className={styles.inputLabel}>User Name</label>
         <input
+          className={styles.signupInput}
           type="text"
           name="username"
           onChange={updateUsername}
@@ -88,27 +107,43 @@ const SignUpForm = () => {
           required
           ></input>
       </div>
-      <div>
-        <label>Email</label>
+      <div className={styles.inputContainer}>
+        <label className={styles.inputLabel}>Email</label>
         <input
-          type="text"
+          className={styles.signupInput}
+          type="email"
           name="email"
           onChange={updateEmail}
           value={email}
           required
           ></input>
       </div>
-      <div>
-        <label>Profile Picture</label>
+      <div className={styles.inputContainer}>
+        <label className={styles.inputLabel}>Profile Picture</label>
         <input
+          className={styles.signupFileInput}
           type='file'
           onChange={updateFile}
           name='profile_picture'
+          id='file'
           />
+          {!profilePicture && (<label for='file' className={styles.signupFileLabel}>
+            Choose a file...
+          </label>)}
+          {profilePicture && (
+            <div>
+              <img className={styles.picturePreview} src={URL.createObjectURL(profilePicture)} />
+              <p>{profilePicture.name}</p>
+            </div>
+            )}
+          {profilePicture && (<label for='file' className={styles.signupFileLabelComplete}>
+            Change Photo
+          </label>)}
       </div>
-      <div>
-        <label>Password</label>
+      <div className={styles.inputContainer}>
+        <label className={styles.inputLabel}>Password</label>
         <input
+          className={styles.signupInput}
           type="password"
           name="password"
           onChange={updatePassword}
@@ -116,18 +151,26 @@ const SignUpForm = () => {
           required
           ></input>
       </div>
-      <div>
-        <label>Repeat Password</label>
+      <div className={styles.inputContainer}>
+        <label className={styles.inputLabel}>Repeat Password</label>
         <input
+          className={styles.signupInput}
           type="password"
           name="repeat_password"
           onChange={updateRepeatPassword}
           value={repeatPassword}
           required={true}
-        ></input>
+          ></input>
       </div>
-      <button type="submit">Sign Up</button>
+      <div className={styles.inputContainer}>
+        <button type="submit" className={styles.submitButton}>Sign Up</button>
+      </div>
+      <div className={styles.loginContainer}>
+        <p className={styles.alreadyHaveAnAccount}>Already have an account?</p>
+        <span className={styles.loginLink} onClick={loginRedirect}>Log in</span>
+      </div>
     </form>
+  </div>
   );
 };
 
