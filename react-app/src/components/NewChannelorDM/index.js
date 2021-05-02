@@ -140,7 +140,7 @@ export default function NewChannelorDM() {
                 <h1>Channels</h1>
                 <form onSubmit={submitNewChannel} style={{paddingBottom: 18, borderBottom: "lightgray 1px solid"}}>
                     <input
-                        style={{height: 20, width: 300}}
+                        style={{height: 30, width: 350}}
                         placeholder="New channel name..."
                         value={newChannelName}
                         onChange={e => setNewChannelName(e.target.value)}
@@ -167,22 +167,25 @@ export default function NewChannelorDM() {
         );
     }else {
         display = (
-            <div className="section">
-                <h2>All Users</h2>
-                <div>
-                    <div>
+            <div className={styles.section}>
+                <h1>All Users</h1>
+                <div style={{paddingBottom: 10, borderBottom: "1px solid lightgray"}}>
+                    <div className={styles.addedUsers}>
                         {addedUsers?.map(user => (
-                            <div>{user.username} onClick={e => removeUserFromList(user)}</div>
+                            <div className={styles.addedUser}>
+                                <span>{user.username}</span>
+                                <span className={styles.ex} onClick={e => removeUserFromList(user)}>X</span>
+                            </div>
                         ))}
                     </div>
-                    <button className={styles.enter} onClick={joinDm}>Create Chat</button>
-
+                    <button hidden={addedUsers.length < 1} className={styles.create} onClick={joinDm}>Create Chat</button>
                 </div>
                 <div className={styles.mainScroller}>
                     {allUsers?.map(user => (
-                        <div id={user.id}>
-                            <p>{user.username}</p>
-                            <button className={styles.enter} onClick={e => addUserToList(user)}>Add</button>
+                        <div id={user.id} className={styles.listItem}>
+                            <img src={user.profile_url} className={styles.profilePic}/>
+                            <h3>{user.username}</h3>
+                            <button className={styles.add} onClick={e => addUserToList(user)}>Add</button>
                         </div>
                     ))}
                 </div>

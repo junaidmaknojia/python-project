@@ -81,11 +81,10 @@ export default function Sidebar(){
                     {myDMs && (
                         myDMs.map(dm => (
                             <div key={dm.id}
-                            id={dm.id}
-                            className={`dm__title ${currChannel?.id === dm.id ? "currPage" : ""}`}>
+                                id={dm.id}
+                                className={`dm__title ${currChannel?.id === dm.id ? "currPage" : ""}`}>
                                 <img style={{width: 20, height: 20, marginRight: 6}}
                                     src={dm.users.length > 2 ? "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-group-512.png" : "http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png"}/>
-
                                 <NavLink className="navLink" to={`/channels/${dm.id}`}>{dm.title}</NavLink>
                             </div>
                         ))
