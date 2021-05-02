@@ -59,10 +59,10 @@ export default function Sidebar(){
                     myChannels.map(channel => (
                         <div key={channel.id}
                             id={channel.id}
-                            className="channel__title"
+                            className={`channel__title ${currChannel.id === channel.id ? "currPage" : ""}`}
                             onClick={channelClick}>
                             <NavLink className="navLink" to={`/channels/${channel.id}`}>
-                                {channel.title}
+                                {`# ${channel.title}`}
                             </NavLink>
                         </div>
                     ))
@@ -82,8 +82,12 @@ export default function Sidebar(){
                             // className="dm__title"
                             // onClick={channelClick}
                             id={dm.id}
-                            className="dm__title"
-                        ><NavLink className="navLink" to={`/channels/${dm.id}`}>{dm.title}</NavLink></div>
+                            className={`dm__title ${currChannel.id === dm.id ? "currPage" : ""}`}>
+                            <img style={{width: 20, height: 20, marginRight: 6}}
+                                src={dm.users.length > 2 ? "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-group-512.png" : "http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png"}/>
+
+                            <NavLink className="navLink" to={`/channels/${dm.id}`}>{dm.title}</NavLink>
+                        </div>
                     ))
                 )}
             </div>
