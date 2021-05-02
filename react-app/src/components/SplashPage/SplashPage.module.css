@@ -9,10 +9,10 @@
     background-size: 100%;
 }
 
-.splashContainer {
-    /* overflow: scroll; */
-    /* overflow: hidden; */
-}
+/* .splashContainer {
+    overflow: scroll;
+    overflow: hidden;
+} */
 
 .splashHeader {
     margin: 10px 25px;
@@ -230,6 +230,7 @@
     height: 80px;
     width: 80px;
     border-radius:4px;
+    object-fit: cover;
 }
 
 .messageTextContainer {
