@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import EmojiModal from "../EmojiModal";
 import Reactions from "../Reactions";
 import DOMPurify from 'dompurify';
 import styles from './MessageDisplay.module.css';
-import { socket } from "../GlobalChat";
 
 const MessageDisplay = ({message}) => {
     const [ emojis, setEmojis ] = useState([])
@@ -43,7 +41,7 @@ const MessageDisplay = ({message}) => {
     return (
         <div className={styles.message_wrapper}>
             <div className={styles.menuWrapper} >
-                <button className={"emoji"} onClick={showModal}>emoji</button>
+                <button className={styles.emoji} onClick={showModal}><i class="far fa-grin"></i></button>
             </div>
             <EmojiModal show={show} setShow={setShow} message={message}/>
             <div className={styles.message_container}>

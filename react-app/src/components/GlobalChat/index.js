@@ -95,13 +95,13 @@ const GlobalChat = ({ pastMessages }) => {
         </div>
       </div>
         <div className={styles.fakeInputDiv}>
-          <div className={styles.emptyDiv}>
+        <div className={styles.emptyDiv}>
+        </div>
+        <div className={styles.buttonCenter}>
+        <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'}
+        onClick={sendMessage}><i class="fas fa-paper-plane"></i></button>
+      </div>
 
-          </div>
-          <div className={styles.buttonCenter}>
-            <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'}
-            onClick={sendMessage}>{"=>"}</button>
-          </div>
         </div>
       </div>
     </div>
