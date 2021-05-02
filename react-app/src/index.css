@@ -36,3 +36,7 @@ body {
   height: 58px;
 }
 
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+

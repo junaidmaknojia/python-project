@@ -1,5 +1,5 @@
 .overlay {
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 100%;
   top: 0;
@@ -10,7 +10,7 @@
 
 .main {
   position: absolute;
-  bottom: 340px;
+  top: 20%;
   right: 16px;
   background-color: transparent;
 }

@@ -16,11 +16,12 @@ const endPoint = "http://localhost:5000";
 
 export const socket = io(endPoint);
 
+
 const GlobalChat = ({ pastMessages }) => {
   const user = useSelector(state => state.session.user);
   const currentChannel = useSelector(state => state.channels.current)
   const emoji = useSelector(state => state.emoji.emoji)
-  const [ show, setShow ] = useState(false);
+
   const channel_id = currentChannel.id
   const [ messages, setMessages ] = useState([]);
   const [ newMessage, setNewMessage ] = useState('');
@@ -29,7 +30,6 @@ const GlobalChat = ({ pastMessages }) => {
   )
   const [convertedContent, setConvertedContent] = useState(null);
   const handleEditorChange = (state) => {
-    console.log(newMessage)
     setEditorState(state);
     convertContentToHTML();
   }
@@ -41,6 +41,7 @@ const GlobalChat = ({ pastMessages }) => {
   socket.on("message", data => {
     setMessages([data, ...messages]);
   });
+
 
   const sendMessage = () => {
     if (newMessage) {
@@ -54,9 +55,9 @@ const GlobalChat = ({ pastMessages }) => {
           picture_url: user.picture_url
         },
         reactions: [],
+        msg: ""
       });
       setEditorState(() => EditorState.createEmpty())
-      console.log(EditorState)
       setNewMessage('')
     } else {
       alert("your dumb");
@@ -68,21 +69,14 @@ const GlobalChat = ({ pastMessages }) => {
     setMessages([...pastMessages])
   }, [pastMessages])
 
-  const showModal = () => {
-    setShow(true);
-  }
 
-  useEffect(()=> {
 
-    if (emoji) setConvertedContent(convertedContent + emoji)
-  }, [emoji])
-  // <button className={"emoji"} onClick={showModal}>emoji</button>
   return (
     <div className={styles.mainWrapper}>
       <div className={styles.messageWrapper}>
       {messages.length > 0 &&
         messages.map((data, i) => (
-          <MessageDisplay message={data} key={i} />
+          <MessageDisplay message={data} key={i} channel={currentChannel} />
           ))}
       </div>
       <div className={styles.flexrow}>
@@ -93,7 +87,7 @@ const GlobalChat = ({ pastMessages }) => {
             wrapperClassName={styles.wrapperClass}
             editorClassName={styles.editorClass}
             toolbarClassName={styles.toolbarClass}
-            value={emoji}
+            value={newMessage}
             placeholder={`   Message ${currentChannel.title}`}
             onChange={e => setNewMessage(convertedContent)}
             />
@@ -101,12 +95,12 @@ const GlobalChat = ({ pastMessages }) => {
       </div>
         <div className={styles.fakeInputDiv}>
           <div className={styles.emptyDiv}>
-  
           </div>
           <div className={styles.buttonCenter}>
-            <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'} 
-            onClick={sendMessage}>{"=>"}</button>
+            <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'}
+            onClick={sendMessage}><i class="fas fa-paper-plane"></i></button>
           </div>
+
         </div>
       </div>
     </div>

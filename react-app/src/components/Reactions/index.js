@@ -1,37 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { main } from "./Reactions.module.css";
+import { main, emojiWrapper } from "./Reactions.module.css";
 
-const Reactions = ({reactions, messageId}) => {
- const messageReactions = useSelector(state => state.emoji.reactions)
- const [ mounted, setMounted ] = useState(false);
+import { socket } from '../GlobalChat';
 
- useEffect(() => {
-   if (!messageReactions) return
+const Reactions = ({message, emojis, setEmojis}) => {
 
-   if (messageReactions[0].message_id !== messageId) {
-     console.log(messageReactions, "in useEffect")
-     setMounted(false)
-   }
+ const channel = useSelector(state => state.channels.current)
 
-   if (messageReactions[0].message_id === messageId) {
-     setMounted(true)
-   }
+ socket.on("reactionsBack", data => {
 
- }, [messageReactions])
+     if (message.channel_id === channel.id) {
+     setEmojis([...emojis, data])
+     }
+ })
+
+
 
   return (
     <div className={main}>
-      {!mounted && reactions.map((reaction, i) => (
-        <div key={i}>
-          <span key={reaction}>{reaction.type}</span>
-        </div>
-      ))}
-      {(mounted && messageReactions) && messageReactions.map((reaction, i) => (
-        <div key={i}>
-          <span key={reaction}>{reaction.type}</span>
-        </div>
-      ))}
+      <div className={emojiWrapper}>
+      {emojis.length > 0  && emojis.map((reaction, i) => {
+        if (reaction.message_id === message.id) {
+          return (
+            <div key={i}>
+              <span key={reaction}>{reaction.type}</span>
+            </div>
+          )
+        }
+      })}
+      </div>
     </div>
   )
 }

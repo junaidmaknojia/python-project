@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import EmojiModal from "../EmojiModal";
 import Reactions from "../Reactions";
 import DOMPurify from 'dompurify';
 import styles from './MessageDisplay.module.css';
+import { socket } from "../GlobalChat";
 
 const MessageDisplay = ({message}) => {
+    const [ emojis, setEmojis ] = useState([])
+    const [ show, setShow ] = useState(false);
+
+    useEffect(() => {
+        setEmojis([...message.reactions])
+    }, [])
+
 
     const formattedTime = () => {
         let date = new Date(message.created_at)
@@ -17,13 +26,13 @@ const MessageDisplay = ({message}) => {
         return `${hours}:${minutes} ${ampm}`
     }
 
-    const [ show, setShow ] = useState(false);
+
 
     const showModal = () => {
         setShow(true);
       }
 
-    // <span>{newEmoji?newEmoji.emoji:''}</span>
+
     const createMarkup = (html) => {
         return {
             __html: DOMPurify.sanitize(html)
@@ -34,7 +43,7 @@ const MessageDisplay = ({message}) => {
     return (
         <div className={styles.message_wrapper}>
             <div className={styles.menuWrapper} >
-                <button className={"emoji"} onClick={showModal}>emoji</button>
+                <button className={styles.emoji} onClick={showModal}><i class="far fa-grin"></i></button>
             </div>
             <EmojiModal show={show} setShow={setShow} message={message}/>
             <div className={styles.message_container}>
@@ -51,17 +60,19 @@ const MessageDisplay = ({message}) => {
                     </span>
 
                     <div className={styles.message_body}>
-                    <pre
-                    dangerouslySetInnerHTML={createMarkup(message.body)}
-                    >
-                    </pre>
+                        <pre
+                            className={styles.richText}
+                            dangerouslySetInnerHTML={createMarkup(message.body)}
+                        >
+                        </pre>
 
                     </div>
-                    {message.reactions.length > 0 && ([
+                    <div className="amIhere">
                         <span>
-                            <Reactions reactions={message.reactions} messageId={message.id}/>
+                            <Reactions message={message} setEmojis={setEmojis} emojis={emojis} />
                         </span>
-                    ])}
+                    </div>
+
                 </div>
             </div>
         </div>
