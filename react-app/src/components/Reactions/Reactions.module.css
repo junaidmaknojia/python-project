@@ -1,5 +1,23 @@
 .main {
-  height: auto;
-  width: auto;
+  height: 28px;
+  width: inherit;
   display: flex;
+  margin-bottom: 4px;
+}
+
+.emojiWrapper {
+  display: flex;
+}
+
+.emojiWrapper div {
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 6px 4px 6px;
+  margin: 0px 4px 4px 0px;
+  border-radius: 12px;
+  background-color: rgba(29, 28, 29, .04);
+  height: 24px;
+  width: 40.40px;
 }

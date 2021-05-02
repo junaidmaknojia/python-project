@@ -1,12 +1,21 @@
 .message_wrapper{
     padding: 8px 20px;
 }
+
 .message_wrapper:hover {
     background-color: rgba(248, 249, 248, 240);
+    position: relative;
 }
 
 .message_wrapper:hover .menuWrapper {
-    visibility: visible;
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 95%;
+    top: -10px;
+    display: block;
+    border: 2px solid rgba(29, 28, 29, .1);
+    border-radius: 4px;
 }
 
 .message_container {
@@ -22,6 +31,7 @@
     height: 36px;
     width: 36px;
     object-fit: cover;
+    border-radius: 4px;
 }
 
 .author_name {
@@ -38,7 +48,6 @@
     padding-left: 16px;
     margin: -12px -8px -16px -16px;
 }
-
 
 .message_timestamp {
     margin-left: 5px;
@@ -57,10 +66,31 @@
 }
 
 .menuWrapper {
-    width: auto;
-    height: auto;
-    position: relative;
-    left: 95%;
-    top: -20px;
-    visibility: hidden;
+    display: none;
+}
+
+.richText {
+    margin: 0px;
+}
+
+.richText p {
+    margin: 0px;
+    height: 22px;
+}
+
+.emoji {
+    margin:2px;
+    height: 24px;
+    width: 24px;
+    border-radius: 4px;
+    background-color: #fff;
+    border: none;
+}
+
+.emoji i {
+    color: rgba(29, 28, 29, .7);
+}
+
+.emoji:hover {
+    background-color: rgba(248, 249, 248, 240);
 }

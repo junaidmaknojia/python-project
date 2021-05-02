@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { main } from "./Reactions.module.css";
+import { main, emojiWrapper } from "./Reactions.module.css";
+
 import { socket } from '../GlobalChat';
 
 const Reactions = ({message, emojis, setEmojis}) => {
@@ -18,7 +19,7 @@ const Reactions = ({message, emojis, setEmojis}) => {
 
   return (
     <div className={main}>
-      <div>
+      <div className={emojiWrapper}>
       {emojis.length > 0  && emojis.map((reaction, i) => {
         if (reaction.message_id === message.id) {
           return (
