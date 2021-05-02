@@ -49,6 +49,7 @@
     border-left: 1px solid black;
     border-bottom: 1px solid black;
     border-radius: 4px 0px 0px 4px;
+    /* height: 96px; */
 }
 
 
@@ -92,7 +93,7 @@
 
 .fakeInputDiv {
     display: flex;
-    height: 96px;
+    height: 104px;
     flex-direction: column;
     border-top: 1px solid black;
     border-right: 1px solid black;
@@ -102,7 +103,7 @@
 
 .emptyDiv {
     background-color: #FFF;
-    height: 50px;
+    height: 58px;
     border-top-right-radius: 4px;
 }
 
@@ -114,3 +115,6 @@
     align-items: center;
     border-bottom-right-radius: 4px;
 }
+
+/* super hacky way to style the toolbar without having it look bad when adding emojis was done in 
+index.css on the top level with the className of .GlobalChat_wrapperClass__2BITn .rdw-editor-main -Sean */
