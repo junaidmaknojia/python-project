@@ -2,18 +2,19 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    justify-content: flex-end;
 }
 
 .messageWrapper {
     display:flex;
     flex-direction:column-reverse;
     overflow: hidden;
-    overflow-y: auto;
-    height: 87%;
+    overflow-y:auto;
+    max-height: 74vh;
 }
 
-.messageWrapper::-webkit-scrollbar-track {
-    background: red;
+.messageWrapper::-webkit-scrollbar {
+    display: none;
 }
 
 .sendMessageBar{
