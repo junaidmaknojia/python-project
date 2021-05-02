@@ -7,10 +7,13 @@
 .messageWrapper {
     display:flex;
     flex-direction:column-reverse;
-    /* height:250px; */
     overflow: hidden;
-    overflow-y: scroll;
-    height: 500px;
+    overflow-y: auto;
+    height: 87%;
+}
+
+.messageWrapper::-webkit-scrollbar-track {
+    background: red;
 }
 
 .sendMessageBar{
@@ -63,32 +66,35 @@
 }
 
 .sendMessageButton {
-    justify-content: flex-start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
     height: 32px;
-    width: 32px;
+    width: 37px;
     background-color: #007A5A;
-    border-radius: 4px 4px 4px 4px;
     margin-right: 10px;
-    position: relative;
-    left: 5px;
+}
+
+.sendMessageButton i {
+    color: #fff;
 }
 
 
 .sendMessageButton:disabled {
     background-color: white;
     margin-right: 10px;
-    border-radius: 4px 4px 4px 4px;
+}
+
+.sendMessageButton:disabled i {
+    color: rgba(16, 16, 16, 0.3);
 }
 
 .flexWrapper {
     height: 100%;
-    /* display: flex; */
-    /* justify-content: flex-end; */
     position: fixed;
     width: 94%;
-    top: 80%;
-    /* right: 16px; */
+    top: 87%;
     z-index: 50;
     align-items: flex-start;
     margin-right: 16px;
@@ -96,7 +102,6 @@
 
 .flexrow {
     display: flex;
-    /* justify-content: flex-start; */
     background-color: #fff;
     margin-right: 16px;
 }
@@ -108,14 +113,11 @@
     background-color: transparent;
     flex-direction: column;
     align-items: flex-end;
-    border-top: 1px solid black;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
     border-radius: 0px 4px 4px 0px;
     position: fixed;
     width: 10%;
     right: 2%;
-    top: 80%;
+    top: 87%;
     z-index: 55;
 }
 
@@ -128,11 +130,12 @@
 .buttonCenter {
     display: flex;
     height: 46px;
-    width: 20px;
-    background-color: red;
-    align-items: center;
+    width: 46px;
+    background-color: transparent;
+    align-items: flex-end;
     justify-content: flex-end;
     border-bottom-right-radius: 4px;
-    position: relative;
-    z-index: 55;
+    margin-bottom: 6px;
+    /* position: relative;
+    z-index: 55; */
 }
