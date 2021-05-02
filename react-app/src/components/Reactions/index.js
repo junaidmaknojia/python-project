@@ -9,6 +9,11 @@ const Reactions = ({reactions, messageId}) => {
  useEffect(() => {
    if (!messageReactions) return
 
+   if (messageReactions[0].message_id !== messageId) {
+     console.log(messageReactions, "in useEffect")
+     setMounted(false)
+   }
+
    if (messageReactions[0].message_id === messageId) {
      setMounted(true)
    }

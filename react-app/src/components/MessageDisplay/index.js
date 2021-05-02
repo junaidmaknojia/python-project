@@ -6,7 +6,6 @@ import styles from './MessageDisplay.module.css';
 
 const MessageDisplay = ({message}) => {
 
-
     const formattedTime = () => {
         let date = new Date(message.created_at)
         let hours = date.getHours()

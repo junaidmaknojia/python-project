@@ -9,6 +9,7 @@ import UsersList from "./components/UsersList";
 import User from "./components/User";
 import PageWrapper from "./components/PageWrapper";
 import FormWrapper from "./components/FormWrapper";
+import SplashPage from "./components/SplashPage";
 // import { authenticate } from "./services/auth";
 import { authenticate } from "./store/session";
 
@@ -33,6 +34,9 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path='/' exact={true}>
+          <SplashPage />
+        </Route>
         <Route path="/login" exact={true}>
           <NavBar />
           <LoginForm />

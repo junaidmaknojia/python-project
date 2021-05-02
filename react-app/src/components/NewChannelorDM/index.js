@@ -59,24 +59,24 @@ export default function NewChannelorDM() {
         history.push(`/channels/${freshChannel.id}`);
     }
 
-    async function dmExists(){
-        const allDMs = await listDMs();
-        const sortedAddedUsers = [...addedUsers].sort((obj1, obj2) => obj1.id - obj2.id);
-        sortedAddedUsers.unshift(user); // adding session user to match the DMs
-        const hermes = allDMs.find(dm => {
-            if(dm.users.length === (sortedAddedUsers.length)){
-                console.log("same length", dm.users);
-                for (let i = 0; i < dm.users.length; i++) {
-                    if(dm.users[i].id !== sortedAddedUsers[i].id){
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
-        });
-        return hermes;
-    }
+    // async function dmExists(){
+    //     const allDMs = await listDMs();
+    //     const sortedAddedUsers = [...addedUsers].sort((obj1, obj2) => obj1.id - obj2.id);
+    //     sortedAddedUsers.unshift(user); // adding session user to match the DMs
+    //     const hermes = allDMs.find(dm => {
+    //         if(dm.users.length === (sortedAddedUsers.length)){
+    //             console.log("same length", dm.users);
+    //             for (let i = 0; i < dm.users.length; i++) {
+    //                 if(dm.users[i].id !== sortedAddedUsers[i].id){
+    //                     return false;
+    //                 }
+    //             }
+    //             return true;
+    //         }
+    //         return false;
+    //     });
+    //     return hermes;
+    // }
 
     function removeUserFromList(clickedUser){
         const updatedUsersList = [...addedUsers].filter(user => user.id !== clickedUser.id);
@@ -89,25 +89,19 @@ export default function NewChannelorDM() {
         }
     }
 
+
     async function joinDm(){
-        const foundDM = await dmExists();
-        if(foundDM){
-            console.log("existing group");
-            // Redirect to that dm group
-            // history.push(`/channels/${foundDM.id}`);
-        } else {
-            console.log("new dm group");
-            const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
-            // history.push(`/channels/${newDM.id}`);
-            console.log(foundDM);
-        }
+        const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
         history.push(`/channels/${currChannel.id}`);
+
     }
 
     const joinCh = async(e, channel) => {
         await dispatch(joinChannel({channelId: channel.id, user_id: user.id}));
         await dispatch(userChannels());
     }
+
+
     function userInChannel(id){
         const foundChannel = myChannels.channel.find(ch => ch.id === id);
         return foundChannel ? true : false;
@@ -162,15 +156,17 @@ export default function NewChannelorDM() {
                         </div>
                         )
                     })}
-                </div>
+                </div>l
             </div>
         );
     }else {
         display = (
+
             <div className={styles.section}>
                 <h1>All Users</h1>
                 <div style={{paddingBottom: 10, borderBottom: "1px solid lightgray"}}>
                     <div className={styles.addedUsers}>
+
                         {addedUsers?.map(user => (
                             <div className={styles.addedUser}>
                                 <span>{user.username}</span>
@@ -178,7 +174,9 @@ export default function NewChannelorDM() {
                             </div>
                         ))}
                     </div>
+
                     <button hidden={addedUsers.length < 1} className={styles.create} onClick={joinDm}>Create Chat</button>
+
                 </div>
                 <div className={styles.mainScroller}>
                     {allUsers?.map(user => (

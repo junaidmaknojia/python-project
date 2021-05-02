@@ -50,9 +50,11 @@ const SignUpForm = () => {
     setRepeatPassword(e.target.value);
   };
 
-  if (user.username) {
+
+  if (user) {
     return <Redirect to="/channels/1" />;
   }
+
 
   return (
     <form onSubmit={onSignUp}>
