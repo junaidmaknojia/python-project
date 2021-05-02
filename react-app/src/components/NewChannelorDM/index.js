@@ -12,7 +12,7 @@ import {
     leaveChannel,
     createDM,
     userChannels } from "../../store/channels";
-import { mainScroller } from "./NewChannelorDM.module.css";
+import styles from "./NewChannelorDM.module.css";
 
 
 export default function NewChannelorDM() {
@@ -136,27 +136,29 @@ export default function NewChannelorDM() {
 
     if(type === "ch"){
         display = (
-            <div>
-                <h2>All Channels</h2>
-                <form onSubmit={submitNewChannel}>
-                    <h3>Create new channel</h3>
+            <div className={styles.section}>
+                <h1>Channels</h1>
+                <form onSubmit={submitNewChannel} style={{paddingBottom: 18, borderBottom: "lightgray 1px solid"}}>
                     <input
-                        placeholder="Channel name"
+                        style={{height: 20, width: 300}}
+                        placeholder="New channel name..."
                         value={newChannelName}
                         onChange={e => setNewChannelName(e.target.value)}
                         type="text"
                         required
                     />
-                    <button type="submit">Create</button>
+                    <button type="submit" className={styles.create}>Create</button>
                 </form>
-                <div className={mainScroller}>
+                <div className={styles.mainScroller}>
                     {allChannels?.map((channel, i) => {
-
-
                         return (
-                        <div id={channel.id}>
-                            <p>{channel.title}</p>
-                            <button  key={i} onClick={e=>handleClick(e, channel)}>{userInChannel(channel.id)?"Leave":"Join"}</button>
+                        <div id={channel.id} className={styles.listItem}>
+                            <h3>{`# ${channel.title}`}</h3>
+                            <p style={{color: "gray", fontSize: 12}}>{`${channel.users.length} member${channel.users.length !== 1?"s":""}`}</p>
+                            <button className={userInChannel(channel.id) ? styles.leave : styles.enter}
+                                key={i} onClick={e=>handleClick(e, channel)}>
+                                {userInChannel(channel.id)?"Leave":"Join"}
+                            </button>
                         </div>
                         )
                     })}
@@ -165,22 +167,22 @@ export default function NewChannelorDM() {
         );
     }else {
         display = (
-            <div className={mainScroller}>
+            <div className="section">
                 <h2>All Users</h2>
                 <div>
                     <div>
                         {addedUsers?.map(user => (
-                            <div>{user.username}<i class="far fa-times-circle" onClick={e => removeUserFromList(user)}></i></div>
+                            <div>{user.username} onClick={e => removeUserFromList(user)}</div>
                         ))}
                     </div>
-                    <button onClick={joinDm}>Create Chat</button>
+                    <button className={styles.enter} onClick={joinDm}>Create Chat</button>
 
                 </div>
-                <div>
+                <div className={styles.mainScroller}>
                     {allUsers?.map(user => (
                         <div id={user.id}>
                             <p>{user.username}</p>
-                            <button onClick={e => addUserToList(user)}>Add</button>
+                            <button className={styles.enter} onClick={e => addUserToList(user)}>Add</button>
                         </div>
                     ))}
                 </div>
