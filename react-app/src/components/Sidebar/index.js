@@ -1,42 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useParams, useHistory, NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import io from "socket.io-client";
-import { makeChannel, userChannels, addChannel } from '../../store/channels';
+import { useSelector } from "react-redux";
 import "./Sidebar.css";
-
-const endPoint = "http://localhost:5000";
-const socket = io(endPoint);
+import { socket } from "../GlobalChat";
 
 export default function Sidebar(){
-
     const history = useHistory();
     const channelId = useParams().id;
-    const dispatch = useDispatch();
-
+    const currChannel = useSelector(state => state.channels.current);
     const user = useSelector(state => state.session.user);
     const myComms = useSelector(state => state.channels.channels)
+
     const myChannels = myComms.channel.filter(ch => ch.type === "ch");
     const myDMs = myComms.channel.filter(ch => ch.type === "dm");
+
     myDMs.forEach(dm => {
         const nameArray = dm.title.split(",");
         dm.title = nameArray.filter(name => name !== user.username).join(", ");
     });
-    const currChannel = useSelector(state => state.channels.current);
 
-    // useEffect(() => {
-    //     dispatch(addChannel(currChannel));
-    // }, [dispatch])
-
-    // useEffect(() => {
-    //     dispatch(userChannels())
-    // }, [dispatch])
 
     async function channelClick(e){
         const clickedChannelId = e.target.id;
         if(currChannel.id !== clickedChannelId){
-            socket.emit("leave_room", {name: user.username, room: currChannel.title})
-            socket.emit("join_room", {name: user.username, room: clickedChannelId.title})
+            socket.emit("leave_room", {name: user.username, room: currChannel.id})
+            socket.emit("join_room", {name: user.username, room: clickedChannelId})
+            history.push(`/channels/${clickedChannelId}`)
         }
     }
 
@@ -48,7 +37,7 @@ export default function Sidebar(){
         <div className="sideBar" style={{marginLeft: 5}}>
             <div className="sectionTitles">
             </div>
-            <div className="channels" onClick={channelClick}>
+            <div className="channels">
                 <div className="channels__title">
                     <p>Channels</p>
                     <p>
@@ -60,11 +49,11 @@ export default function Sidebar(){
                         myChannels.map(channel => (
                             <div key={channel.id}
                             id={channel.id}
-                            className={`channel__title ${currChannel?.id === channel.id ? "currPage" : ""}`}
-                            onClick={channelClick}>
-                                <NavLink className="navLink" to={`/channels/${channel.id}`}>
+                            onClick={channelClick}
+                            className={`channel__title ${currChannel?.id === channel.id ? "currPage" : ""}`}>
+
                                     {`# ${channel.title}`}
-                                </NavLink>
+
                             </div>
                         ))
                     )}

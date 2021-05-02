@@ -8,18 +8,17 @@ import {addChannel, userChannels} from '../../store/channels'
 import { main, sidebar, navbar, msgboard } from './PageWrapper.module.css'
 
 const PageWrapper = () => {
-    const currentChannel = useSelector(state => state.channels.current)
-    const allChannels = useSelector(state => state.channels.current)
-    const [loaded, setLoaded] = useState(false);
     const dispatch = useDispatch()
-    const [channelId, setChannelId] = useState()
     const params = useParams().id;
+    const currentChannel = useSelector(state => state.channels.current)
+    const [channelId, setChannelId] = useState()
 
     useEffect(() => {
         setChannelId(params)
-    })
+    }, [])
 
     useEffect(() => {
+
         (async () => {
             const channels= await dispatch(userChannels())
             if (channels) {
@@ -37,10 +36,6 @@ const PageWrapper = () => {
         })();
     }, [dispatch, channelId])
 
-    useEffect (() => {
-        if (currentChannel && allChannels) setLoaded(true);
-        console.log(loaded, "herehhrehrhejfkdlsjflkdsjlfj")
-    }, [currentChannel, allChannels])
 
     return (
         <div className={main}>
