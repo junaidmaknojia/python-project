@@ -52,40 +52,44 @@ export default function Sidebar(){
                 <div className="channels__title">
                     <p>Channels</p>
                     <p>
-                        <NavLink className="navLink" to={`/form/${channelId}/ch`}>+</NavLink>
+                        <NavLink className="navLink plusButton" to={`/form/${channelId}/ch`}>+</NavLink>
                     </p>
                 </div>
-                {myChannels && (
-                    myChannels.map(channel => (
-                        <div key={channel.id}
+                <div className="channel__list">
+                    {myChannels && (
+                        myChannels.map(channel => (
+                            <div key={channel.id}
                             id={channel.id}
-                            className="channel__title"
+                            className={`channel__title ${currChannel?.id === channel.id ? "currPage" : ""}`}
                             onClick={channelClick}>
-                            <NavLink className="navLink" to={`/channels/${channel.id}`}>
-                                {channel.title}
-                            </NavLink>
-                        </div>
-                    ))
-                )}
+                                <NavLink className="navLink" to={`/channels/${channel.id}`}>
+                                    {`# ${channel.title}`}
+                                </NavLink>
+                            </div>
+                        ))
+                    )}
+                </div>
             </div>
             <div className="directMessages">
                 <div className="directMessages__title">
                     <p>Direct Messages</p>
                     <p onClick={changeForm}>
-                        <NavLink className="navLink" to={`/form/${channelId}/dm`}>+</NavLink>
+                        <NavLink className="navLink plusButton" to={`/form/${channelId}/dm`}>+</NavLink>
                     </p>
                 </div>
-                {myDMs && (
-                    myDMs.map(dm => (
-                        <div key={dm.id}
-                            // id={dm.id}
-                            // className="dm__title"
-                            // onClick={channelClick}
-                            id={dm.id}
-                            className="dm__title"
-                        ><NavLink className="navLink" to={`/channels/${dm.id}`}>{dm.title}</NavLink></div>
-                    ))
-                )}
+                <div className="dm__list">
+                    {myDMs && (
+                        myDMs.map(dm => (
+                            <div key={dm.id}
+                                id={dm.id}
+                                className={`dm__title ${currChannel?.id === dm.id ? "currPage" : ""}`}>
+                                <img style={{width: 20, height: 20, marginRight: 6}}
+                                    src={dm.users.length > 2 ? "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-group-512.png" : "http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png"}/>
+                                <NavLink className="navLink" to={`/channels/${dm.id}`}>{dm.title}</NavLink>
+                            </div>
+                        ))
+                    )}
+                </div>
             </div>
         </div>
     )
