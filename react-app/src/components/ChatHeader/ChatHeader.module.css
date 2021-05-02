@@ -26,10 +26,11 @@
 }
 
 .headerAvatar {
-    height:30px;
-    width:auto;
+    height:24px;
+    width:24px;
     margin: 2px;
     cursor: pointer;
+    object-fit: cover;
 }
 
 .usersAMT {

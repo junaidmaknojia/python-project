@@ -60,10 +60,11 @@ const MessageDisplay = ({message}) => {
                     </span>
 
                     <div className={styles.message_body}>
-                    <pre
-                    dangerouslySetInnerHTML={createMarkup(message.body)}
-                    >
-                    </pre>
+                        <pre
+                            className={styles.richText}
+                            dangerouslySetInnerHTML={createMarkup(message.body)}
+                        >
+                        </pre>
 
                     </div>
                     <div className="amIhere">

@@ -30,3 +30,7 @@ body {
 {
     display: none;
 }
+
+* {
+  font-family: 'Open Sans', sans-serif;
+}
