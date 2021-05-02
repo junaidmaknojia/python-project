@@ -2,6 +2,7 @@
     width: 100%;
     height: 100%;
     color: gray;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .currPage {
@@ -12,24 +13,34 @@
     width: inherit;
 }
 
-.directMessages__title {
+.directMessages__title, .channels__title {
     display: flex;
     flex-flow: row;
-}
-
-.channels__title {
-    display: flex;
-    flex-flow: row;
-
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 15px;
 }
 
 .channel__title, .dm__title {
     padding: 7px 5px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    /* font-weight: bold; */
+}
+
+.dm__list, .channel__list {
+    overflow-y: auto;
 }
 
 .navLink {
     text-decoration: none;
     color: rgb(188,171,188);
+}
+
+.plusButton {
+    margin-left: 10px;
+    padding: 0px 3px;
+    border-radius: 2px;
+}
+
+.plusButton:hover {
+    background-color: rgb(119, 49, 119);
+    border: 1px rgba(188, 171, 188, 0.61) solid;
 }
