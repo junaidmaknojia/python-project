@@ -3,10 +3,10 @@ from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 
-from .models import db, User, Message
+from .models import db, User, Message, Reaction
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.channel_routes import channel_routes
@@ -72,15 +72,31 @@ def handle_connect():
 
 @socketio.on("message")
 def handleMessage(data):
-    print(data)
     room = data["room"]
-    new_message = Message(body=data["body"],
-                          user_id=data["user_id"],
-                          channel_id=data["room"])
+    new_message = Message(
+        body=data["body"],
+        user_id=data["user_id"],
+        channel_id=data["room"]
+    )
+
     db.session.add(new_message)
     db.session.commit()
+    message = Message.query.filter(Message.body == data["body"]).one()
+    data["id"] = message.id
     send(data, room=data["room"], broadcast=True)
     return None
+
+
+@socketio.on("reactions")
+def handleReactions(data):
+    new_reaction = Reaction(
+        type=data["type"],
+        message_id=data["message_id"],
+        user_id=data["user_id"]
+    )
+    db.session.add(new_reaction)
+    db.session.commit()
+    emit("reactionsBack", data, broadcast=True)
 
 
 @socketio.on("join_room")
@@ -99,12 +115,6 @@ def on_leave(data):
 # @socketio.on("connect")
 # def handle_connect():
 #     print("client connected")
-
-# @socketio.on("message")
-# def handleMessage(data):
-#     print(data)
-#     send(data, broadcast=True)
-#     return None
 
 
 @app.before_request

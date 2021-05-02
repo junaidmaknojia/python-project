@@ -1,20 +1,25 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Picker from "emoji-picker-react";
 import { overlay, main } from "./EmojiModal.module.css";
-import { setEmoji, reactionThunk } from '../../store/emoji';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { socket } from "../GlobalChat";
 
 
 const EmojiModal = ({ show, setShow, message }) => {
-  const dispatch = useDispatch()
+  const room = useSelector(state => state.channels.current)
+  const user = useSelector(state => state.session.user)
   const hideModal = () => {
-    setShow(false)
-  }
+    setShow(false)  }
 
 
   const onEmojiClick = (event, emojiObject) => {
-    message ? dispatch(reactionThunk(message.id, emojiObject.emoji)):
-    dispatch(setEmoji(emojiObject.emoji))
+    const data = {
+      type: emojiObject.emoji,
+      message_id: message.id,
+      user_id: user.id,
+      room: room.id
+    }
+    socket.emit("reactions", data)
   }
 
   if (!show) return null;
