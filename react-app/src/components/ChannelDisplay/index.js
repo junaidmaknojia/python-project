@@ -8,7 +8,6 @@ import { displayWrapper } from './ChannelDisplay.module.css'
 
 const ChannelDisplay = () => {
     const currentChannel = useSelector(state => state.channels.current)
-    console.log(currentChannel, "current in GLOBAL????????????????")
     const [ pastMessages, setPastMessages ] = useState(null);
     const [loaded, setLoaded] = useState(false);
 
@@ -20,7 +19,6 @@ const ChannelDisplay = () => {
             setLoaded(true);
             }
         )();
-        console.log(loaded, "inside GLOBAL!!!!!!!!!!!!!!!!!!")
     }, [currentChannel])
 
     return (

@@ -7,7 +7,6 @@ reaction_routes = Blueprint('reaction', __name__)
 
 @reaction_routes.route('', methods=['POST'])
 def add_reactions():
-    print("HIT!!!!!!")
     data = request.json
 
     postDict = {
