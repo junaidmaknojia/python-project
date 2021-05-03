@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import LogoutButton from "../auth/LogoutButton";
 import { overlay, main } from "./ProfileModal.module.css";
 

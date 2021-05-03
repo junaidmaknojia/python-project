@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import GlobalChat from '../GlobalChat';
 import ChatHeader from '../ChatHeader';
 import {getMessages} from '../../services/messages.js'
-import {useParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import { displayWrapper } from './ChannelDisplay.module.css'
 

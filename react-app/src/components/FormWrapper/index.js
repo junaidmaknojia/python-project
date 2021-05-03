@@ -12,28 +12,18 @@ const FormWrapper = () => {
     const channels = useSelector(state => state.channels.channels)
     const [loaded, setLoaded] = useState(false);
     const dispatch = useDispatch()
-    // const [channelId, setChannelId] = useState()
-    const params = useParams().id;
 
-    // useEffect(() => {
-    //     setChannelId(params)
-    // })
+    const params = useParams().id;
 
     useEffect(() => {
         const myChannels = Object.values(channels.channel)
-        console.log( channels, "is this even running??????????????")
-
 
         let thisChannel;
         myChannels.forEach(el => {
-            console.log(el.id, params, "IDSSSSSSSSSS")
             if(el.id === Number(params)) thisChannel = el
         })
 
         dispatch(addChannel(thisChannel))
-
-
-
     }, [dispatch, params])
 
     useEffect (() => {
