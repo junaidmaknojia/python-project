@@ -91,7 +91,7 @@ export const leaveChannel = (payload) => async (dispatch) => {
 }
 
 export const createDM = (payload) => async (dispatch) => {
-	console.log("hitting createDM");
+
 	// payload = {otherUsers: addedUsers, user_id: user.id}
 	const response = await fetch("/api/channel/dm", {
 		method: "POST",

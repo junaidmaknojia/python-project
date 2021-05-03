@@ -13,6 +13,7 @@ from .api.channel_routes import channel_routes
 from .api.message_routes import message_routes
 from .api.channel_users_routes import channel_users_routes
 from .api.reaction_routes import reaction_routes
+from .api.glbl_routes import glbl_routes
 
 from .seeds import seed_commands
 
@@ -52,6 +53,7 @@ app.register_blueprint(channel_routes, url_prefix='/api/channel')
 app.register_blueprint(message_routes, url_prefix='/api/messages')
 app.register_blueprint(channel_users_routes, url_prefix='/api/channelusers')
 app.register_blueprint(reaction_routes, url_prefix='/api/reaction')
+app.register_blueprint(glbl_routes, url_prefix='/api/glbl')
 db.init_app(app)
 Migrate(app, db)
 
@@ -101,14 +103,14 @@ def handleReactions(data):
 
 @socketio.on("join_room")
 def on_join(data):
-    print(f'{data["user_id"]} has joined {data["room"]}')
+    print(f'{data["name"]} has joined {data["room"]}')
     room = data["room"]
     join_room(room)
 
 
 @socketio.on("leave_room")
 def on_leave(data):
-    print(f'{data["user_id"]} has left the building')
+    print(f'{data["name"]} has left the building')
     room = data["room"]
     leave_room(room)
 

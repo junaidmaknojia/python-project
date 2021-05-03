@@ -7,10 +7,13 @@ channel_routes = Blueprint('channel', __name__)
 
 @channel_routes.route('')
 def get_channels():
-    user = User.query.filter(User.id == current_user.id).one()
-    channel_collection = user.channels
-    channels = {"channel": list(map(lambda ch: ch.to_dict(), channel_collection))}
-    return channels
+    if (current_user.is_authenticated):
+        user = User.query.filter(User.id == current_user.id).one()
+        channel_collection = user.channels
+        channels = {"channel": list(map(lambda ch: ch.to_dict(), channel_collection))}
+        return channels
+
+    return {"error": "error"}
 
 
 @channel_routes.route('', methods=['POST'])

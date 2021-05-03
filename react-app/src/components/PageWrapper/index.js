@@ -1,46 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import {useParams} from "react-router-dom";
 import SideBar from '../Sidebar'
 import Header from '../Header'
 import ChannelDisplay from '../ChannelDisplay'
-import {addChannel, userChannels} from '../../store/channels'
+import {addChannel} from '../../store/channels'
 import { main, sidebar, navbar, msgboard } from './PageWrapper.module.css'
 
 const PageWrapper = () => {
-    const currentChannel = useSelector(state => state.channels.current)
-    const allChannels = useSelector(state => state.channels.current)
-    const [loaded, setLoaded] = useState(false);
     const dispatch = useDispatch()
-    const [channelId, setChannelId] = useState()
     const params = useParams().id;
+    const channels = useSelector(state => state.channels.channels)
+    const currentChannel = useSelector(state => state.channels.current)
 
     useEffect(() => {
-        setChannelId(params)
-    })
+        const myChannels = Object.values(channels.channel)
 
-    useEffect(() => {
-        (async () => {
-            const channels= await dispatch(userChannels())
-            if (channels) {
+        let thisChannel;
+        myChannels.forEach(el => {
+            if(el.id === Number(params)) thisChannel = el
+        })
 
-                const myChannels = Object.values(channels.channel)
-
-                let thisChannel;
-                myChannels.forEach(el => {
-                    if(el.id === Number(channelId)) thisChannel = el
-                })
-
-                dispatch(addChannel(thisChannel))
-            }
-
-        })();
-    }, [dispatch, channelId])
-
-    useEffect (() => {
-        if (currentChannel && allChannels) setLoaded(true);
-        console.log(loaded, "herehhrehrhejfkdlsjflkdsjlfj")
-    }, [currentChannel, allChannels])
+        dispatch(addChannel(thisChannel))
+    }, [dispatch, params])
 
     return (
         <div className={main}>

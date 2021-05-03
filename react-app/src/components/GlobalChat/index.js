@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import io from "socket.io-client";
 import MessageDisplay from '../MessageDisplay';
-import EmojiModal from '../EmojiModal';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg'
 import { convertToHTML } from 'draft-convert';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from './GlobalChat.module.css';
 
-// need user instance (info: url, name)
 
 // const endPoint = "https://sn4ck.herokuapp.com/";
 const endPoint = "http://localhost:5000";
@@ -65,7 +63,6 @@ const GlobalChat = ({ pastMessages }) => {
   }
 
   useEffect(() => {
-    socket.emit("join_room", {user_id: user.id, room:channel_id})
     setMessages([...pastMessages])
   }, [pastMessages])
 

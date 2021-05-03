@@ -1,3 +1,6 @@
+import { getChannels } from './channels';
+import { setGlbl } from './default';
+
 // constants
 const SET_USER = "session/SET_USER";
 const REMOVE_USER = "session/REMOVE_USER";
@@ -55,7 +58,9 @@ export const login = (email, password) => async (dispatch) => {
     if (data.errors) {
         return data;
     }
-    dispatch(setUser(data));
+    dispatch(getChannels(data.channels));
+    dispatch(setGlbl(data.glbl));
+    dispatch(setUser(data.user));
     return {};
 }
 
@@ -72,14 +77,14 @@ export const logout = () => async (dispatch) => {
 
 export const signUp = (firstName, lastName, username, email, password, profilePicture) => async (dispatch)=> {
     const formData = new FormData();
-    
+
     formData.append('firstName', firstName);
     formData.append('lastName', lastName);
     formData.append('username', username);
     formData.append('email', email);
     formData.append('image', profilePicture);
     formData.append('password', password);
-    
+
     const response = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
@@ -88,7 +93,10 @@ export const signUp = (firstName, lastName, username, email, password, profilePi
         body: formData
     });
     const data = await response.json();
-    dispatch(setUser(data));
+    dispatch(getChannels(data.channels))
+    dispatch(setGlbl(data.glbl))
+    dispatch(setUser(data.user));
+    return {};
 }
 
 // reducer

@@ -4,43 +4,32 @@ import {useParams} from "react-router-dom";
 import SideBar from '../Sidebar'
 import Header from '../Header'
 import NewChannelorDM from '../NewChannelorDM'
-import {addChannel, userChannels} from '../../store/channels'
+import {addChannel} from '../../store/channels'
 import { main, sidebar, navbar, msgboard } from '../PageWrapper/PageWrapper.module.css'
 
 const FormWrapper = () => {
     const currentChannel = useSelector(state => state.channels.current)
-    const allChannels = useSelector(state => state.channels.current)
+    const channels = useSelector(state => state.channels.channels)
     const [loaded, setLoaded] = useState(false);
     const dispatch = useDispatch()
-    const [channelId, setChannelId] = useState()
+
     const params = useParams().id;
 
     useEffect(() => {
-        setChannelId(params)
-    })
+        const myChannels = Object.values(channels.channel)
 
-    useEffect(() => {
-        (async () => {
-            const channels= await dispatch(userChannels())
-            if (channels) {
+        let thisChannel;
+        myChannels.forEach(el => {
+            if(el.id === Number(params)) thisChannel = el
+        })
 
-                const myChannels = Object.values(channels.channel)
-
-                let thisChannel;
-                myChannels.forEach(el => {
-                    if(el.id === Number(channelId)) thisChannel = el
-                })
-
-                dispatch(addChannel(thisChannel))
-            }
-
-        })();
-    }, [dispatch, channelId])
+        dispatch(addChannel(thisChannel))
+    }, [dispatch, params])
 
     useEffect (() => {
-        if (currentChannel && allChannels) setLoaded(true);
+        if (currentChannel && channels) setLoaded(true);
 
-    }, [currentChannel, allChannels])
+    }, [currentChannel, channels])
 
     return (
         <div className={main}>

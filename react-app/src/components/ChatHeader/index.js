@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import React, {useState} from 'react';
+import { useSelector} from 'react-redux'
 import styles from './ChatHeader.module.css'
 import addUserIcon from '../Icons/icons8-add-male-user-64.png'
 
 const ChatHeader = () => {
     const currentChannel = useSelector(state => state.channels.current)
-    console.log(currentChannel, 'Inside chatheader!!!!!!!!!!')
     const channelUsers = currentChannel.users
-    const [ channelTitle, setChannelTitle ] = useState(currentChannel?.title)
 
     return (
         <div className={styles.componentWrapper}>
