@@ -63,6 +63,8 @@ const GlobalChat = ({ pastMessages }) => {
   }
 
   useEffect(() => {
+    // console.log(user.id, "user Id in useEffect Global")
+    socket.emit("join_room", {name: user.id, room:channel_id})
     setMessages([...pastMessages])
   }, [pastMessages])
 
