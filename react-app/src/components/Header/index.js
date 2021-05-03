@@ -41,7 +41,7 @@ const Header = () => {
             <img className={img} src={currentUser.picture_url}/>
           </button>
         </div>
-        <ProfileModal show={show} setShow={setShow} />
+        <ProfileModal show={show} setShow={setShow} user={currentUser} />
       </div>
     </div>
   )

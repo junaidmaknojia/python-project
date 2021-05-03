@@ -1,8 +1,17 @@
 import React from 'react';
 import LogoutButton from "../auth/LogoutButton";
-import { overlay, main } from "./ProfileModal.module.css";
+import {
+  overlay,
+  main,
+  userWrapper,
+  thePic,
+  namePlaque,
+  userName,
+  buttonWrapper,
+  backGround
+} from "./ProfileModal.module.css";
 
-const ProfileModal = ({show, setShow}) => {
+const ProfileModal = ({show, setShow, user}) => {
 
   const modalHide = () => {
     setShow(false)
@@ -13,8 +22,16 @@ const ProfileModal = ({show, setShow}) => {
   return (
     <div className={overlay} onClick={modalHide}>
       <div className={main}>
-        <div>
-          <LogoutButton />
+        <div className={backGround}>
+          <div className={userWrapper}>
+            <img className={thePic} src={user.picture_url} />
+            <div className={namePlaque}>
+              <span className={userName}>{user.username}</span>
+            </div>
+          </div>
+          <div className={buttonWrapper}>
+            <LogoutButton />
+          </div>
         </div>
       </div>
     </div>

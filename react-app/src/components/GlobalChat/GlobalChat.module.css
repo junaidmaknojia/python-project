@@ -110,7 +110,6 @@
 .fakeInputDiv {
     display: flex;
     height: 100px;
-    width: 100%;
     background-color: transparent;
     flex-direction: column;
     align-items: flex-end;
@@ -118,7 +117,7 @@
     position: fixed;
     width: 10%;
     right: 2%;
-    top: 87%;
+    top: 87.45%;
     z-index: 55;
 }
 
@@ -141,5 +140,5 @@
     z-index: 55; */
 }
 
-/* super hacky way to style the toolbar without having it look bad when adding emojis was done in 
+/* super hacky way to style the toolbar without having it look bad when adding emojis was done in
 index.css on the top level with the className of .GlobalChat_wrapperClass__2BITn .rdw-editor-main -Sean */
