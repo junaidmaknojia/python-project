@@ -12,6 +12,7 @@ import FormWrapper from "./components/FormWrapper";
 import SplashPage from "./components/SplashPage";
 // import { authenticate } from "./services/auth";
 import { authenticate } from "./store/session";
+import { userChannels } from "./store/channels";
 
 
 
@@ -23,6 +24,7 @@ function App() {
   useEffect(() => {
     (async() => {
       await dispatch(authenticate())
+      await dispatch(userChannels())
       setLoaded(true);
     })();
   }, [dispatch]);

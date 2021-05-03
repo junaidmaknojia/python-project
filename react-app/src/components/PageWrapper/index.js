@@ -1,41 +1,34 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import SideBar from '../Sidebar'
 import Header from '../Header'
 import ChannelDisplay from '../ChannelDisplay'
-import {addChannel, userChannels} from '../../store/channels'
+import {addChannel} from '../../store/channels'
 import { main, sidebar, navbar, msgboard } from './PageWrapper.module.css'
 
 const PageWrapper = () => {
     const dispatch = useDispatch()
+    const history = useHistory();
     const params = useParams().id;
+    const channels = useSelector(state => state.channels.channels)
     const currentChannel = useSelector(state => state.channels.current)
-    const [channelId, setChannelId] = useState()
+    // const [channelId, setChannelId] = useState()
+
+    // useEffect(() => {
+    //     setChannelId(params)
+    // }, [])
 
     useEffect(() => {
-        setChannelId(params)
-    }, [])
+        const myChannels = Object.values(channels.channel)
 
-    useEffect(() => {
+        let thisChannel;
+        myChannels.forEach(el => {
+            if(el.id === Number(params)) thisChannel = el
+        })
 
-        (async () => {
-            const channels= await dispatch(userChannels())
-            if (channels) {
-
-                const myChannels = Object.values(channels.channel)
-
-                let thisChannel;
-                myChannels.forEach(el => {
-                    if(el.id === Number(channelId)) thisChannel = el
-                })
-
-                dispatch(addChannel(thisChannel))
-            }
-
-        })();
-    }, [dispatch, channelId])
-
+        dispatch(addChannel(thisChannel))
+    }, [dispatch, params])
 
     return (
         <div className={main}>
