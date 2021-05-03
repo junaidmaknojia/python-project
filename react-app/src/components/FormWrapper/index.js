@@ -10,7 +10,6 @@ import { main, sidebar, navbar, msgboard } from '../PageWrapper/PageWrapper.modu
 const FormWrapper = () => {
     const currentChannel = useSelector(state => state.channels.current)
     const channels = useSelector(state => state.channels.channels)
-    const [loaded, setLoaded] = useState(false);
     const dispatch = useDispatch()
 
     const params = useParams().id;
@@ -26,16 +25,12 @@ const FormWrapper = () => {
         dispatch(addChannel(thisChannel))
     }, [dispatch, params])
 
-    useEffect (() => {
-        if (currentChannel && channels) setLoaded(true);
-
-    }, [currentChannel, channels])
 
     return (
         <div className={main}>
-            {loaded && <div className={navbar}><Header /></div>}
-            {loaded && <div className={sidebar}><SideBar /></div>}
-            {loaded && <div className={msgboard}><NewChannelorDM type={"ch"} currentChannel={currentChannel}/></div>}
+            {currentChannel && <div className={navbar}><Header /></div>}
+            {currentChannel && <div className={sidebar}><SideBar /></div>}
+            {currentChannel && <div className={msgboard}><NewChannelorDM type={"ch"} currentChannel={currentChannel}/></div>}
         </div>
     )
 }
