@@ -43,7 +43,11 @@ def login():
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
         channels = {"channel": list(map(lambda ch: ch.to_dict(), user.channels))}
-        return {"user": user.to_dict(), "channels": channels}
+        glbl_id = None
+        for channel in channels["channel"]:
+            if (channel["type"] == "g"):
+                glbl_id = channel
+        return {"user": user.to_dict(), "channels": channels, "glbl": glbl_id["id"]}
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
@@ -93,7 +97,11 @@ def sign_up():
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        return user.to_dict()
+        user = User.query.filter(User.email == form.data['email']).first()
+        channel = glbl.to_dict()
+        channels = {"channel": [channel]}
+        return {"user": user.to_dict(), "channels": channels, "glbl": channel["id"]}
+
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 

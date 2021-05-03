@@ -24,6 +24,7 @@ const PageWrapper = () => {
 
         let thisChannel;
         myChannels.forEach(el => {
+            console.log(el.id, params, "IDSSSSSS")
             if(el.id === Number(params)) thisChannel = el
         })
 

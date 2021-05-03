@@ -1,4 +1,5 @@
 import { getChannels } from './channels';
+import { setGlbl } from './default';
 
 // constants
 const SET_USER = "session/SET_USER";
@@ -57,7 +58,8 @@ export const login = (email, password) => async (dispatch) => {
     if (data.errors) {
         return data;
     }
-    dispatch(getChannels(data.channels))
+    dispatch(getChannels(data.channels));
+    dispatch(setGlbl(data.glbl));
     dispatch(setUser(data.user));
     return {};
 }
@@ -91,7 +93,10 @@ export const signUp = (firstName, lastName, username, email, password, profilePi
         body: formData
     });
     const data = await response.json();
-    dispatch(setUser(data));
+    dispatch(getChannels(data.channels))
+    dispatch(setGlbl(data.glbl))
+    dispatch(setUser(data.user));
+    return {};
 }
 
 // reducer

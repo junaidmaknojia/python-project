@@ -3,12 +3,14 @@ import thunk from 'redux-thunk';
 import session from './session'
 import channels from './channels'
 import emoji from './emoji';
+import defaultId from './default';
 
 
 const rootReducer = combineReducers({
     session,
     channels,
-    emoji
+    emoji,
+    defaultId,
 });
 
 let enhancer;

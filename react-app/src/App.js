@@ -13,6 +13,7 @@ import SplashPage from "./components/SplashPage";
 // import { authenticate } from "./services/auth";
 import { authenticate } from "./store/session";
 import { userChannels } from "./store/channels";
+import { getGlobal } from "./store/default";
 
 
 
@@ -23,6 +24,7 @@ function App() {
 
   useEffect(() => {
     (async() => {
+      await dispatch(getGlobal());
       await dispatch(authenticate())
       await dispatch(userChannels())
       setLoaded(true);

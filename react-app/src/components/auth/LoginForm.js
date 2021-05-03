@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import  { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { login } from "../../store/session";
@@ -7,6 +7,7 @@ import styles from './LoginForm.module.css';
 const LoginForm = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
+  const glblId = useSelector(state => state.defaultId.id)
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,8 +28,8 @@ const LoginForm = () => {
     setPassword(e.target.value);
   };
 
-  if (user) {
-    return <Redirect to="/channels/2" />;
+  if (glblId && user) {
+    return <Redirect to={`/channels/${glblId}`} />;
   }
 
   return (
@@ -38,12 +39,12 @@ const LoginForm = () => {
         <a className={styles.snackHeader} href='/'>
         <div className={styles.centerColumn}>
           <img className={styles.logo}
-          src={require("../../assets/logo_purple.svg")} 
+          src={require("../../assets/logo_purple.svg")}
           alt={'snack logo'}/>
           <a className={styles.snackHeader}>sn4ck</a>
         </div>
         </a>
-        <div className={styles.rightColumn}>          
+        <div className={styles.rightColumn}>
           <div>
             New to Sn4ck?
             <br/>

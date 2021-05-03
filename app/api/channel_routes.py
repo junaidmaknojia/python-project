@@ -13,7 +13,7 @@ def get_channels():
         channels = {"channel": list(map(lambda ch: ch.to_dict(), channel_collection))}
         return channels
 
-    return ["error"]
+    return {"error": "error"}
 
 
 @channel_routes.route('', methods=['POST'])

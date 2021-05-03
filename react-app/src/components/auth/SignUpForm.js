@@ -9,6 +9,7 @@ const SignUpForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector(state => state.session.user);
+  const glblId = useSelector(state => state.defaultId.id)
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -58,8 +59,8 @@ const SignUpForm = () => {
   };
 
 
-  if (user) {
-    return <Redirect to="/channels/1" />;
+  if (glblId && user) {
+    return <Redirect to={`/channels/${glblId}`} />;
   }
 
 
