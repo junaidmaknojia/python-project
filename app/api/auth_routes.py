@@ -45,7 +45,8 @@ def login():
         channels = {"channel": list(map(lambda ch: ch.to_dict(), user.channels))}
         glbl_id = None
         for channel in channels["channel"]:
-            if (channel["type"] == "g"):
+            print(channel["title"], "++++++++++++++++++++++++++++")
+            if (channel["title"] == "Global Chatroom"):
                 glbl_id = channel
         return {"user": user.to_dict(), "channels": channels, "glbl": glbl_id["id"]}
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401

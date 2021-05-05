@@ -8,11 +8,11 @@ import {addChannel} from '../../store/channels'
 import { main, sidebar, navbar, msgboard } from '../PageWrapper/PageWrapper.module.css'
 
 const FormWrapper = () => {
-    const currentChannel = useSelector(state => state.channels.current)
-    const channels = useSelector(state => state.channels.channels)
     const dispatch = useDispatch()
-
     const params = useParams().id;
+    const channels = useSelector(state => state.channels.channels)
+    const currentChannel = useSelector(state => state.channels.current)
+
 
     useEffect(() => {
         const myChannels = Object.values(channels.channel)
