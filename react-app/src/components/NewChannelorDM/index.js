@@ -72,6 +72,7 @@ export default function NewChannelorDM() {
     }
 
     async function joinDm(){
+        // first check for an existing DM with the same combo of users
         const allDMs = await listDMs();
         const addedUsers2 = [...addedUsers]
         addedUsers2.unshift(user); // adding session user to match the DM user combos
@@ -80,12 +81,13 @@ export default function NewChannelorDM() {
         for(let i=0; i<allDMs.length; i++){
             let dm = allDMs[i];
             let test = dm.users.map(user => user.id).join(",");
-            if(test === addedUsersString){
+            if(test === addedUsersString){ // got a match
                 dispatch(addChannel(dm));
                 history.push(`/channels/${dm.id}`);
                 return;
             }
         }
+        // existing DM was not found, so make one
         const newDM = dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
         history.push(`/channels/${newDM.id}`);
     }

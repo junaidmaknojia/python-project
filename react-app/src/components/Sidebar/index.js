@@ -11,7 +11,7 @@ export default function Sidebar(){
     const user = useSelector(state => state.session.user);
     const myComms = useSelector(state => state.channels.channels)
 
-    const myChannels = myComms.channel.filter(ch => ch.type === "ch");
+    const myChannels = myComms.channel.filter(ch => ch.type !== "dm");
     const myDMs = myComms.channel.filter(ch => ch.type === "dm");
 
     myDMs.forEach(dm => {
