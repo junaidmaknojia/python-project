@@ -86,8 +86,8 @@ export default function NewChannelorDM() {
                 return;
             }
         }
-        await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
-        history.push(`/channels/${currChannel.id}`);
+        const newDM = dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
+        history.push(`/channels/${newDM.id}`);
     }
 
     const joinCh = async(e, channel) => {
