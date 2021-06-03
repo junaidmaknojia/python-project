@@ -11,7 +11,8 @@ import {
     joinChannel,
     leaveChannel,
     createDM,
-    userChannels } from "../../store/channels";
+    userChannels,
+    addChannel} from "../../store/channels";
 import styles from "./NewChannelorDM.module.css";
 
 
@@ -78,6 +79,24 @@ export default function NewChannelorDM() {
     //     return hermes;
     // }
 
+    // function dmExists(){
+    //     const allDMs = listDMs();
+    //     const sortedAddedUsers = [...addedUsers].sort((obj1, obj2) => obj1.id - obj2.id);
+    //     sortedAddedUsers.unshift(user); // adding session user to match the DMs
+    //     const addedUsersString = sortedAddedUsers.map(user => user.id).join(",");
+    //     console.log(addedUsersString);
+    //     for(let i=0; i<allDMs.length; i++){
+    //         let dm = allDMs[i];
+    //         let test = dm.users.map(user => user.id).join(",");
+    //         console.log(test);
+    //         if(test === addedUsersString){
+    //             console.log("hit a match");
+    //             return dm;
+    //         }
+    //     }
+    //     return false;
+    // }
+
     function removeUserFromList(clickedUser){
         const updatedUsersList = [...addedUsers].filter(user => user.id !== clickedUser.id);
         setAddedUsers(updatedUsersList);
@@ -89,11 +108,26 @@ export default function NewChannelorDM() {
         }
     }
 
-
     async function joinDm(){
-        const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
+        const allDMs = await listDMs();
+        const addedUsers2 = [...addedUsers]
+        addedUsers2.unshift(user); // adding session user to match the DMs
+        const sortedAddedUsers = addedUsers2.sort((obj1, obj2) => obj2.id - obj1.id);
+        const addedUsersString = sortedAddedUsers.map(user => user.id).join(",");
+        console.log(addedUsersString);
+        for(let i=0; i<allDMs.length; i++){
+            let dm = allDMs[i];
+            let test = dm.users.map(user => user.id).join(",");
+            console.log(test);
+            if(test === addedUsersString){
+                console.log("hit a match");
+                await dispatch(addChannel(dm));
+                history.push(`/channels/${currChannel.id}`);
+                return;
+            }
+        }
+        await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
         history.push(`/channels/${currChannel.id}`);
-
     }
 
     const joinCh = async(e, channel) => {
@@ -156,7 +190,7 @@ export default function NewChannelorDM() {
                         </div>
                         )
                     })}
-                </div>l
+                </div>
             </div>
         );
     }else {
