@@ -60,43 +60,6 @@ export default function NewChannelorDM() {
         history.push(`/channels/${freshChannel.id}`);
     }
 
-    // async function dmExists(){
-    //     const allDMs = await listDMs();
-    //     const sortedAddedUsers = [...addedUsers].sort((obj1, obj2) => obj1.id - obj2.id);
-    //     sortedAddedUsers.unshift(user); // adding session user to match the DMs
-    //     const hermes = allDMs.find(dm => {
-    //         if(dm.users.length === (sortedAddedUsers.length)){
-    //             console.log("same length", dm.users);
-    //             for (let i = 0; i < dm.users.length; i++) {
-    //                 if(dm.users[i].id !== sortedAddedUsers[i].id){
-    //                     return false;
-    //                 }
-    //             }
-    //             return true;
-    //         }
-    //         return false;
-    //     });
-    //     return hermes;
-    // }
-
-    // function dmExists(){
-    //     const allDMs = listDMs();
-    //     const sortedAddedUsers = [...addedUsers].sort((obj1, obj2) => obj1.id - obj2.id);
-    //     sortedAddedUsers.unshift(user); // adding session user to match the DMs
-    //     const addedUsersString = sortedAddedUsers.map(user => user.id).join(",");
-    //     console.log(addedUsersString);
-    //     for(let i=0; i<allDMs.length; i++){
-    //         let dm = allDMs[i];
-    //         let test = dm.users.map(user => user.id).join(",");
-    //         console.log(test);
-    //         if(test === addedUsersString){
-    //             console.log("hit a match");
-    //             return dm;
-    //         }
-    //     }
-    //     return false;
-    // }
-
     function removeUserFromList(clickedUser){
         const updatedUsersList = [...addedUsers].filter(user => user.id !== clickedUser.id);
         setAddedUsers(updatedUsersList);
@@ -111,18 +74,15 @@ export default function NewChannelorDM() {
     async function joinDm(){
         const allDMs = await listDMs();
         const addedUsers2 = [...addedUsers]
-        addedUsers2.unshift(user); // adding session user to match the DMs
+        addedUsers2.unshift(user); // adding session user to match the DM user combos
         const sortedAddedUsers = addedUsers2.sort((obj1, obj2) => obj2.id - obj1.id);
         const addedUsersString = sortedAddedUsers.map(user => user.id).join(",");
-        console.log(addedUsersString);
         for(let i=0; i<allDMs.length; i++){
             let dm = allDMs[i];
             let test = dm.users.map(user => user.id).join(",");
-            console.log(test);
             if(test === addedUsersString){
-                console.log("hit a match");
-                await dispatch(addChannel(dm));
-                history.push(`/channels/${currChannel.id}`);
+                dispatch(addChannel(dm));
+                history.push(`/channels/${dm.id}`);
                 return;
             }
         }
