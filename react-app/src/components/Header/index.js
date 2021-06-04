@@ -15,6 +15,12 @@ import {
   img,
   modalButton } from "./Header.module.css";
 
+  // *********search bar/button********************
+  // <button className={searchButton}>
+  //   <span className={span}>Search Snack</span>
+  // </button>
+  // **********************************************
+
 const Header = () => {
   const [ show, setShow ] = useState(false)
   const currentUser = useSelector(state => state.session.user)
@@ -31,9 +37,7 @@ const Header = () => {
         </div>
       </div>
       <div className={center}>
-        <button className={searchButton}>
-          <span className={span}>Search Snack</span>
-        </button>
+        {/*search bar goes here*/}
       </div>
       <div className={rightSide}>
         <div className={userPic}>
