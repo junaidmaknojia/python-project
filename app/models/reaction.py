@@ -20,7 +20,7 @@ class Reaction(db.Model):
             "type": self.type,
             "message_id": self.message_id,
             "user_id": self.user_id,
-            "created_at": self.created_at,
+            # "created_at": self.created_at,
             "user": {
                 "username": self.user.username,
             }

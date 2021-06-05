@@ -72,7 +72,7 @@ export default function Sidebar(){
                             <div key={dm.id}
                                 id={dm.id}
                                 className={`dm__title ${currChannel?.id === dm.id ? "currPage" : ""}`}>
-                                {dm.users.length > 2 ? <i class="fas fa-users" style={{marginRight: 5}}></i> : <i class="fas fa-user-friends" style={{marginRight: 5}}></i>}
+                                {dm.users.length > 2 ? <i className="fas fa-users" style={{marginRight: 5}}></i> : <i className="fas fa-user-friends" style={{marginRight: 5}}></i>}
                                 <NavLink className="navLink" to={`/channels/${dm.id}`}>{dm.title}</NavLink>
                             </div>
                         ))

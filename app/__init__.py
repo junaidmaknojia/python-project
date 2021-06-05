@@ -94,6 +94,7 @@ def handleMessage(data):
         message.body = data["body"]
         db.session.commit()
         data=message.to_dict()
+        data["new"] = False
         send(data, room=room, broadcast=True)
         return None
 

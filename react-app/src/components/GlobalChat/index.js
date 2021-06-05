@@ -37,7 +37,23 @@ const GlobalChat = ({ pastMessages }) => {
   }
 
   socket.on("message", data => {
-    setMessages([data, ...messages]);
+    console.log(data.new, "datanew here. . .")
+    if (data.new) {
+      setMessages([data, ...messages]);
+    } else {
+
+      const messageArr = messages.map(message => {
+        console.log(data.id, message.id, "comparecompare")
+        if (data.id === message.id) {
+          return data;
+        } else {
+          return message;
+        }
+
+      })
+
+      setMessages(messageArr);
+    }
   });
 
 
