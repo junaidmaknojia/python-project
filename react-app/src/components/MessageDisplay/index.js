@@ -7,19 +7,22 @@ import { EditorState, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg'
 import { convertFromHTML, convertToHTML } from 'draft-convert';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { useSelector } from "react-redux";
 
 const MessageDisplay = ({message}) => {
+    const currentUser = useSelector(state => state.session.user)
     const [ emojis, setEmojis ] = useState([])
+    const [ isUser, setIsUser ] = useState(currentUser.id !== message.user.id)
     const [ show, setShow ] = useState(false);
     const [ isEdit, setIsEdit ] = useState(false);
     const [convertedContent, setConvertedContent] = useState(message.body);
     const [ newMessage, setNewMessage ] = useState(message.body);
     const [editorState, setEditorState] = useState(
-        () => EditorState.createWithContent(convertFromHTML(message.body)),
-      )
+        () => EditorState.createWithContent(convertFromHTML(message.body)),      )
 
 
     useEffect(() => {
+        console.log(currentUser.id, message.user.id, "compare here")
         setEmojis([...message.reactions])
     }, [])
 
@@ -76,12 +79,16 @@ const MessageDisplay = ({message}) => {
         setNewMessage(convertedContent)
     }
 
+    const handleEdit = () => {
+        return;
+    }
+
     return (
         <div className={styles.message_wrapper}>
             <div className={styles.menuWrapper} >
                 <button className={styles.emoji} onClick={showModal}><i className="far fa-grin fa-2x"></i></button>
-                <button className={styles.edit} onClick={showEdit}>edit</button>
-                <button className={styles.delete} onClick={deleteMsg}>delete</button>
+                <button disabled={isUser} className={styles.edit} onClick={showEdit}>edit</button>
+                <button disabled={isUser} className={styles.delete} onClick={deleteMsg}>delete</button>
             </div>
             <EmojiModal show={show} setShow={setShow} message={message}/>
             <div className={styles.message_container}>
@@ -107,7 +114,8 @@ const MessageDisplay = ({message}) => {
                         value={newMessage}
                         onChange={handleChange}
                         />,
-                        <button onClick={cancelEdit}>cancel</button>]:
+                        <button onClick={cancelEdit}>cancel</button>,
+                        <button onClick={handleEdit}>edit messge</button>]:
                         <pre
                             className={styles.richText}
                             dangerouslySetInnerHTML={createMarkup(message.body)}
@@ -116,7 +124,7 @@ const MessageDisplay = ({message}) => {
                     </div>
                     <div className="amIhere">
                         <span>
-                            <Reactions message={message} setEmojis={setEmojis} emojis={emojis} />
+                            {!isEdit && <Reactions message={message} setEmojis={setEmojis} emojis={emojis} />}
                         </span>
                     </div>
 
