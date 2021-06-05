@@ -44,6 +44,7 @@ const GlobalChat = ({ pastMessages }) => {
   const sendMessage = () => {
     if (newMessage) {
       socket.emit("message", {
+        new: true,
         body: newMessage,
         room: channel_id,
         user_id: user.id,
@@ -58,7 +59,7 @@ const GlobalChat = ({ pastMessages }) => {
       setEditorState(() => EditorState.createEmpty())
       setNewMessage('')
     } else {
-      alert("your dumb");
+      alert("message field cannot be empty");
     }
   }
 
@@ -75,7 +76,7 @@ const GlobalChat = ({ pastMessages }) => {
       <div className={styles.messageWrapper}>
       {messages.length > 0 &&
         messages.map((data, i) => (
-          <MessageDisplay message={data} key={i} channel={currentChannel} />
+          <MessageDisplay message={data} key={i} socket={socket} channel={currentChannel} />
           ))}
       </div>
       <div className={styles.flexrow}>

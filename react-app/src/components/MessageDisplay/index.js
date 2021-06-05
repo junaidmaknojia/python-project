@@ -9,7 +9,7 @@ import { convertFromHTML, convertToHTML } from 'draft-convert';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useSelector } from "react-redux";
 
-const MessageDisplay = ({message}) => {
+const MessageDisplay = ({message, socket, channel}) => {
     const currentUser = useSelector(state => state.session.user)
     const [ emojis, setEmojis ] = useState([])
     const [ isUser, setIsUser ] = useState(currentUser.id !== message.user.id)
@@ -22,9 +22,8 @@ const MessageDisplay = ({message}) => {
 
 
     useEffect(() => {
-        console.log(currentUser.id, message.user.id, "compare here")
         setEmojis([...message.reactions])
-    }, [])
+    }, [message])
 
     // for the text editor
     const convertContentToHTML = () => {
@@ -80,7 +79,15 @@ const MessageDisplay = ({message}) => {
     }
 
     const handleEdit = () => {
-        return;
+        if (newMessage) {
+            socket.emit("message", {
+                body: newMessage,
+                id: message.id,
+                new: false,
+                room: channel.id
+            });
+            setIsEdit(false);
+        }
     }
 
     return (
@@ -115,7 +122,7 @@ const MessageDisplay = ({message}) => {
                         onChange={handleChange}
                         />,
                         <button onClick={cancelEdit}>cancel</button>,
-                        <button onClick={handleEdit}>edit messge</button>]:
+                        <button disabled={newMessage === message.body} onClick={handleEdit}>edit messge</button>]:
                         <pre
                             className={styles.richText}
                             dangerouslySetInnerHTML={createMarkup(message.body)}

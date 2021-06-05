@@ -74,19 +74,28 @@ def handle_connect():
 
 @socketio.on("message")
 def handleMessage(data):
-    room = data["room"]
-    new_message = Message(
-        body=data["body"],
-        user_id=data["user_id"],
-        channel_id=data["room"]
-    )
+    if data["new"]:
+        room = data["room"]
+        new_message = Message(
+            body=data["body"],
+            user_id=data["user_id"],
+            channel_id=data["room"]
+        )
 
-    db.session.add(new_message)
-    db.session.commit()
-    message = Message.query.filter(Message.body == data["body"]).one()
-    data["id"] = message.id
-    send(data, room=data["room"], broadcast=True)
-    return None
+        db.session.add(new_message)
+        db.session.commit()
+        # message = Message.query.filter(Message.body == data["body"]).one()
+        data["id"] = new_message.id
+        send(data, room=data["room"], broadcast=True)
+        return None
+    else:
+        room = data["room"]
+        message = Message.query.filter(Message.id == data["id"]).one()
+        message.body = data["body"]
+        db.session.commit()
+        data=message.to_dict()
+        send(data, room=room, broadcast=True)
+        return None
 
 
 @socketio.on("reactions")
