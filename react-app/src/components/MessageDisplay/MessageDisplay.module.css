@@ -8,14 +8,16 @@
 }
 
 .message_wrapper:hover .menuWrapper {
-    width: auto;
-    height: auto;
+    width: 172px;
+    height: 40px;
     position: absolute;
-    left: 95%;
+    left: 85%;
     top: -10px;
-    display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border: 2px solid rgba(29, 28, 29, .1);
-    border-radius: 4px;
+    border-radius: 5px;
 }
 
 .message_container {
@@ -93,4 +95,24 @@
 
 .emoji:hover {
     background-color: rgba(248, 249, 248, 240);
+}
+
+.wrapperClass {
+    display: flex;
+    flex-direction: column-reverse;
+    background-color: #FFF;
+    border: 1px solid black;
+    /* border-left: 1px solid black;
+    border-bottom: 1px solid black; */
+    border-radius: 4px;
+}
+
+
+.editorClassName {
+    background-color: #FFF;
+}
+
+.toolbarClass {
+    background-color: whitesmoke;
+    margin-bottom: 0;
 }

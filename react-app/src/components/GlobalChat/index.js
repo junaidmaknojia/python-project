@@ -97,7 +97,7 @@ const GlobalChat = ({ pastMessages }) => {
           </div>
           <div className={styles.buttonCenter}>
             <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'}
-            onClick={sendMessage}><i class="fas fa-paper-plane"></i></button>
+            onClick={sendMessage}><i className="fas fa-paper-plane"></i></button>
           </div>
 
         </div>
