@@ -24,6 +24,9 @@ const GlobalChat = ({ pastMessages }) => {
   const [ messages, setMessages ] = useState([]);
   const [ editting, setEditting ] = useState(false);
   const [ messagesLoaded, setMessagesLoaded ] = useState(false);
+  const [ returnNew, setReturnNew ] = useState('');
+  const [ returnEdit, setReturnEdit ] = useState('');
+  const [ returnDelete, setReturnDelete ] = useState('')
   const [ newMessage, setNewMessage ] = useState('');
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
@@ -45,7 +48,39 @@ const GlobalChat = ({ pastMessages }) => {
   useEffect(() => {
     if (!messages) return;
     setMessagesLoaded(true);
+    console.log(messages, "here are the messages...")
   }, [messages])
+
+  // this sets the messages when a new message is created
+  useEffect(() => {
+    setMessages([returnNew, ...messages])
+  }, [returnNew])
+
+  // this sets the messages when an existing message is edited
+  useEffect(() => {
+
+    const messageArr = messages.map(message => {
+      if (returnEdit.id === message.id) {
+        return returnEdit;
+      } else {
+        return message;
+      }
+    })
+    setMessages(messageArr);
+
+  }, [returnEdit])
+
+  // this sets the messages when an existing message is deleted
+  useEffect(() => {
+
+    const deleteArr = messages.filter(message => {
+      return returnDelete?.id !== message.id
+    })
+
+    setMessages(deleteArr);
+  }, [returnDelete])
+
+
 
   useEffect(() => {
     if (!messagesLoaded) return;
@@ -53,24 +88,13 @@ const GlobalChat = ({ pastMessages }) => {
     socket.on("message", data => {
       switch (data.type) {
         case 'new':
-          console.log('ran this many times')
-          setMessages([data, ...messages]);
+          setReturnNew(data);
           break;
         case 'edit':
-          const messageArr = messages.map(message => {
-            if (data.id === message.id) {
-              return data;
-            } else {
-              return message;
-            }
-          })
-          setMessages(messageArr);
+          setReturnEdit(data);
           break;
         case 'delete':
-          const deleteArr = messages.filter(message => {
-            return data.id !== message.id
-          })
-          setMessages(deleteArr);
+          setReturnDelete(data);
           break;
         default:
           console.log("Hit the default");
@@ -123,6 +147,11 @@ const GlobalChat = ({ pastMessages }) => {
     socket.emit("join_room", {name: user.id, room:channel_id})
     setMessages([...pastMessages])
   }, [pastMessages])
+
+  // useEffect(() => {
+  //   console.log('joinrooom ran')
+
+  // }, [])
 
 
 
