@@ -9,7 +9,7 @@ import { convertFromHTML, convertToHTML } from 'draft-convert';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useSelector } from "react-redux";
 
-const MessageDisplay = ({message, socket, channel}) => {
+const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
     const currentUser = useSelector(state => state.session.user)
     const [ emojis, setEmojis ] = useState([])
     const [ isUser, setIsUser ] = useState(currentUser.id !== message.user.id)
@@ -62,12 +62,15 @@ const MessageDisplay = ({message, socket, channel}) => {
     }
 
     const showEdit = () => {
+        if(!editting) {
+        setEditting(true);
         setIsEdit(true);
-        console.log(newMessage, 'newmessage')
+        }
     }
 
     const cancelEdit = () => {
         setIsEdit(false);
+        setEditting(false);
     }
 
     const deleteMsg = () => {
@@ -91,10 +94,10 @@ const MessageDisplay = ({message, socket, channel}) => {
     }
 
     return (
-        <div className={styles.message_wrapper}>
+        <div className={isEdit?styles.edit_wrapper:styles.message_wrapper}>
             <div className={styles.menuWrapper} >
                 <button className={styles.emoji} onClick={showModal}><i className="far fa-grin fa-2x"></i></button>
-                <button disabled={isUser} className={styles.edit} onClick={showEdit}>edit</button>
+                <button disabled={isUser} className={styles.edit} onClick={showEdit}><i class="fas fa-edit fa-2x"></i></button>
                 <button disabled={isUser} className={styles.delete} onClick={deleteMsg}>delete</button>
             </div>
             <EmojiModal show={show} setShow={setShow} message={message}/>
@@ -103,13 +106,13 @@ const MessageDisplay = ({message, socket, channel}) => {
                     {message.user && <img className={styles.author_avatar} src={message.user.picture_url} />}
                 </div>
                 <div className={styles.text_container}>
-                    <span className={styles.author_name}>
+                    {!isEdit && [<span className={styles.author_name}>
                         {message.user.username}
-                    </span>
+                    </span>,
 
                     <span className={styles.message_timestamp}>
                         {formattedTime()}
-                    </span>
+                    </span>]}
 
                     <div className={styles.message_body}>
                         {isEdit?
@@ -121,8 +124,14 @@ const MessageDisplay = ({message, socket, channel}) => {
                         value={newMessage}
                         onChange={handleChange}
                         />,
-                        <button onClick={cancelEdit}>cancel</button>,
-                        <button disabled={newMessage === message.body} onClick={handleEdit}>edit messge</button>]:
+                        <button className={styles.cancel} onClick={cancelEdit}>Cancel</button>,
+                        <button
+                            className={styles.save}
+                            disabled={newMessage === message.body}
+                            onClick={handleEdit}>
+                            <span className={styles.arrow} ><i className={`fas fa-level-down-alt`}></i></span>
+                            Save Changes
+                        </button>]:
                         <pre
                             className={styles.richText}
                             dangerouslySetInnerHTML={createMarkup(message.body)}

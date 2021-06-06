@@ -22,6 +22,7 @@ const GlobalChat = ({ pastMessages }) => {
 
   const channel_id = currentChannel.id
   const [ messages, setMessages ] = useState([]);
+  const [ editting, setEditting ] = useState(false);
   const [ newMessage, setNewMessage ] = useState('');
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
@@ -92,7 +93,13 @@ const GlobalChat = ({ pastMessages }) => {
       <div className={styles.messageWrapper}>
       {messages.length > 0 &&
         messages.map((data, i) => (
-          <MessageDisplay message={data} key={i} socket={socket} channel={currentChannel} />
+          <MessageDisplay
+            editting={editting}
+            setEditting={setEditting}
+            message={data}
+            key={i}
+            socket={socket}
+            channel={currentChannel} />
           ))}
       </div>
       <div className={styles.flexrow}>
