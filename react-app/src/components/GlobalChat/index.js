@@ -23,6 +23,7 @@ const GlobalChat = ({ pastMessages }) => {
   const channel_id = currentChannel.id
   const [ messages, setMessages ] = useState([]);
   const [ editting, setEditting ] = useState(false);
+  const [ messagesLoaded, setMessagesLoaded ] = useState(false);
   const [ newMessage, setNewMessage ] = useState('');
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
@@ -37,11 +38,19 @@ const GlobalChat = ({ pastMessages }) => {
     setConvertedContent(currentContentAsHTML);
   }
 
-  useEffect(() => {
-    console.log("mounted")
-  })
+  // useEffect(() => {
+  //   console.log("mounted")
+  // })
 
-  socket.on("message", data => {
+  useEffect(() => {
+    if (!messages) return;
+    setMessagesLoaded(true);
+  }, [messages])
+
+  useEffect(() => {
+    if (!messagesLoaded) return;
+
+    socket.on("message", data => {
       switch (data.type) {
         case 'new':
           console.log('ran this many times')
@@ -65,24 +74,26 @@ const GlobalChat = ({ pastMessages }) => {
           break;
         default:
           console.log("Hit the default");
-    }
-  });
-
-  socket.on("reactionsBack", data => {
-
-    const messageArr = messages.map(message => {
-      if (data.id === message.id) {
-        return data;
-      } else {
-        return message;
       }
-    })
-    setMessages(messageArr);
+    });
 
-    // if (message.channel_id === channel.id && message.id === data.id) {
-    // setCurrentMessage(data)
-    // }
-})
+    socket.on("reactionsBack", data => {
+
+      const messageArr = messages.map(message => {
+        if (data.id === message.id) {
+          return data;
+        } else {
+          return message;
+        }
+      })
+      setMessages(messageArr);
+
+      // if (message.channel_id === channel.id && message.id === data.id) {
+      // setCurrentMessage(data)
+      // }
+  })
+
+  }, [messagesLoaded])
 
 
   const sendMessage = () => {
