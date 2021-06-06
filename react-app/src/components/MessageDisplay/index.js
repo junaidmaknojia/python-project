@@ -112,7 +112,7 @@ const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
             <div className={styles.menuWrapper} >
                 <button className={styles.emoji} onClick={showModal}><i className="far fa-grin fa-2x"></i></button>
                 <button disabled={isSuper?false:isUser} className={styles.edit} onClick={showEdit}><i className="fas fa-edit fa-2x"></i></button>
-                <button disabled={isSuper?false:isUser} className={styles.delete} onClick={deleteMsg}>delete</button>
+                <button disabled={isSuper?false:isUser} className={styles.delete} onClick={deleteMsg}><i className="fas fa-trash-alt fa-2x"></i></button>
             </div>
             <EmojiModal show={show} setShow={setShow} message={message}/>
             <div className={styles.message_container}>

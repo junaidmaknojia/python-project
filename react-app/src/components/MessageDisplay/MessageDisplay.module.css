@@ -20,6 +20,7 @@
     left: 85%;
     top: -10px;
     display: flex;
+    justify-content: space-evenly;
     align-items: center;
     border: 2px solid rgba(29, 28, 29, .1);
     border-radius: 5px;
@@ -86,7 +87,7 @@
     height: 22px;
 }
 
-.emoji, .edit {
+.emoji, .edit, .delete {
     margin: 4px;
     padding: 2px;
     border-radius: 4px;
@@ -96,12 +97,12 @@
     cursor: pointer;
 }
 
-.emoji:hover, .edit:hover {
+.emoji:hover, .edit:hover, .delete:hover {
     background-color: rgba(248, 249, 248, 240);
     color: rgba(29, 28, 29, .7);
 }
 
-.edit:disabled:hover {
+.edit:disabled:hover, .delete:disabled:hover {
     background-color: #fff;
     color: rgba(29, 28, 29, .4);
     cursor: auto;
