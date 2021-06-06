@@ -28,13 +28,6 @@ const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
         setEmojis([...message.reactions])
     }, [message])
 
-    // socket.on("reactionsBack", data => {
-
-    //     if (message.channel_id === channel.id && message.id === data.id) {
-    //     setCurrentMessage(data)
-    //     }
-    // })
-
     // for the text editor
     const convertContentToHTML = () => {
         let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
@@ -104,6 +97,7 @@ const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
                 room: channel.id
             });
             setIsEdit(false);
+            setEditting(false);
         }
     }
 
