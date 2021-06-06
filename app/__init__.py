@@ -74,7 +74,7 @@ def handle_connect():
 
 @socketio.on("message")
 def handleMessage(data):
-    if data["new"]:
+    if data["type"] == "new":
         room = data["room"]
         new_message = Message(
             body=data["body"],
@@ -88,13 +88,21 @@ def handleMessage(data):
         data["id"] = new_message.id
         send(data, room=data["room"], broadcast=True)
         return None
-    else:
+    elif data["type"] == "edit":
         room = data["room"]
         message = Message.query.filter(Message.id == data["id"]).one()
         message.body = data["body"]
         db.session.commit()
         data=message.to_dict()
         data["new"] = False
+        send(data, room=room, broadcast=True)
+        return None
+    elif data["type"] == "delete":
+        room = data["room"]
+        message = Message.query.filter(Message.id == data["id"]).one()
+        message_reactions = message.reactions
+        db.session.delete(message)
+        db.session.commit()
         send(data, room=room, broadcast=True)
         return None
 

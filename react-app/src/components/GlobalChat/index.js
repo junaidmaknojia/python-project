@@ -38,22 +38,25 @@ const GlobalChat = ({ pastMessages }) => {
   }
 
   socket.on("message", data => {
-    console.log(data.new, "datanew here. . .")
-    if (data.new) {
-      setMessages([data, ...messages]);
-    } else {
-
-      const messageArr = messages.map(message => {
-        console.log(data.id, message.id, "comparecompare")
-        if (data.id === message.id) {
-          return data;
-        } else {
-          return message;
-        }
-
-      })
-
-      setMessages(messageArr);
+      switch (data.type) {
+        case 'new':
+          setMessages([data, ...messages]);
+        case 'edit':
+          const messageArr = messages.map(message => {
+            if (data.id === message.id) {
+              return data;
+            } else {
+              return message;
+            }
+          })
+          setMessages(messageArr);
+        case 'delete':
+          const deleteArr = messages.filter(message => {
+            console.log(data.id, message.id, data.id !== message.id,  'ids here!!!')
+            return data.id !== message.id
+          })
+            console.log(deleteArr, 'deltearr hererejlfdjlf')
+          setMessages(deleteArr);
     }
   });
 
@@ -61,7 +64,7 @@ const GlobalChat = ({ pastMessages }) => {
   const sendMessage = () => {
     if (newMessage) {
       socket.emit("message", {
-        new: true,
+        type: 'new',
         body: newMessage,
         room: channel_id,
         user_id: user.id,

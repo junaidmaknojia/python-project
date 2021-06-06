@@ -101,6 +101,13 @@
     color: rgba(29, 28, 29, .7);
 }
 
+.edit:disabled:hover {
+    background-color: #fff;
+    color: rgba(29, 28, 29, .4);
+    cursor: auto;
+    box-shadow: none;
+}
+
 .wrapperClass {
     display: flex;
     flex-direction: column-reverse;

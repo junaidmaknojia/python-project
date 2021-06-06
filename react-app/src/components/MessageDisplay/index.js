@@ -13,6 +13,7 @@ const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
     const currentUser = useSelector(state => state.session.user)
     const [ emojis, setEmojis ] = useState([])
     const [ isUser, setIsUser ] = useState(currentUser.id !== message.user.id)
+    const [ isSuper, setIsSuper ] = useState(currentUser.username == 'super')
     const [ show, setShow ] = useState(false);
     const [ isEdit, setIsEdit ] = useState(false);
     const [convertedContent, setConvertedContent] = useState(message.body);
@@ -74,7 +75,11 @@ const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
     }
 
     const deleteMsg = () => {
-        return;
+        socket.emit("message", {
+            id: message.id,
+            type: 'delete',
+            room: channel.id
+        });
     }
 
     const handleChange = (e) => {
@@ -86,7 +91,7 @@ const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
             socket.emit("message", {
                 body: newMessage,
                 id: message.id,
-                new: false,
+                type: 'edit',
                 room: channel.id
             });
             setIsEdit(false);
@@ -97,8 +102,8 @@ const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
         <div className={isEdit?styles.edit_wrapper:styles.message_wrapper}>
             <div className={styles.menuWrapper} >
                 <button className={styles.emoji} onClick={showModal}><i className="far fa-grin fa-2x"></i></button>
-                <button disabled={isUser} className={styles.edit} onClick={showEdit}><i class="fas fa-edit fa-2x"></i></button>
-                <button disabled={isUser} className={styles.delete} onClick={deleteMsg}>delete</button>
+                <button disabled={isSuper?false:isUser} className={styles.edit} onClick={showEdit}><i className="fas fa-edit fa-2x"></i></button>
+                <button disabled={isSuper?false:isUser} className={styles.delete} onClick={deleteMsg}>delete</button>
             </div>
             <EmojiModal show={show} setShow={setShow} message={message}/>
             <div className={styles.message_container}>
