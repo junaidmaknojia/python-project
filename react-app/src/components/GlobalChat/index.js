@@ -37,10 +37,16 @@ const GlobalChat = ({ pastMessages }) => {
     setConvertedContent(currentContentAsHTML);
   }
 
+  useEffect(() => {
+    console.log("mounted")
+  })
+
   socket.on("message", data => {
       switch (data.type) {
         case 'new':
+          console.log('ran this many times')
           setMessages([data, ...messages]);
+          break;
         case 'edit':
           const messageArr = messages.map(message => {
             if (data.id === message.id) {
@@ -50,15 +56,33 @@ const GlobalChat = ({ pastMessages }) => {
             }
           })
           setMessages(messageArr);
+          break;
         case 'delete':
           const deleteArr = messages.filter(message => {
-            console.log(data.id, message.id, data.id !== message.id,  'ids here!!!')
             return data.id !== message.id
           })
-            console.log(deleteArr, 'deltearr hererejlfdjlf')
           setMessages(deleteArr);
+          break;
+        default:
+          console.log("Hit the default");
     }
   });
+
+  socket.on("reactionsBack", data => {
+
+    const messageArr = messages.map(message => {
+      if (data.id === message.id) {
+        return data;
+      } else {
+        return message;
+      }
+    })
+    setMessages(messageArr);
+
+    // if (message.channel_id === channel.id && message.id === data.id) {
+    // setCurrentMessage(data)
+    // }
+})
 
 
   const sendMessage = () => {

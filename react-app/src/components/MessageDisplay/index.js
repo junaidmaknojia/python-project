@@ -8,9 +8,11 @@ import { Editor } from 'react-draft-wysiwyg'
 import { convertFromHTML, convertToHTML } from 'draft-convert';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useSelector } from "react-redux";
+import { socket } from '../GlobalChat';
 
 const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
     const currentUser = useSelector(state => state.session.user)
+    const [ currentMessage, setCurrentMessage ] = useState(message);
     const [ emojis, setEmojis ] = useState([])
     const [ isUser, setIsUser ] = useState(currentUser.id !== message.user.id)
     const [ isSuper, setIsSuper ] = useState(currentUser.username == 'super')
@@ -18,13 +20,20 @@ const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
     const [ isEdit, setIsEdit ] = useState(false);
     const [convertedContent, setConvertedContent] = useState(message.body);
     const [ newMessage, setNewMessage ] = useState(message.body);
-    const [editorState, setEditorState] = useState(
+    const [ editorState, setEditorState ] = useState(
         () => EditorState.createWithContent(convertFromHTML(message.body)),      )
 
 
     useEffect(() => {
         setEmojis([...message.reactions])
     }, [message])
+
+    // socket.on("reactionsBack", data => {
+
+    //     if (message.channel_id === channel.id && message.id === data.id) {
+    //     setCurrentMessage(data)
+    //     }
+    // })
 
     // for the text editor
     const convertContentToHTML = () => {
