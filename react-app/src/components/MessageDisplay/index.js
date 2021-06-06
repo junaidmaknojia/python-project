@@ -97,6 +97,7 @@ const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
                 room: channel.id
             });
             setIsEdit(false);
+            setEditting(false);
         }
     }
 
