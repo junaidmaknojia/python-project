@@ -13,7 +13,7 @@ class Message(db.Model):
     updated_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
     channel = db.relationship("Channel", back_populates="messages")
     user = db.relationship("User", back_populates="messages")
-    reactions = db.relationship("Reaction", back_populates="message")
+    reactions = db.relationship("Reaction", back_populates="message", cascade="all, delete, delete-orphan", passive_deletes=True)
 
     def to_dict(self):
         return {
@@ -21,10 +21,11 @@ class Message(db.Model):
             "body": self.body,
             "channel_id": self.channel_id,
             "user_id": self.user_id,
-            "created_at": self.created_at,
+            "created_at": self.created_at.strftime("%m/%d/%Y, %H:%M:%S"),
             "user": {
                 "username": self.user.username,
                 "picture_url": self.user.picture_url,
+                "id": self.user.id
             },
             "reactions": [reaction.to_dict() for reaction in self.reactions]
         }

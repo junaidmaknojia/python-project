@@ -74,19 +74,39 @@ def handle_connect():
 
 @socketio.on("message")
 def handleMessage(data):
-    room = data["room"]
-    new_message = Message(
-        body=data["body"],
-        user_id=data["user_id"],
-        channel_id=data["room"]
-    )
+    if data["type"] == "new":
+        print('HIT!!!!!!!!!!!!!!!!!!!!!!')
+        room = data["room"]
+        new_message = Message(
+            body=data["body"],
+            user_id=data["user_id"],
+            channel_id=data["room"]
+        )
 
-    db.session.add(new_message)
-    db.session.commit()
-    message = Message.query.filter(Message.body == data["body"]).one()
-    data["id"] = message.id
-    send(data, room=data["room"], broadcast=True)
-    return None
+        db.session.add(new_message)
+        db.session.commit()
+        # message = Message.query.filter(Message.body == data["body"]).one()
+        data = new_message.to_dict()
+        data["type"] = "new"
+        send(data, room=room, broadcast=True)
+        return None
+    elif data["type"] == "edit":
+        room = data["room"]
+        message = Message.query.filter(Message.id == data["id"]).one()
+        message.body = data["body"]
+        db.session.commit()
+        data=message.to_dict()
+        data["type"] = "edit"
+        send(data, room=room, broadcast=True)
+        return None
+    elif data["type"] == "delete":
+        room = data["room"]
+        message = Message.query.filter(Message.id == data["id"]).one()
+        message_reactions = message.reactions
+        db.session.delete(message)
+        db.session.commit()
+        send(data, room=room, broadcast=True)
+        return None
 
 
 @socketio.on("reactions")
@@ -98,6 +118,7 @@ def handleReactions(data):
     )
     db.session.add(new_reaction)
     db.session.commit()
+    data = new_reaction.message.to_dict()
     emit("reactionsBack", data, broadcast=True)
 
 

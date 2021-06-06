@@ -8,7 +8,7 @@ class Reaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(255), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    message_id = db.Column(db.Integer, db.ForeignKey("messages.id"), nullable=False)
+    message_id = db.Column(db.Integer, db.ForeignKey("messages.id", ondelete="CASCADE"), nullable=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
     updated_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
     message = db.relationship("Message", back_populates="reactions")
@@ -20,7 +20,7 @@ class Reaction(db.Model):
             "type": self.type,
             "message_id": self.message_id,
             "user_id": self.user_id,
-            "created_at": self.created_at,
+            # "created_at": self.created_at,
             "user": {
                 "username": self.user.username,
             }

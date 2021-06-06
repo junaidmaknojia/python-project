@@ -22,6 +22,7 @@ const GlobalChat = ({ pastMessages }) => {
 
   const channel_id = currentChannel.id
   const [ messages, setMessages ] = useState([]);
+  const [ editting, setEditting ] = useState(false);
   const [ newMessage, setNewMessage ] = useState('');
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
@@ -36,14 +37,58 @@ const GlobalChat = ({ pastMessages }) => {
     setConvertedContent(currentContentAsHTML);
   }
 
+  useEffect(() => {
+    console.log("mounted")
+  })
+
   socket.on("message", data => {
-    setMessages([data, ...messages]);
+      switch (data.type) {
+        case 'new':
+          console.log('ran this many times')
+          setMessages([data, ...messages]);
+          break;
+        case 'edit':
+          const messageArr = messages.map(message => {
+            if (data.id === message.id) {
+              return data;
+            } else {
+              return message;
+            }
+          })
+          setMessages(messageArr);
+          break;
+        case 'delete':
+          const deleteArr = messages.filter(message => {
+            return data.id !== message.id
+          })
+          setMessages(deleteArr);
+          break;
+        default:
+          console.log("Hit the default");
+    }
   });
+
+  socket.on("reactionsBack", data => {
+
+    const messageArr = messages.map(message => {
+      if (data.id === message.id) {
+        return data;
+      } else {
+        return message;
+      }
+    })
+    setMessages(messageArr);
+
+    // if (message.channel_id === channel.id && message.id === data.id) {
+    // setCurrentMessage(data)
+    // }
+})
 
 
   const sendMessage = () => {
     if (newMessage) {
       socket.emit("message", {
+        type: 'new',
         body: newMessage,
         room: channel_id,
         user_id: user.id,
@@ -58,7 +103,7 @@ const GlobalChat = ({ pastMessages }) => {
       setEditorState(() => EditorState.createEmpty())
       setNewMessage('')
     } else {
-      alert("your dumb");
+      alert("message field cannot be empty");
     }
   }
 
@@ -75,7 +120,13 @@ const GlobalChat = ({ pastMessages }) => {
       <div className={styles.messageWrapper}>
       {messages.length > 0 &&
         messages.map((data, i) => (
-          <MessageDisplay message={data} key={i} channel={currentChannel} />
+          <MessageDisplay
+            editting={editting}
+            setEditting={setEditting}
+            message={data}
+            key={i}
+            socket={socket}
+            channel={currentChannel} />
           ))}
       </div>
       <div className={styles.flexrow}>
@@ -97,7 +148,7 @@ const GlobalChat = ({ pastMessages }) => {
           </div>
           <div className={styles.buttonCenter}>
             <button className={styles.sendMessageButton} disabled={!newMessage.length || newMessage == '<p></p>'}
-            onClick={sendMessage}><i class="fas fa-paper-plane"></i></button>
+            onClick={sendMessage}><i className="fas fa-paper-plane"></i></button>
           </div>
 
         </div>

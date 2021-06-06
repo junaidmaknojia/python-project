@@ -8,12 +8,12 @@ const Reactions = ({message, emojis, setEmojis}) => {
 
  const channel = useSelector(state => state.channels.current)
 
- socket.on("reactionsBack", data => {
+//  socket.on("reactionsBack", data => {
 
-     if (message.channel_id === channel.id) {
-     setEmojis([...emojis, data])
-     }
- })
+//      if (message.channel_id === channel.id) {
+//      setEmojis([...emojis, data])
+//      }
+//  })
 
 
 
