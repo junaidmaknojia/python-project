@@ -27,7 +27,7 @@ const SplashPage = () => {
 
                 <div className={styles.announcementBanner}>
                     <h3 className={styles.announcementText}>How much can you benefit from eating a sn4ck?</h3>
-                    <a className={styles.announcementLink}>Learn more...</a>
+                    <a className={styles.announcementLink} src="https://github.com/junaidmaknojia/python-project#readme" target="_blank" rel="noopener noreferrer">Learn more...</a>
                 </div>
 
                 <div className={styles.contentContainer}>
