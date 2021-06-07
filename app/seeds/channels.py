@@ -2,7 +2,7 @@ from app.models import db, Channel, User
 
 
 def seed_channels():
-    glbl = Channel(type='ch', title='Global Chatroom')
+    glbl = Channel(type="g", title='Global Chatroom')
     db.session.add(glbl)
     db.session.add(Channel(type="ch", title="Midnight munchies"))
     db.session.add(Channel(type="ch", title="Road trip chips"))

@@ -16,7 +16,7 @@ def seed_users():
     db.session.add(User(username='drGrant1982', first_name='Alan', last_name='Grant', email='grant@gmail.com', password=f'Grant{password_append}'))
     db.session.add(User(username='debbierice', first_name='Debbie', last_name='Rice', email='rice@gmail.com', password=f'Rice{password_append}'))
     db.session.add(User(username='singingDoo', first_name='Dum', last_name='Diddy-Doo', email='diddydoo@gmail.com', password=f'Diddy-Doo{password_append}'))
-    db.session.add(User(username='', first_name='Theodore', last_name='Westside', email='westside@gmail.com', password=f'Westside{password_append}'))
+    db.session.add(User(username='Dr.X', first_name='Theodore', last_name='Westside', email='westside@gmail.com', password=f'Westside{password_append}'))
     db.session.add(User(username='totagino15oh', first_name='Gino', last_name='Totagino', email='totagino@gmail.com', password=f'Totagino{password_append}'))
     db.session.add(User(username='woooow', first_name='Oh-wowen', last_name='Wilson', email='wilson@gmail.com', password=f'Wilson{password_append}'))
     db.session.add(User(username='bedelia-aa', first_name='Celia', last_name='Bedelia', email='bedelia@gmail.com', password=f'Bedelia{password_append}'))
@@ -28,8 +28,8 @@ def seed_users():
 
     for x in range(len(User.query.all())):
         user = User.query.get(x + 1)
-        for y in range(len(Channel.query.all())):
-            channel = Channel.query.get(x + 1 + y)
+        for y in range(len(Channel.query.all()) - 2):
+            channel = Channel.query.get(y + 2)
             channel.users.append(user)
     db.session.commit()
 
