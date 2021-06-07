@@ -26,28 +26,12 @@ def seed_users():
 
     db.session.commit()
 
-    for x in range(30):
-        mentor = User.query.get(x+16)
-        for y in range(5):
-            tag = Channel.query.get(x+1+y)
-            mentor.tags.append(tag)
+    for x in range(len(User.query.all())):
+        user = User.query.get(x + 1)
+        for y in range(len(Channel.query.all())):
+            channel = Channel.query.get(x + 1 + y)
+            channel.users.append(user)
     db.session.commit()
-
-    # # 39 roles
-    # for x in range(30):
-    #     mentor = User.query.get(x+16)
-    #     roleId = 1 + random.randrange(39)
-    #     role = Role.query.get(roleId)
-    #     mentor.title = role
-    # db.session.commit()
-
-    # # 25 industries
-    # for x in range(30):
-    #     mentor = User.query.get(x+16)
-    #     industryId = 1 + random.randrange(25)
-    #     industry = Industry.query.get(industryId)
-    #     mentor.industry = industry
-    # db.session.commit()
 
 
 # Uses a raw SQL query to TRUNCATE the users table.
