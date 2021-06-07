@@ -5,6 +5,7 @@ import nic from '../../assets/nic.jpg';
 import rader from '../../assets/rader.jpg';
 import Developer from '../Developer';
 import styles from './DevModal.module.css';
+import { useDevs } from '../../context/DevsProvider';
 
 const devs = [
   {
@@ -30,9 +31,11 @@ const devs = [
 
 ]
 
-const DevModal = ({ showDevs, setShowDevs }) => {
+const DevModal = () => {
+  const { setShowDevs } = useDevs();
 
-  const cancelModal = () => {
+  const cancelModal = (e) => {
+    e.stopPropagation();
     setShowDevs(false);
   }
 

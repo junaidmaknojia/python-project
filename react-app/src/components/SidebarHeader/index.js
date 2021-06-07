@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import DevModal from '../DevModal';
 import logo from '../../assets/slack_hash_256.png';
 import styles from './SidebarHeader.module.css';
+import { useDevs } from '../../context/DevsProvider';
 
 const SidebarHeader = () => {
-  const [ showDevs, setShowDevs ] = useState(false);
+  const { setShowDevs } = useDevs();
 
   const showModal = () => {
     setShowDevs(true);
@@ -12,7 +13,6 @@ const SidebarHeader = () => {
 
   return (
     <div className={styles.sbHeaderWrapper} onClick={showModal}>
-      {showDevs && <DevModal showDevs={showDevs} setShowDevs={setShowDevs} />}
       <div className={styles.buttonContainer}>
         <span className={styles.developers}>
           Meet the Developers <i className="fas fa-chevron-down"></i>
