@@ -4,6 +4,7 @@ import big from '../../assets/big.jpg';
 import nic from '../../assets/nic.jpg';
 import rader from '../../assets/rader.jpg';
 import Developer from '../Developer';
+import styles from './DevModal.module.css';
 
 const devs = [
   {

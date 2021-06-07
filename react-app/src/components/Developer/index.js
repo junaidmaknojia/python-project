@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Developer.module.css';
-import { Navlink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Developer = ({ dev }) => {
   return (
@@ -8,9 +8,9 @@ const Developer = ({ dev }) => {
       <div className={styles.imgContainer} styles={{backgroundImage: `url(${dev.pic})`}}>
       </div>
       <div className={styles.nameContainer}>
-        <Navlink to={dev.link}>
+        <NavLink to={dev.link}>
           <span className={styles.devName}>{`${dev.name}`}</span>
-        </Navlink>
+        </NavLink>
       </div>
     </div>
   )

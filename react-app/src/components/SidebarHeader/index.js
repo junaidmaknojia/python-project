@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DevModal from '../DevModal';
 import logo from '../../assets/slack_hash_256.png';
+import styles from './SidebarHeader.module.css';
 
 const SidebarHeader = () => {
   const [ showDevs, setShowDevs ] = useState(false);
@@ -10,18 +11,15 @@ const SidebarHeader = () => {
   }
 
   return (
-    <div className={styles.sbHeaderWrapper}>
+    <div className={styles.sbHeaderWrapper} onClick={showModal}>
       {showDevs && <DevModal showDevs={showDevs} setShowDevs={setShowDevs} />}
       <div className={styles.buttonContainer}>
-        <span className={styles.developers} onClick={showModal}>
-          Meed the Developers <i className="fas fa-chevron-down"></i>
+        <span className={styles.developers}>
+          Meet the Developers <i className="fas fa-chevron-down"></i>
         </span>
       </div>
-      <div className={styles.logContainger}>
-        <span className={styles.logo}>
-          <img className={styles.logoImg} src={logo} />
-          sn4ck
-        </span>
+      <div className={styles.logoContainer}>
+        <img className={styles.logo} src={logo}/>
       </div>
     </div>
   )
