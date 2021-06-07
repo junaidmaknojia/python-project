@@ -1,5 +1,5 @@
 # from werkzeug.security import generate_password_hash
-from app.models import db, User, user
+from app.models import db, User, user, Channel
 import os
 
 
@@ -26,12 +26,12 @@ def seed_users():
 
     db.session.commit()
 
-    # for x in range(30):
-    #     mentor = User.query.get(x+16)
-    #     for y in range(5):
-    #         tag = Tag.query.get(x+1+y)
-    #         mentor.tags.append(tag)
-    # db.session.commit()
+    for x in range(30):
+        mentor = User.query.get(x+16)
+        for y in range(5):
+            tag = Channel.query.get(x+1+y)
+            mentor.tags.append(tag)
+    db.session.commit()
 
     # # 39 roles
     # for x in range(30):
