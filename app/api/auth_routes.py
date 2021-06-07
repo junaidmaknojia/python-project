@@ -72,7 +72,15 @@ def sign_up():
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         url = None
-        if request.files["image"]:
+        if form.data['image'] == 'null':
+            user = User(
+            first_name=form.data['firstName'],
+            last_name=form.data['lastName'],
+            username=form.data['username'],
+            email=form.data['email'],
+            password=form.data['password'],
+            )
+        else :
             print("In if statement")
             image = request.files["image"]
             if not allowed_file(image.filename):
@@ -84,16 +92,18 @@ def sign_up():
             if upload["url"]:
                 url = upload["url"]
 
-        glbl = Channel.query.filter(Channel.title == 'Global Chatroom').first()
-
-        user = User(
+            user = User(
             first_name=form.data['firstName'],
             last_name=form.data['lastName'],
             username=form.data['username'],
             email=form.data['email'],
             password=form.data['password'],
             picture_url=url
-        )
+            )
+
+
+        glbl = Channel.query.filter(Channel.title == 'Global Chatroom').first()
+
         glbl.users.append(user)
         db.session.add(user)
         db.session.commit()
