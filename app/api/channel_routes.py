@@ -59,7 +59,7 @@ def create_DM():
 
 @channel_routes.route("/all")
 def get_all_channels():
-    channelList = Channel.query.filter(Channel.type == "ch").all()
+    channelList = Channel.query.filter(Channel.type != "dm").all()
     allChannels = {"channel": list(
         map(lambda ch: ch.to_dict(), channelList))}
     return allChannels
