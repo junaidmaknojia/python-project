@@ -29,7 +29,7 @@ def seed_users():
     for x in range(len(User.query.all())):
         user = User.query.get(x + 1)
         for y in range(len(Channel.query.all()) - 2):
-            channel = Channel.query.get(y + 2)
+            channel = Channel.query.get(y + 1)
             channel.users.append(user)
     db.session.commit()
 

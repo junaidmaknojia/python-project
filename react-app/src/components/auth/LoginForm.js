@@ -17,13 +17,13 @@ const LoginForm = () => {
     const data = await dispatch(login(email, password));
     if (data.errors) {
       setErrors(data.errors);
-    }
+    } 
   };
 
   const updateEmail = (e) => {
     setEmail(e.target.value);
   };
-
+  
   const updatePassword = (e) => {
     setPassword(e.target.value);
   };
@@ -87,9 +87,8 @@ const LoginForm = () => {
         <button className={styles.signinButton} type="submit">Sign In with email</button>
     </form>
     <div className={styles.footer}>
-      <a href="">Privacy & Terms</a>
-      <a href="">Contact Us</a>
-      <a href="">Change Region</a>
+      {/* <a href="">Contact Us</a> */}
+      {/* Do we want to keep the Contact us section for a link of our contact information? */}
     </div>
     </div>
   );
