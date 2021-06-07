@@ -26,7 +26,8 @@ const GlobalChat = ({ pastMessages }) => {
   const [ messagesLoaded, setMessagesLoaded ] = useState(false);
   const [ returnNew, setReturnNew ] = useState('');
   const [ returnEdit, setReturnEdit ] = useState('');
-  const [ returnDelete, setReturnDelete ] = useState('')
+  const [ returnDelete, setReturnDelete ] = useState('');
+  const [ returnReaction, setReturnReaction ] = useState('');
   const [ newMessage, setNewMessage ] = useState('');
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
@@ -80,6 +81,18 @@ const GlobalChat = ({ pastMessages }) => {
     setMessages(deleteArr);
   }, [returnDelete])
 
+  // this sets the messages for reactions
+  useEffect(() => {
+
+    const messageArr = messages.map(message => {
+      if (returnReaction.id === message.id) {
+        return returnReaction;
+      } else {
+        return message;
+      }
+    })
+    setMessages(messageArr);
+  }, [returnReaction])
 
 
   useEffect(() => {
@@ -102,20 +115,8 @@ const GlobalChat = ({ pastMessages }) => {
     });
 
     socket.on("reactionsBack", data => {
-
-      const messageArr = messages.map(message => {
-        if (data.id === message.id) {
-          return data;
-        } else {
-          return message;
-        }
-      })
-      setMessages(messageArr);
-
-      // if (message.channel_id === channel.id && message.id === data.id) {
-      // setCurrentMessage(data)
-      // }
-  })
+      setReturnReaction(data);
+    })
 
   }, [messagesLoaded])
 
