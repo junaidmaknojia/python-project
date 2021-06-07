@@ -49,7 +49,6 @@ const GlobalChat = ({ pastMessages }) => {
   useEffect(() => {
     if (!messages) return;
     setMessagesLoaded(true);
-    console.log(messages, "here are the messages...")
   }, [messages])
 
   // this sets the messages when a new message is created
@@ -144,15 +143,10 @@ const GlobalChat = ({ pastMessages }) => {
   }
 
   useEffect(() => {
-    // console.log(user.id, "user Id in useEffect Global")
     socket.emit("join_room", {name: user.id, room:channel_id})
     setMessages([...pastMessages])
   }, [pastMessages])
 
-  // useEffect(() => {
-  //   console.log('joinrooom ran')
-
-  // }, [])
 
 
 
