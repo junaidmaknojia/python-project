@@ -64,7 +64,7 @@ const SplashPage = () => {
                                     <img src={fancy} className={styles.messagePicture} />
                                     <div className={styles.messageTextContainer}>
                                         <span className={styles.messageText}>
-                                            Who knows?  I've never heard of it
+                                            Ever heard of Slack? Meet the lesser known twin. Explore the web messaging app now as a demo user by clicking Try for Free
                                         </span>
                                     </div>
                                 </div>
