@@ -4,6 +4,7 @@ from app.models import db, Channel, User
 def seed_channels():
     glbl = Channel(type='ch', title='Global Chatroom')
     db.session.add(glbl)
+
     db.session.commit()
 
 
