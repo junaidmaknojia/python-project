@@ -3,6 +3,7 @@ import { useParams, useHistory, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./Sidebar.css";
 import { socket } from "../GlobalChat";
+import SidebarHeader from "../SidebarHeader";
 
 export default function Sidebar(){
     const history = useHistory();
@@ -35,6 +36,7 @@ export default function Sidebar(){
 
     return (
         <div className="sideBar" style={{marginLeft: 5}}>
+            <SidebarHeader />
             <div className="sectionTitles">
             </div>
             <div className="channels">
