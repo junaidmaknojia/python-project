@@ -11,8 +11,8 @@ import { useDevs } from "../../context/DevsProvider";
 import DevModal from '../DevModal';
 
 
-// const endPoint = "https://sn4ck.herokuapp.com/";
-const endPoint = "http://localhost:5000";
+const endPoint = "https://sn4ck.herokuapp.com/";
+// const endPoint = "http://localhost:5000";
 
 export const socket = io(endPoint);
 
