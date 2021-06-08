@@ -46,6 +46,19 @@
   color: #ecb22e;
 }
 
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.theDevs {
+  color: #ecb22e;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+}
+
 .cancel:hover {
   background-color: transparent;
   border: none;

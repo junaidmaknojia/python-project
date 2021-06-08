@@ -2,4 +2,113 @@
   display: flex;
   box-sizing: border-box;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.imgContainer {
+  height: 80px;
+  width: 80px;
+}
+
+.image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: -2px 2px 6px rgb(0, 0, 0);
+}
+
+.nameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 2px;
+}
+
+.trying, .gitLogo {
+  height: 32px;
+  width: 28px;
+  position: relative;
+  align-items: center;
+}
+
+.trying i {
+  z-index: 2;
+  position: relative;
+  color: #0076b2;
+}
+
+.background {
+  background-color: #fff;
+  height: 20px;
+  width: 24px;
+  position: absolute;
+  top: 6px;
+  right: 1px;
+  z-index: 0;
+}
+
+.linkFlexer{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.devWrapper a {
+  text-decoration: none;
+}
+
+.devWrapper a:hover {
+  filter: brightness(120%);
+
+}
+
+.devName {
+  font-weight: 600;
+  font-size: 20px;
+  color: #ecb22e;
+}
+
+.linkedInLink,
+.gitHubLink,
+.profileLink {
+  display: flex;
+  align-items: center;
+}
+
+.gitHubLink,
+.profileLink {
+  margin-left: 22px;
+}
+
+.linkedIn {
+  color: #fff;
+  font-weight: 600;
+  padding-left: 5px;
+}
+
+.gitLogo i {
+  z-index: 2;
+  position: relative;
+  color: #1b1f23;
+}
+
+.gitBackground {
+  background-color: #fff;
+  height: 25px;
+  width: 25px;
+  position: absolute;
+  top: 6px;
+  right: 0px;
+  z-index: 0;
+  border-radius: 50%;
+}
+
+.profileLogo {
+  z-index: 2;
+  position: relative;
+  color: #ecb22e;;
 }
