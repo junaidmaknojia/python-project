@@ -43,7 +43,9 @@ const DevModal = () => {
     <div className={styles.devOverlay} onClick={cancelModal}>
       <div className={styles.modalWrapper}>
         <div className={styles.cancelFlexer}>
-          <button className={styles.cancel} onClick={cancelModal}>cancel</button>
+          <button className={styles.cancel} onClick={cancelModal}>
+          <i className="fas fa-times"></i>
+          </button>
         </div>
         <div className={styles.developersContainer}>
           {devs.map(developer => (
