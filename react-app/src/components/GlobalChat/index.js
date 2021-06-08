@@ -11,8 +11,10 @@ import { useDevs } from "../../context/DevsProvider";
 import DevModal from '../DevModal';
 
 
+// const endPoint = process.env.NODE_ENV === 'production'?"https://sn4ck.herokuapp.com/":"http://localhost:5000";
 const endPoint = "https://sn4ck.herokuapp.com/";
-// const endPoint = "http://localhost:5000";
+console.log(endPoint, 'endpoiiiiiint')
+
 
 export const socket = io(endPoint);
 
