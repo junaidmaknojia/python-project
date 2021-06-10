@@ -20,7 +20,6 @@ const PageWrapper = () => {
         myChannels.forEach(el => {
             if(el.id === Number(params)) thisChannel = el
         })
-
         dispatch(addChannel(thisChannel))
     }, [dispatch, params])
 

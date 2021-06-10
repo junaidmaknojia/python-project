@@ -1,6 +1,7 @@
 // constants
 const GET_CHANNELS = "channels/GET_CHANNELS";
 const ADD_CHANNEL = "channels/ADD_CHANNEL";
+const MAKE_CHANNEL = "channels/MAKE_CHANNEL";
 
 
 export const getChannels = (channels) => ({
@@ -10,6 +11,11 @@ export const getChannels = (channels) => ({
 
 export const addChannel = (channel) => ({
 	type: ADD_CHANNEL,
+	payload: channel
+})
+
+export const newChannel = (channel) => ({
+	type: MAKE_CHANNEL,
 	payload: channel
 })
 
@@ -33,7 +39,7 @@ export const makeChannel = (channel) => async (dispatch) => {
 	})
 
 	const data = await response.json();
-	dispatch(addChannel(data));
+	dispatch(newChannel(data));
 	return data;
 }
 
@@ -102,7 +108,7 @@ export const createDM = (payload) => async (dispatch) => {
 	});
 
 	const newDM = await response.json();
-	dispatch(addChannel(newDM));
+	dispatch(newChannel(newDM));
 	return newDM;
 }
 
@@ -117,6 +123,8 @@ export default function channelReducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_CHANNELS:
 			return { ...state, channels: action.payload };
+		case MAKE_CHANNEL:
+			return { ...state, channels: {channel: [ ...state.channels.channel, action.payload ]}}
 		case ADD_CHANNEL:
 			return { ...state, current: action.payload };
 		default:
