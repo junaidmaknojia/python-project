@@ -177,8 +177,9 @@ export default function NewChannelorDM() {
                 <div className={styles.mainScroller}>
                     {allUsers?.map(user => (
                         <div id={user.id} className={styles.listItem}>
-                            <img src={user.profile_url} className={styles.profilePic}/>
-                            <h3>{user.username}</h3>
+                            <img src={user.picture_url} className={styles.profilePic}/>
+                            <h3>{`${user.first_name} ${user.last_name}`}</h3>
+                            <h5>{user.username}</h5>
                             <button className={styles.add} onClick={e => addUserToList(user)}>Add</button>
                         </div>
                     ))}
