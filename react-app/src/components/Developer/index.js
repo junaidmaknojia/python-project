@@ -10,7 +10,9 @@ const Developer = ({ dev }) => {
   return (
     <div className={styles.devWrapper}>
       <div className={styles.imgContainer} style={{backgroundImage: `url(${dev.pic})`}}>
-        <img className={styles.image} src={dev.pic}/>
+        <a href={dev.link} target="_blank" rel="noopener noreferrer">
+          <img className={styles.image} src={dev.pic}/>
+        </a>
       </div>
       <div className={styles.nameContainer}>
         <a href={dev.link} className={styles.nameLink} target="_blank" rel="noopener noreferrer">
