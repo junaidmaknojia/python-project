@@ -88,7 +88,7 @@ export default function NewChannelorDM() {
             }
         }
         // existing DM was not found, so make one
-        const newDM = dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
+        const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
         history.push(`/channels/${newDM.id}`);
     }
 
