@@ -1,14 +1,29 @@
 import React from 'react';
-import {useHistory} from 'react-router-dom'
+import {useHistory, Redirect} from 'react-router-dom'
+import {useDispatch, useSelector} from "react-redux";
 import styles from './SplashPage.module.css';
 import logo from '../../assets/slack_hash_256.png';
 import big from '../../assets/big.jpg';
 import fancy from '../../assets/fancy.jpg'
+import { login } from '../../store/session';
 
 
 const SplashPage = () => {
 
+    const user = useSelector(state => state.session.user);
+    const glblId = useSelector(state => state.defaultId.id)
     const history = useHistory();
+    const dispatch = useDispatch();
+
+    const demoLogin = async (e) => {
+        e.preventDefault();
+        await dispatch(login('demo@aa.io', 'password'));
+    }
+
+    if (glblId && user) {
+        return <Redirect to={`/channels/${glblId}`} />;
+      }
+
     return (
         <div className={styles.splashWrapper}>
             <div className={styles.splashContainer}>
@@ -21,7 +36,7 @@ const SplashPage = () => {
                     <div className={styles.buttonContainer}>
                         <button className={styles.authButton} onClick={() => history.push('/login')}>LOG IN</button>
                         <button className={styles.authButton} onClick={() => history.push('/sign-up')}>SIGN UP</button>
-                        <button className={styles.demoButton}>TRY FOR FREE</button>
+                        <button className={styles.demoButton} onClick={demoLogin}>TRY FOR FREE</button>
                     </div>
                 </div>
 
@@ -37,7 +52,7 @@ const SplashPage = () => {
                     </h1>
                 </div>
                 <div className={styles.midButtonContainer}>
-                    <button className={styles.demoButton}>TRY FOR FREE</button>
+                    <button className={styles.demoButton} onClick={demoLogin}>TRY FOR FREE</button>
                 </div>
                 <div className={styles.exampleChatWrapper}>
 
