@@ -23,6 +23,7 @@
 
 .channel__title, .dm__title {
     padding: 7px 5px;
+    cursor: pointer;
 }
 
 .dm__list, .channel__list {

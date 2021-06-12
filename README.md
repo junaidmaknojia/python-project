@@ -1,98 +1,51 @@
-# Flask React Project
+# Sn4ck
 
-This is the backend for the Flask React project.
+This clone of Slack includes all the same features including live chatting in channels and group DMs along with emojis for reactions a rich text editor for personalized messages. Give it a try at the live link:
 
-## Getting started
+http://sn4ck.herokuapp.com/
 
-1. Clone this repository (only this branch)
+## Tech Stack
+   - NodeJS
+   - React/Redux
+   - Python
+   - Flask / SQLAlchemy
+   - PostgreSQL
+   - AWS
+   - WebSockets - SocketIO
 
-   ```bash
-   git clone https://github.com/appacademy-starters/python-project-starter.git
-   ```
+## Features
+   - Live chat
+   - Create channels
+   - Create group and 1-1 DMs
+   - Join/Leave channels
+   - Customize messages with rich text editor
+   - React to messages with emojis
+   - Upload your own profile photo
 
-2. Install dependencies
+## Site Walk-through
 
-      ```bash
-      pipenv install --dev -r dev-requirements.txt && pipenv install -r requirements.txt
-      ```
+### Splashpage
+![splashpage](https://user-images.githubusercontent.com/74396674/121299586-44953200-c8bb-11eb-8ae4-5280124d58e4.PNG)
 
-3. Create a **.env** file based on the example with proper settings for your
-   development environment
-4. Setup your PostgreSQL user, password and database and make sure it matches your **.env** file
+### Global/Channel Chat
+New and returning users are added/directed to the global chatroom which serves as a lobby for all users on the platform. Users can then hop from one room to another through the channels bar on the left. Each chat room has a text field to send a message using a rich text editor with the react-draft-wysiwyg library and can include emojis as well along with reacting to other messages with an emoji.
+![global-chat](https://user-images.githubusercontent.com/74396674/121299718-760dfd80-c8bb-11eb-9cf2-2c65fb9e34eb.PNG)
 
-5. Get into your pipenv, migrate your database, seed your database, and run your flask app
 
-   ```bash
-   pipenv shell
-   ```
+### Channel Join/Leave
+Users can click on the + next to Channels and see a list of all channels created in sn4ck along with a submission for a new channel. The UI to join/leave are updated based on the user's input and the list on the left panel updates dynamically from the input.
+![channels](https://user-images.githubusercontent.com/74396674/121299748-81f9bf80-c8bb-11eb-8e60-9d91eb806f00.PNG)
 
-   ```bash
-   flask db upgrade
-   ```
 
-   ```bash
-   flask seed all
-   ```
+### Creating Group DMs
+Users can also create group messages with as many people they'd like from the list of users on sn4ck. Clicking the "add" next the user's name adds them to the list that once submitted either creates a new group chat or redirects to the existing group chat with the same combination of users. The name and symbol of the chat reflects the Slack UI accurately.
+![groupDMs](https://user-images.githubusercontent.com/74396674/121299778-8a51fa80-c8bb-11eb-98fa-e2bea01c1acf.PNG)
 
-   ```bash
-   flask run
-   ```
 
-6. To run the React App in development, checkout the [README](./react-app/README.md) inside the `react-app` directory.
+## Further Documentation
+https://github.com/junaidmaknojia/sn4ck/wiki
 
-***
-*IMPORTANT!*
-   If you add any python dependencies to your pipfiles, you'll need to regenerate your requirements.txt before deployment.
-   You can do this by running:
-
-   ```bash
-   pipenv lock -r > requirements.txt
-   ```
-
-*ALSO IMPORTANT!*
-   psycopg2-binary MUST remain a dev dependency because you can't install it on apline-linux.
-   There is a layer in the Dockerfile that will install psycopg2 (not binary) for us.
-***
-
-## Deploy to Heroku
-
-1. Create a new project on Heroku
-2. Under Resources click "Find more add-ons" and add the add on called "Heroku Postgres"
-3. Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-command-line)
-4. Run
-
-   ```bash
-   heroku login
-   ```
-
-5. Login to the heroku container registry
-
-   ```bash
-   heroku container:login
-   ```
-
-6. Update the `REACT_APP_BASE_URL` variable in the Dockerfile.
-   This should be the full URL of your Heroku app: i.e. "https://flask-react-aa.herokuapp.com"
-7. Push your docker container to heroku from the root directory of your project.
-   This will build the dockerfile and push the image to your heroku container registry
-
-   ```bash
-   heroku container:push web -a sn4ck
-   ```
-
-8. Release your docker container to heroku
-
-   ```bash
-   heroku container:release web -a sn4ck
-   ```
-
-9. set up your database:
-
-   ```bash
-   heroku run -a sn4ck flask db upgrade
-   heroku run -a sn4ck flask seed all
-   ```
-
-10. Under Settings find "Config Vars" and add any additional/secret .env variables.
-
-11. profit
+### Media Credits
+   - Images: Unsplash
+   - Splashpage Design: Slack
+   - Logo: FontAwesome
