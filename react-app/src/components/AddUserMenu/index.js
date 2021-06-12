@@ -9,6 +9,7 @@ const AddUserMenu = ({ currentChannel }) => {
   const [ selectedUsers, setSelectedUsers ] = useState([]);
   const { setShowAdd } = useDevs();
   const [ searchList, setSearchList ] = useState([]);
+  const [ activeSearch, setActiveSearch ] = useState(false);
 
 
   useEffect(() => {
@@ -42,21 +43,29 @@ const AddUserMenu = ({ currentChannel }) => {
     e.stopPropagation();
     (
       e.target.className === styles.overlay ||
-      e.target.className === styles.cancel
+      e.target.className === styles.cancel ||
+      e.target.id === 'test'
     ) &&
     setShowAdd(false);
   }
 
 
-  const cancelUser = (e) => {
-    e.stopPrapagation();
-    return;
+  const cancelUser = (e, userId) => {
+    e.stopPropagation();
+    const filteredArray = selectedUsers.filter(user => user.id !== userId)
+    setSelectedUsers(filteredArray);
+    filteredArray.length === 0 && setActiveSearch(false);
   }
 
 
   const setUser= (e, user) => {
     e.stopPropagation();
-    setSelectedUsers(previous => [...previous, user])
+
+    setSelectedUsers(previous => (
+      previous.includes(user)?[...previous]:[...previous, user])
+    )
+    setActiveSearch(true);
+    setQuerie('');
   }
 
   return (
@@ -71,47 +80,47 @@ const AddUserMenu = ({ currentChannel }) => {
             </div>
             <div className={styles.cancelContainer}>
               <button className={styles.cancel} onClick={cancel}>
-              <i className="fas fa-times fa-2x"></i>
+              <i id='test' className="fas fa-times fa-2x"></i>
               </button>
             </div>
           </div>
           <div className={styles.fakeInput}>
-            <span className={styles.selectionWrapper}>
-              {selectedUsers && selectedUsers.map(user => (
-                <div className={styles.selectedUser} key={user.username} id={user}>
-                  <img key={user.picture_url} src={user.picture_url} />
-                  <span key={user.username} className={styles.username}>{user.username}</span>
-                  <button key={user.username + 'button'} className={styles.userCancel} onClick={cancelUser}>
-                    <i className="fas fa-times"></i>
-                  </button>
-                </div>
-              ))}
-            </span>
+            {selectedUsers && selectedUsers.map(user => (
+              <span className={styles.selectedUser} key={user.username} id={user}>
+                <img key={user.picture_url} src={user.picture_url} />
+                <span key={user.username} className={styles.username}>{user.username}</span>
+                <button key={user.username + 'button'} className={styles.userCancel} onClick={(e)=> cancelUser(e, user.id)}>
+                <i className="fas fa-times"></i>
+                </button>
+              </span>
+            ))}
             <input
-              className={querie.length>0?styles.value:styles.search}
+              className={activeSearch?styles.active:styles.search}
               value={querie}
               onChange={e => setQuerie(e.target.value)}
-              placeholder={'Search a user by Name or username'} />
+              placeholder={activeSearch?'':'Search a user by Name or username'} />
+          </div>
+          <div className={styles.positioner}>
+            {searchList.length >=1 &&
+              <div className={styles.searchResults}>
+                <ul className={styles.userList}>
+                    {searchList.map(user => (
+                      <li key={user.username + 1} onClick={ e => setUser(e, user)}>
+                        <img src={user.picture_url} />
+                        <span
+                          key={Math.random() + user.username}
+                          className={styles.searchUsername}>
+                          {user.username}
+                        </span>
+                        <span key={user.first_name} className={styles.fullName}>
+                          {`| ${user.first_name} ${user.last_name}`}
+                        </span>
+                      </li>
+                    ))}
+                </ul>
+              </div>}
           </div>
         </div>]}
-        {searchList.length >=1 &&
-        <div className={styles.searchResults}>
-          <ul className={styles.userList}>
-              {searchList.map(user => (
-                <li key={user.username + 1} onClick={ e => setUser(e, user)}>
-                  <img src={user.picture_url} />
-                  <span
-                    key={Math.random() + user.username}
-                    className={styles.searchUsername}>
-                    {user.username}
-                  </span>
-                  <span key={user.first_name} className={styles.fullName}>
-                    {`| ${user.first_name} ${user.last_name}`}
-                  </span>
-                </li>
-              ))}
-          </ul>
-        </div>}
       </div>
     </div>
   )
