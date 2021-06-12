@@ -87,7 +87,11 @@ const AddUserMenu = ({ currentChannel }) => {
                 </div>
               ))}
             </span>
-            <input className={styles.search} value={querie} onChange={e => setQuerie(e.target.value)} />
+            <input
+              className={querie.length>0?styles.value:styles.search}
+              value={querie}
+              onChange={e => setQuerie(e.target.value)}
+              placeholder={'Search a user by Name or username'} />
           </div>
         </div>]}
         {searchList.length >=1 &&

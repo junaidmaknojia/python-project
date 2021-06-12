@@ -11,6 +11,7 @@
 }
 
 .modal {
+  box-sizing: border-box;
   height: 207px;
   width: 520px;
   border-radius: 8px;
@@ -77,7 +78,47 @@
   box-shadow: none;
 }
 
+.fakeInput {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  max-height: 200px;
+  width: 464px;
+  border: 1px solid #868686;
+  border-radius: 4px;
+  padding-right: 27px;
+  padding-left: 1px;
+}
+
+.selectionWrapper {
+  box-sizing: border-box;
+  max-width: 464px;
+}
+
+.search, .value {
+  border: none;
+  outline: none;
+  height: 44px;
+  font-size: 18px;
+  color: rgb(29,28,29);
+}
+
+.search {
+  width: 240px;
+}
+
+.selectedUser {
+  height: 32px;
+  display: flex;
+}
+
+.selectedUser img {
+  height: 32px;
+  width: 32px;
+}
+
 .searchResults {
+  box-sizing: border-box;
   width: 486px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -87,7 +128,7 @@
   padding: 12px 0px;
   position: absolute;
   top: 160px;
-  right: 45px;
+  right: 18px;
   background-color: #fff;
   box-shadow: -0px 0px 10px 2px rgba(0, 0, 0, .2);
 }
