@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from './AddUserMenu.module.css';
 import { listUsers } from '../../store/session';
 import { useDevs } from "../../context/DevsProvider";
+import { socket } from '../GlobalChat';
 
 const AddUserMenu = ({ currentChannel }) => {
   const [ allUsers, setAllUsers ] = useState([]);
@@ -69,7 +70,11 @@ const AddUserMenu = ({ currentChannel }) => {
   }
 
   const addUser = (e) => {
-    return;
+    const data = {
+      users: selectedUsers.map(user => user.id),
+      channel_id: currentChannel.id
+    }
+    socket.emit("add", data);
   }
 
   return (

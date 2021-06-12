@@ -98,7 +98,7 @@ const GlobalChat = ({ pastMessages }) => {
     setMessages(messageArr);
   }, [returnReaction])
 
-
+// instantiates socket.io
   useEffect(() => {
     if (!messagesLoaded) return;
 
