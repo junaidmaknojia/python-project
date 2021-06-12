@@ -68,6 +68,10 @@ const AddUserMenu = ({ currentChannel }) => {
     setQuerie('');
   }
 
+  const addUser = (e) => {
+    return;
+  }
+
   return (
     <div className={styles.overlay} onClick={cancel}>
       <div className={styles.modal}>
@@ -119,6 +123,9 @@ const AddUserMenu = ({ currentChannel }) => {
                     ))}
                 </ul>
               </div>}
+          </div>
+          <div className={styles.addFlexer}>
+            <button className={styles.addUser} onClick={addUser}>Add User</button>
           </div>
         </div>]}
       </div>
