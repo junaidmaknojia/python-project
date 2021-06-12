@@ -25,7 +25,6 @@ export default function Sidebar(){
     //socket for when user is added to a channel
     useEffect(() => {
         socket.on("addBack", data => {
-            console.log(data, "back from emitter")
             let forMe = false;
             data.forEach(others => {
                 if (others.id === user.id) forMe = true;

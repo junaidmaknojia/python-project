@@ -138,6 +138,7 @@
 .selectedUser img {
   height: 32px;
   width: 32px;
+  object-fit: cover;
 }
 
 .username {

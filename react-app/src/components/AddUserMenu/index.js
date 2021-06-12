@@ -75,6 +75,7 @@ const AddUserMenu = ({ currentChannel }) => {
       channel_id: currentChannel.id
     }
     socket.emit("add", data);
+    setShowAdd(false);
   }
 
   return (
