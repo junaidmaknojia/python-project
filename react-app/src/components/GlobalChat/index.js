@@ -9,6 +9,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from './GlobalChat.module.css';
 import { useDevs } from "../../context/DevsProvider";
 import DevModal from '../DevModal';
+import AddUserMenu from "../AddUserMenu";
 
 
 const endPoint = process.env.NODE_ENV === 'production'?"https://sn4ck.herokuapp.com/":"http://localhost:5000";
@@ -24,7 +25,7 @@ const GlobalChat = ({ pastMessages }) => {
   const emoji = useSelector(state => state.emoji.emoji)
 
   const channel_id = currentChannel.id
-  const { showDevs } = useDevs();
+  const { showDevs, showAdd } = useDevs();
   const [ messages, setMessages ] = useState([]);
   const [ editting, setEditting ] = useState(false);
   const [ messagesLoaded, setMessagesLoaded ] = useState(false);
@@ -184,6 +185,7 @@ const GlobalChat = ({ pastMessages }) => {
       </div>
         <div className={styles.fakeInputDiv}>
           {showDevs && <DevModal />}
+          {showAdd && <AddUserMenu currentChannel={currentChannel} />}
           <div className={styles.emptyDiv}>
           </div>
           <div className={styles.buttonCenter}>

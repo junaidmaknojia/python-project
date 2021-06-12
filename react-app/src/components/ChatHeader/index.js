@@ -2,10 +2,16 @@ import React, {useState} from 'react';
 import { useSelector} from 'react-redux'
 import styles from './ChatHeader.module.css'
 import addUserIcon from '../Icons/icons8-add-male-user-64.png'
+import { useDevs } from '../../context/DevsProvider';
 
 const ChatHeader = () => {
+    const { setShowAdd } = useDevs();
     const currentChannel = useSelector(state => state.channels.current)
     const channelUsers = currentChannel.users
+
+    const addMenu = () => {
+        setShowAdd(true);
+    }
 
     return (
         <div className={styles.componentWrapper}>
@@ -28,7 +34,7 @@ const ChatHeader = () => {
                                             title={channelUsers[2].username}
                                             alt={channelUsers[2].username} />}
                     <h3 className={styles.usersAMT}>{channelUsers.length}</h3>
-                    <button className={styles.addUserButton}>
+                    <button className={styles.addUserButton} onClick={addMenu}>
                         <img className={styles.addUserIcon}
                             src={addUserIcon}
                             title='Add User'
