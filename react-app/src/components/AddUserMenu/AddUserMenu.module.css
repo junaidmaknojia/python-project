@@ -1,0 +1,138 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, .6);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  height: 207px;
+  width: 520px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: -0px 0px 18px 10px rgba(0, 0, 0, .2);
+  padding: 12px 28px 24px 28px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addForm {
+  height: 207px;
+  width: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formHeader {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.titleContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.people {
+  margin: 0;
+  font-size: 18px;
+}
+
+.channel {
+  font-size: 13px;
+  color: #1d1c1db3;
+}
+
+.cancelContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancel {
+  background-color: transparent;
+  color: #1d1c1db3;
+  outline: none;
+  border: none;
+  height: 36px;
+  width: 36px;
+  border-radius: 4px;
+}
+
+.cancel:hover {
+  cursor: pointer;
+  background-color: rgba(29,28,29,.04);
+  color: rgb(29,28,29);
+  box-shadow: none;
+}
+
+.searchResults {
+  width: 486px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 264px;
+  border: 1px solid rgba(220, 220, 220, 1);
+  border-radius: 8px;
+  padding: 12px 0px;
+  position: absolute;
+  top: 160px;
+  right: 45px;
+  background-color: #fff;
+  box-shadow: -0px 0px 10px 2px rgba(0, 0, 0, .2);
+}
+
+.userList {
+  list-style-type: none;
+  width: 486px;
+  padding: 0;
+  margin: 0;
+}
+
+.userList li {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 32px;
+  width: 100%;
+  padding: 0px 24px;
+}
+
+.userList li:hover {
+  cursor: pointer;
+  background-color: #1264a3;
+}
+
+.userList li:hover span {
+  color: #fff;
+}
+
+.userList img {
+  height: 20px;
+  width: 20px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+.searchUsername {
+  color: #1d1c1d;
+  font-size: 15px;
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+.fullName {
+  color: #1d1c1d;
+  font-size: 15px;
+}
