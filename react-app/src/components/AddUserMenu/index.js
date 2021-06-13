@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector  } from "react-redux";
 import styles from './AddUserMenu.module.css';
 import { listUsers } from '../../store/session';
 import { useDevs } from "../../context/DevsProvider";
@@ -6,6 +7,8 @@ import { socket } from '../GlobalChat';
 
 const AddUserMenu = ({ currentChannel }) => {
   const [ allUsers, setAllUsers ] = useState([]);
+  const [ filteredUsers, setFilteredUsers ] = useState([]);
+  const currentUser = useSelector(state => state.session.user);
   const [ querie, setQuerie ] = useState('');
   const [ selectedUsers, setSelectedUsers ] = useState([]);
   const { setShowAdd } = useDevs();
@@ -19,6 +22,22 @@ const AddUserMenu = ({ currentChannel }) => {
 
   }, [])
 
+  useEffect(() => {
+    if (!allUsers) return;
+
+    const filter = [];
+    allUsers.forEach(user => {
+      let notIncluded = true
+      currentChannel.users.forEach((current => {
+        if(current.id === user.id){
+          notIncluded = false;
+        }
+      }))
+      notIncluded && filter.push(user);
+    })
+    setFilteredUsers(filter);
+  }, [allUsers])
+
 
   useEffect(() => {
     if (querie.length === 0) {
@@ -26,7 +45,7 @@ const AddUserMenu = ({ currentChannel }) => {
       return;
     }
 
-    const searchArray = allUsers.filter(user => {
+    const searchArray = filteredUsers.filter(user => {
         const combined = user.username + user.first_name + user.last_name;
 
         if (combined.toUpperCase().includes(querie.toUpperCase())) {
@@ -75,6 +94,23 @@ const AddUserMenu = ({ currentChannel }) => {
       channel_id: currentChannel.id
     }
     socket.emit("add", data);
+    socket.emit("message", {
+      type: 'new',
+      isNewUser: true,
+      body:
+        selectedUsers.length > 1?
+        `was added to ${currentChannel.title} along with ${selectedUsers.length - 1} more by ${currentUser.username}`:
+        `was added to ${currentChannel.title} by ${currentUser.username}.`,
+      room: currentChannel.id,
+      user_id: selectedUsers[0].id,
+      created_at: new Date(),
+      user: {
+        username: currentUser.username,
+        picture_url: currentUser.picture_url
+      },
+      reactions: [],
+      msg: ""
+    });
     setShowAdd(false);
   }
 
