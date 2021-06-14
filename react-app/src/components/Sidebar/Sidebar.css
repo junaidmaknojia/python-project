@@ -19,20 +19,45 @@
     font-weight: bold;
     font-size: 18px;
     margin-left: 15px;
+    height: 40px;
+    align-items: center;
 }
 
 .channel__title, .dm__title {
-    padding: 7px 5px;
+    box-sizing: border-box;
+    padding: 0px 16px 0px 20px;
     cursor: pointer;
+    width: 260px;
+    height: 28px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.dm__title {
+    justify-content: space-between;
+}
+
+.channel__title:hover, .dm__title:hover {
+    background-color: #350D36;
+}
+
+.dm__title.currPage:hover, .channel__title.currPage {
+    background-color: #1164a3;
 }
 
 .dm__list, .channel__list {
     overflow-y: auto;
 }
 
+.chTitle {
+    margin-left: 12px;
+}
+
 .navLink {
+    flex: 1;
     text-decoration: none;
-    color: rgb(188,171,188);
+    color: inherit;
 }
 
 .plusButton {
@@ -44,4 +69,30 @@
 .plusButton:hover {
     background-color: rgb(119, 49, 119);
     border: 1px rgba(188, 171, 188, 0.61) solid;
+}
+
+.dmDelete,
+.dm__title.currPage .dmDelete,
+.dm__title.currPage:hover .dmDelete {
+    display: none;
+}
+
+.dm__title:hover .dmDelete {
+    background-color: transparent;
+    color: rgba(188, 171, 188, 0.61);
+    border: none;
+    box-shadow: none;
+    height: 28px;
+    width: 28px;
+    border-radius: 4px;
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dm__title:hover .dmDelete:hover {
+    box-shadow: none;
+    color: #bcabbc;
+    cursor: pointer;
 }

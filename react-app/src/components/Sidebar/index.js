@@ -34,8 +34,8 @@ export default function Sidebar(){
     }, [])
 
 
-    async function channelClick(e){
-        const clickedChannelId = e.target.id;
+    async function channelClick(e, clickedChannelId){
+        // const clickedChannelId = e.target.id;
         if(currChannel.id !== clickedChannelId){
             socket.emit("leave_room", {name: user.username, room: currChannel.id})
             socket.emit("join_room", {name: user.username, room: clickedChannelId})
@@ -47,6 +47,10 @@ export default function Sidebar(){
 
     }
 
+    const deleteDm = (e) => {
+        e.stopPropagation();
+    }
+
     return (
         <div className="sideBar" style={{marginLeft: 5}}>
             <SidebarHeader />
@@ -54,21 +58,20 @@ export default function Sidebar(){
             </div>
             <div className="channels">
                 <div className="channels__title">
-                    <p>Channels</p>
-                    <p>
+                    <span>Channels</span>
+                    <span>
                         <NavLink className="navLink plusButton" to={`/form/${channelId}/ch`}>+</NavLink>
-                    </p>
+                    </span>
                 </div>
                 <div className="channel__list">
                     {myChannels && (
                         myChannels.map(channel => (
                             <div key={channel.id}
-                            id={channel.id}
-                            onClick={channelClick}
-                            className={`channel__title ${currChannel?.id === channel.id ? "currPage" : ""}`}>
-
-                                    {`# ${channel.title}`}
-
+                                id={channel.id}
+                                onClick={e => channelClick(e, channel.id)}
+                                className={`channel__title ${currChannel?.id === channel.id ? "currPage" : ""}`}>
+                                <span className="hash">#</span>
+                                <span className="chTitle">{channel.title}</span>
                             </div>
                         ))
                     )}
@@ -76,10 +79,10 @@ export default function Sidebar(){
             </div>
             <div className="directMessages">
                 <div className="directMessages__title">
-                    <p>Direct Messages</p>
-                    <p onClick={changeForm}>
+                    <span>Direct Messages</span>
+                    <span onClick={changeForm}>
                         <NavLink className="navLink plusButton" to={`/form/${channelId}/dm`}>+</NavLink>
-                    </p>
+                    </span>
                 </div>
                 <div className="dm__list">
                     {myDMs && (
@@ -89,6 +92,9 @@ export default function Sidebar(){
                                 className={`dm__title ${currChannel?.id === dm.id ? "currPage" : ""}`}>
                                 {dm.users.length > 2 ? <i className="fas fa-users" style={{marginRight: 5}}></i> : <i className="fas fa-user-friends" style={{marginRight: 5}}></i>}
                                 <NavLink className="navLink" to={`/channels/${dm.id}`}>{dm.title}</NavLink>
+                                <button className="dmDelete" onClick={deleteDm}>
+                                    <i className="fas fa-times"></i>
+                                </button>
                             </div>
                         ))
                     )}
