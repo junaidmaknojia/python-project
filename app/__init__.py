@@ -75,7 +75,6 @@ def handle_connect():
 @socketio.on("message")
 def handleMessage(data):
     if data["type"] == "new":
-        is_new = data["isNewUser"]
         room = data["room"]
         new_message = Message(
             body=data["body"],
