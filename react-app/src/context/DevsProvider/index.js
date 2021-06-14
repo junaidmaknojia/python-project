@@ -5,13 +5,16 @@ export const useDevs = () => useContext(DevsContext);
 
 const DevsProvider = (props) => {
   const [ showDevs, setShowDevs ] = useState(false);
+  const [ showAdd, setShowAdd ] = useState(false);
 
 
   return (
     <DevsContext.Provider value={
       {
         showDevs,
-        setShowDevs
+        setShowDevs,
+        showAdd,
+        setShowAdd
       }
     }>
       {props.children}

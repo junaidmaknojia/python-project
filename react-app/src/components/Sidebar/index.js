@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, useHistory, NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./Sidebar.css";
 import { socket } from "../GlobalChat";
 import SidebarHeader from "../SidebarHeader";
+import { userChannels } from "../../store/channels";
 
 export default function Sidebar(){
+    const dispatch = useDispatch();
     const history = useHistory();
     const channelId = useParams().id;
     const currChannel = useSelector(state => state.channels.current);
@@ -19,6 +21,17 @@ export default function Sidebar(){
         const nameArray = dm.title.split(",");
         dm.title = nameArray.filter(name => name !== user.username).join(", ");
     });
+
+    //socket for when user is added to a channel
+    useEffect(() => {
+        socket.on("addBack", data => {
+            let forMe = false;
+            data.forEach(others => {
+                if (others.id === user.id) forMe = true;
+            })
+            forMe && dispatch(userChannels());
+        })
+    }, [])
 
 
     async function channelClick(e){

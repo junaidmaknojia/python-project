@@ -6,7 +6,7 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 
-from .models import db, User, Message, Reaction
+from .models import db, User, Message, Reaction, Channel
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.channel_routes import channel_routes
@@ -75,7 +75,7 @@ def handle_connect():
 @socketio.on("message")
 def handleMessage(data):
     if data["type"] == "new":
-        print('HIT!!!!!!!!!!!!!!!!!!!!!!')
+        is_new = data["isNewUser"]
         room = data["room"]
         new_message = Message(
             body=data["body"],
@@ -120,6 +120,17 @@ def handleReactions(data):
     db.session.commit()
     data = new_reaction.message.to_dict()
     emit("reactionsBack", data, broadcast=True)
+
+
+@socketio.on("add")
+def handle_add_users(data):
+    users = [User.query.filter(User.id == id).one() for id in data["users"]]
+    channel = Channel.query.filter(Channel.id == data["channel_id"]).one()
+    for user in users:
+        channel.users.append(user)
+    db.session.commit()
+    data = [user.to_dict() for user in users]
+    emit("addBack", data, broadcast=True)
 
 
 @socketio.on("join_room")

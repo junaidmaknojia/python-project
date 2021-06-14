@@ -8,7 +8,6 @@ import { Editor } from 'react-draft-wysiwyg'
 import { convertFromHTML, convertToHTML } from 'draft-convert';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useSelector } from "react-redux";
-import { socket } from '../GlobalChat';
 
 const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
     const currentUser = useSelector(state => state.session.user)
@@ -105,7 +104,7 @@ const MessageDisplay = ({message, socket, channel, editting, setEditting }) => {
         <div className={isEdit?styles.edit_wrapper:styles.message_wrapper}>
             <div className={styles.menuWrapper} >
                 <button className={styles.emoji} onClick={showModal}><i className="far fa-grin fa-2x"></i></button>
-                <button disabled={isSuper?false:isUser} className={styles.edit} onClick={showEdit}><i className="fas fa-edit fa-2x"></i></button>
+                <button disabled={isSuper?false:(isUser || message.isNewUser)} className={styles.edit} onClick={showEdit}><i className="fas fa-edit fa-2x"></i></button>
                 <button disabled={isSuper?false:isUser} className={styles.delete} onClick={deleteMsg}><i className="fas fa-trash-alt fa-2x"></i></button>
             </div>
             <EmojiModal show={show} setShow={setShow} message={message}/>
