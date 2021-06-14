@@ -75,6 +75,7 @@ def handle_connect():
 @socketio.on("message")
 def handleMessage(data):
     if data["type"] == "new":
+        is_new = data["isNewUser"]
         room = data["room"]
         new_message = Message(
             body=data["body"],
@@ -86,6 +87,7 @@ def handleMessage(data):
         db.session.commit()
         # message = Message.query.filter(Message.body == data["body"]).one()
         data = new_message.to_dict()
+        data["isNewUser"] = is_new
         data["type"] = "new"
         send(data, room=room, broadcast=True)
         return None
