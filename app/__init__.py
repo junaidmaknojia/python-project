@@ -87,6 +87,7 @@ def handleMessage(data):
         db.session.commit()
         # message = Message.query.filter(Message.body == data["body"]).one()
         data = new_message.to_dict()
+        data["isNewUser"] = is_new
         data["type"] = "new"
         send(data, room=room, broadcast=True)
         return None

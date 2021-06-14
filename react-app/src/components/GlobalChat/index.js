@@ -129,6 +129,7 @@ const GlobalChat = ({ pastMessages }) => {
     if (newMessage) {
       socket.emit("message", {
         type: 'new',
+        isNewUser: false,
         body: newMessage,
         room: channel_id,
         user_id: user.id,
