@@ -12,7 +12,7 @@ class Channel(db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
     updated_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
     owner = db.relationship("User", back_populates="my_channels")
-    messages = db.relationship("Message", back_populates="channel")
+    messages = db.relationship("Message", back_populates="channel", cascade="all, delete, delete-orphan", passive_deletes=True)
     users = db.relationship("User", secondary="channel_users", back_populates="channels")
 
     def to_dict(self):

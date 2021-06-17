@@ -33,6 +33,17 @@ export default function Sidebar(){
         })
     }, [])
 
+    //socket for when dm is deleted
+    useEffect(() => {
+        socket.on("dmBack", data => {
+            let forMe = false;
+            data.forEach(others => {
+                if (others.id === user.id) forMe = true;
+            })
+            forMe && dispatch(userChannels());
+        })
+    }, [])
+
 
     async function channelClick(e, clickedChannelId){
         // const clickedChannelId = e.target.id;
@@ -47,8 +58,9 @@ export default function Sidebar(){
 
     }
 
-    const deleteDm = (e) => {
+    const deleteDm = (e, dmId) => {
         e.stopPropagation();
+        socket.emit("delete_dm", { dm_id: dmId });
     }
 
     return (
@@ -92,7 +104,7 @@ export default function Sidebar(){
                                 className={`dm__title ${currChannel?.id === dm.id ? "currPage" : ""}`}>
                                 {dm.users.length > 2 ? <i className="fas fa-users" style={{marginRight: 5}}></i> : <i className="fas fa-user-friends" style={{marginRight: 5}}></i>}
                                 <NavLink className="navLink" to={`/channels/${dm.id}`}>{dm.title}</NavLink>
-                                <button className="dmDelete" onClick={deleteDm}>
+                                <button className="dmDelete" onClick={e => deleteDm(e, dm.id)}>
                                     <i className="fas fa-times"></i>
                                 </button>
                             </div>
