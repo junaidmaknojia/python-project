@@ -17,13 +17,12 @@ const PageWrapper = () => {
 
     useEffect(() => {
         const myChannels = Object.values(channels.channel)
-        console.log(myChannels, params, "my channels in pageWrapper")
 
         let thisChannel;
         myChannels.forEach(el => {
             if(el.id === Number(params)) thisChannel = el
         })
-        console.log(thisChannel, "this Channel")
+
         thisChannel ? dispatch(addChannel(thisChannel)) : history.push(`/channels/${glblId}`)
     }, [dispatch, params, channels])
 
