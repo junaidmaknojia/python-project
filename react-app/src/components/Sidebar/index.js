@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "./Sidebar.css";
 import { socket } from "../GlobalChat";
 import SidebarHeader from "../SidebarHeader";
-import { userChannels } from "../../store/channels";
+import { currentChannel, userChannels } from "../../store/channels";
 
 export default function Sidebar(){
     const dispatch = useDispatch();
@@ -36,9 +36,9 @@ export default function Sidebar(){
     //socket for when new dm is created
     useEffect(() => {
         socket.on("createdDmBack", data => {
-            console.log(data, 'back from createdm')
             if(user.id === data.owner){
-                history.push(`/channels/${data.id}`)
+                dispatch(userChannels()).then(() =>history.push(`/channels/${data.id}`))
+                return;
             }
 
             let forMe = false;
@@ -53,7 +53,7 @@ export default function Sidebar(){
     useEffect(() => {
         socket.on("dmBack", data => {
             let forMe = false;
-            data.forEach(others => {
+            data.users.forEach(others => {
                 if (others.id === user.id) forMe = true;
             })
             forMe && dispatch(userChannels());

@@ -140,7 +140,6 @@ def handle_add_users(data):
 
 @socketio.on("create_dm")
 def handle_create_dm(data):
-    print(data, "hit!!!>>>>>>>>>>>>>>>>>>")
     users = data["users"]
     currUser = data["userId"]
     usersList = list([user["username"] for user in users])
@@ -163,7 +162,7 @@ def delete_dm(data):
     # if dm_messages is not given the value of dm.messages, cascade delete fails to work for some reason. do not delete next line.
     dm_messages = dm.messages
 
-    data = dm.to_dict()["users"]
+    data = dm.to_dict()
     db.session.delete(dm)
     db.session.commit()
     emit("dmBack", data, broadcast=True)
