@@ -33,6 +33,22 @@ export default function Sidebar(){
         })
     }, [])
 
+    //socket for when new dm is created
+    useEffect(() => {
+        socket.on("createdDmBack", data => {
+            console.log(data, 'back from createdm')
+            if(user.id === data.owner){
+                history.push(`/channels/${data.id}`)
+            }
+
+            let forMe = false;
+            data.users.forEach(dmUser => {
+                if (dmUser.id === user.id) forMe = true;
+            })
+            forMe && dispatch(userChannels());
+        })
+    }, [])
+
     //socket for when dm is deleted
     useEffect(() => {
         socket.on("dmBack", data => {

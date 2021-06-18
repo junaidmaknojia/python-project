@@ -138,6 +138,24 @@ def handle_add_users(data):
     emit("addBack", data, broadcast=True)
 
 
+@socketio.on("create_dm")
+def handle_create_dm(data):
+    print(data, "hit!!!>>>>>>>>>>>>>>>>>>")
+    users = data["users"]
+    currUser = data["userId"]
+    usersList = list([user["username"] for user in users])
+    title = ",".join(usersList)
+    package = {"type": "dm", "title": title, "user_id": currUser}
+    newDM = Channel(**package)
+    for user in users:
+        found_user = User.query.filter(User.id == user["id"]).one()
+        newDM.users.append(found_user)
+    db.session.add(newDM)
+    db.session.commit()
+    data = newDM.to_dict()
+    emit("createdDmBack", data, broadcast=True)
+
+
 @socketio.on("delete_dm")
 def delete_dm(data):
     dm = Channel.query.filter(Channel.id == data["dm_id"]).one()

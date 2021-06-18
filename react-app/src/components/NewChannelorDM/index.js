@@ -87,8 +87,7 @@ export default function NewChannelorDM() {
             }
         }
         // existing DM was not found, so make one
-        const newDM = await dispatch(createDM({otherUsers: addedUsers, user_id: user.id}));
-        history.push(`/channels/${newDM.id}`);
+        socket.emit("create_dm", {users: addedUsers2, userId: user.id});
     }
 
     const joinCh = async(e, channel) => {

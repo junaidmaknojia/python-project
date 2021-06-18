@@ -21,7 +21,7 @@ const PageWrapper = () => {
             if(el.id === Number(params)) thisChannel = el
         })
         dispatch(addChannel(thisChannel))
-    }, [dispatch, params])
+    }, [dispatch, params, channels])
 
     return (
         <div className={main}>

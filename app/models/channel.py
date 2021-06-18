@@ -21,7 +21,7 @@ class Channel(db.Model):
             "title": self.title,
             "type": self.type,
             "owner": self.user_id,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
+            # "created_at": self.created_at,
+            # "updated_at": self.updated_at,
             "users": list(map(lambda user: user.to_dict(), self.users))
         }
