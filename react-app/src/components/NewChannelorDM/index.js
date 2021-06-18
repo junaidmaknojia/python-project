@@ -82,7 +82,6 @@ export default function NewChannelorDM() {
             let dm = allDMs[i];
             let test = dm.users.map(user => user.id).join(",");
             if(test === addedUsersString){ // got a match
-                dispatch(addChannel(dm));
                 history.push(`/channels/${dm.id}`);
                 return;
             }
