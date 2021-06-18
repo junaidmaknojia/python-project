@@ -84,7 +84,7 @@ export const signUp = (firstName, lastName, username, email, password, profilePi
     formData.append('email', email);
     formData.append('image', profilePicture);
     formData.append('password', password);
-    console.log(formData.image, "image here")
+
     const response = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {

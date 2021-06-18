@@ -47,10 +47,6 @@ const GlobalChat = ({ pastMessages }) => {
     setConvertedContent(currentContentAsHTML);
   }
 
-  // useEffect(() => {
-  //   console.log("mounted")
-  // })
-
   useEffect(() => {
     if (!messages) return;
     setMessagesLoaded(true);
@@ -114,7 +110,7 @@ const GlobalChat = ({ pastMessages }) => {
           setReturnDelete(data);
           break;
         default:
-          console.log("Hit the default");
+          return;
       }
     });
 

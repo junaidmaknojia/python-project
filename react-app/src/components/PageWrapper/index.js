@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
-import {useParams} from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import SideBar from '../Sidebar'
 import Header from '../Header'
 import ChannelDisplay from '../ChannelDisplay'
@@ -8,10 +8,12 @@ import {addChannel} from '../../store/channels'
 import { main, sidebar, navbar, msgboard } from './PageWrapper.module.css'
 
 const PageWrapper = () => {
+    const history = useHistory();
     const dispatch = useDispatch()
     const params = useParams().id;
     const channels = useSelector(state => state.channels.channels)
     const currentChannel = useSelector(state => state.channels.current)
+    const glblId = useSelector(state => state.defaultId.id)
 
     useEffect(() => {
         const myChannels = Object.values(channels.channel)
@@ -20,8 +22,9 @@ const PageWrapper = () => {
         myChannels.forEach(el => {
             if(el.id === Number(params)) thisChannel = el
         })
-        dispatch(addChannel(thisChannel))
-    }, [dispatch, params])
+
+        thisChannel ? dispatch(addChannel(thisChannel)) : history.push(`/channels/${glblId}`)
+    }, [dispatch, params, channels])
 
     return (
         <div className={main}>

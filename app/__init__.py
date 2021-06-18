@@ -96,14 +96,18 @@ def handleMessage(data):
         message = Message.query.filter(Message.id == data["id"]).one()
         message.body = data["body"]
         db.session.commit()
-        data=message.to_dict()
+        data = message.to_dict()
         data["type"] = "edit"
         send(data, room=room, broadcast=True)
         return None
     elif data["type"] == "delete":
         room = data["room"]
         message = Message.query.filter(Message.id == data["id"]).one()
+
+        # if message_reactions is not instantiated with the value message.reactions, cascade delete fails to work for some reason.
+        # do not delete the next line
         message_reactions = message.reactions
+
         db.session.delete(message)
         db.session.commit()
         send(data, room=room, broadcast=True)
@@ -132,6 +136,36 @@ def handle_add_users(data):
     db.session.commit()
     data = [user.to_dict() for user in users]
     emit("addBack", data, broadcast=True)
+
+
+@socketio.on("create_dm")
+def handle_create_dm(data):
+    users = data["users"]
+    currUser = data["userId"]
+    usersList = list([user["username"] for user in users])
+    title = ",".join(usersList)
+    package = {"type": "dm", "title": title, "user_id": currUser}
+    newDM = Channel(**package)
+    for user in users:
+        found_user = User.query.filter(User.id == user["id"]).one()
+        newDM.users.append(found_user)
+    db.session.add(newDM)
+    db.session.commit()
+    data = newDM.to_dict()
+    emit("createdDmBack", data, broadcast=True)
+
+
+@socketio.on("delete_dm")
+def delete_dm(data):
+    dm = Channel.query.filter(Channel.id == data["dm_id"]).one()
+
+    # if dm_messages is not given the value of dm.messages, cascade delete fails to work for some reason. do not delete next line.
+    dm_messages = dm.messages
+
+    data = dm.to_dict()
+    db.session.delete(dm)
+    db.session.commit()
+    emit("dmBack", data, broadcast=True)
 
 
 @socketio.on("join_room")
