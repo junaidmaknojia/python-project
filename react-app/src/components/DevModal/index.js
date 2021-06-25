@@ -44,8 +44,12 @@ const DevModal = () => {
 
   const cancelModal = (e) => {
     e.stopPropagation();
-    (e.target.className === styles.devOverlay ||
-    e.target.className === styles.cancel) &&
+    (e.target.className === styles.devOverlay) &&
+    setShowDevs(false);
+  }
+
+  const cancelButton = (e) => {
+    e.stopPropagation();
     setShowDevs(false);
   }
 
@@ -53,7 +57,7 @@ const DevModal = () => {
     <div className={styles.devOverlay} onClick={cancelModal}>
       <div className={styles.modalWrapper}>
         <div className={styles.cancelFlexer}>
-          <button className={styles.cancel} onClick={cancelModal}>
+          <button className={styles.cancel} onClick={cancelButton}>
           <i className="fas fa-times"></i>
           </button>
         </div>
